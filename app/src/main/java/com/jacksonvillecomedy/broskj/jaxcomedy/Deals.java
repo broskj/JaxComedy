@@ -181,7 +181,7 @@ public class Deals extends Activity {
     }//end prepareListData
 
     public void openRedeem(Offer offer) {
-        /*
+        /* 
         checks if offer.getPointValue() is less than or equal to the number of points the user has.
             if true, then the user can redeem the offer.  RedeemOffer.class is opened and the point value
               and offer title are passed to the class.
