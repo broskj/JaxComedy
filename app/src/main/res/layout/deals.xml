@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/llDeals">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".3"
+        android:clickable="true"
+        android:onClick="onRewardPointsClick"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tvDealsPointsTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:text="@string/textview_deals_points_title"/>
+
+        <TextView
+            android:id="@+id/tvRewardPoints"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDealsPointsTitle"
+            android:gravity="center"
+            android:textSize="36sp"/>
+
+
+     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tvDealsInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:textSize="@dimen/abc_text_size_medium_material"
+            android:text="@string/textview_deals_rewards_info"/>
+
+        <ExpandableListView
+            android:id="@+id/elvDeals"
+            android:layout_below="@+id/tvDealsInfo"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageViewBottomBanner"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottombanner"
+        android:contentDescription="bottom banner" />
+
+</LinearLayout>

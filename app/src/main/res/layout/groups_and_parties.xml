@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlGroupsAndParties"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/llGroupsBottom"
+        android:layout_margin="8dp"
+        android:isScrollContainer="false"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llTop"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvGroupsAndPartiesMain"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:text="@string/groupsandparties_textview_main"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/abc_text_size_medium_material" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/llGroupsBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/imageViewBottomBanner"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/btMoreInformation"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="onMoreInfoClick"
+            android:text="@string/groupsandparties_button_more_info"/>
+
+        <Button
+            android:id="@+id/btReserveSeats"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="onReserveSeatsClick"
+            android:text="@string/groupsandparties_button_reserve_seats" />
+
+        </LinearLayout>
+
+
+
+    <ImageView
+        android:id="@+id/imageViewBottomBanner"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottombanner" />
+
+</RelativeLayout>

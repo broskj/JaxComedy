@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlAboutUs"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvAboutUsTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:text="@string/about_us_title"
+        android:textColor="#ffc91c15"
+        android:textSize="@dimen/abc_text_size_large_material" />
+
+    <ImageView
+        android:id="@+id/ivAboutUs"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAboutUsTitle" />
+
+    <ExpandableListView
+        android:id="@+id/elvAboutUs"
+        android:layout_margin="8dp"
+        android:layout_below="@+id/ivAboutUs"
+        android:layout_above="@+id/imageViewBottomBanner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imageViewBottomBanner"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottombanner"
+        android:contentDescription="bottom banner" />
+
+</RelativeLayout>

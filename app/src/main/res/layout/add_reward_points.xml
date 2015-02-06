@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rlAddRewardPoints">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/tvAddPointsInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_medium_material"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:text="Number of Tickets:"/>
+
+            <EditText
+                android:id="@+id/etNumTickets"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:hint="Enter number"
+                android:inputType="number"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:text="@string/textview_redeem_confirm_password"/>
+
+            <EditText
+                android:id="@+id/etAddPointsPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:inputType="numberPassword"
+                android:hint="@string/textview_redeem_enter_password"/>
+
+            <TextView
+                android:id="@+id/tvPassword"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:textColor="#ffc91c15"/>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_above="@id/imageViewBottomBanner"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:onClick="onAddPointsClick"
+        android:text="@string/button_add_points"/>
+
+    <ImageView
+        android:id="@+id/imageViewBottomBanner"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottombanner"/>
+
+</RelativeLayout>

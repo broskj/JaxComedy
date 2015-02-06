@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:icon="@drawable/ic_action_settings"
+        android:orderInCategory="100"/>
+    <item android:id="@+id/action_directions"
+        android:title="@string/directions"
+        android:icon="@drawable/ic_action_place"
+        android:orderInCategory="101"/>
+    <item android:id="@+id/action_about_us"
+        android:title="@string/about_us"
+        android:icon="@drawable/ic_action_about"
+        android:orderInCategory="102"/>
+    <item android:id="@+id/action_contact"
+        android:title="@string/contact"
+        android:icon="@drawable/ic_action_call"
+        android:orderInCategory="103"/>
+    <item android:id="@+id/action_now_hiring"
+        android:title="@string/now_hiring"
+        android:icon="@drawable/ic_action_person"
+        android:orderInCategory="104"/>
+</menu>

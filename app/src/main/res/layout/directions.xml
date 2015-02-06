@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlDirections"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvDirections"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/directions_string"
+        android:textSize="@dimen/abc_text_size_large_material" />
+
+    <WebView
+        android:id="@+id/webview_directions"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/imageViewBottomBanner"
+        android:layout_below="@+id/tvDirections"
+        android:layout_margin="8dp"
+        android:clickable="true" />
+
+    <ImageView
+        android:id="@+id/imageViewBottomBanner"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottombanner"
+        android:contentDescription="bottom banner" />
+</RelativeLayout>

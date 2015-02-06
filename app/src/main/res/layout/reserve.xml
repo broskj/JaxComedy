@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlReserve"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/btReserveSeats"
+        android:layout_margin="8dp"
+        android:isScrollContainer="false"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llReserveTop"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/groupsandparties_textview_reservation_name"
+                    android:textSize="@dimen/abc_text_size_medium_material" />
+
+                <EditText
+                    android:id="@+id/etGroupReservationName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="48dp"
+                    android:hint="@string/name_edittext_hint"
+                    android:inputType="textPersonName|textCapWords" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvNumSeats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/groupsandparties_textview_guests"
+                        android:textSize="@dimen/abc_text_size_medium_material" />
+
+                    <EditText
+                        android:id="@+id/etGroupGuests"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_below="@id/tvNumSeats"
+                        android:layout_centerInParent="true"
+                        android:hint="@string/groupsandparties_edittext_enter_number"
+                        android:inputType="number" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/groupsandparties_textview_date"
+                        android:textSize="@dimen/abc_text_size_medium_material" />
+
+                    <Spinner
+                        android:id="@+id/spDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvDate"
+                        android:layout_centerInParent="true">
+
+                    </Spinner>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:text="@string/reserve_textview_show_time"/>
+
+            <RadioGroup
+                android:id="@+id/rbgShowTimes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkedButton="@+id/rbEarlyShow">
+
+                <RadioButton
+                    android:id="@+id/rbEarlyShow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="@string/reserve_radiobutton_804_show"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/rbLateShow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="@string/reserve_radiobutton_1010_showtime"/>
+
+                <RadioButton
+                    android:id="@+id/rbSpecialShow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="@string/reserve_radiobutton_other_show"/>
+
+                </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:text="Pressing 'Reserve Seats' will redirect you to your phone's email client.  Print the email and present it at the door."/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btReserveSeats"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_above="@id/imageViewBottomBanner"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:onClick="onReserveSeatsClick"
+        android:text="@string/groupsandparties_button_reserve_seats" />
+
+    <ImageView
+        android:id="@+id/imageViewBottomBanner"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottombanner" />
+
+</RelativeLayout>

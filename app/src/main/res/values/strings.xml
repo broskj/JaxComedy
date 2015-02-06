@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Jax Comedy</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_banner">main banner</string>
+    <string name="directions">Directions</string>
+    <string name="about_us">About Us</string>
+    <string name="contact">Contact</string>
+    <string name="now_hiring">Now Hiring!</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="about_us_title">Comedy doesn\'t have to be ugly!</string>
+    <string name="about_the_club">The Comedy Club of Jacksonville opened in November 2012. Focused on great service,
+        delicious food, and first rate ADULT comedy WITHOUT much of the vulgarity, we are excited to offer a higher level
+        of entertainment. Our comics appear on David Letterman, Jay Leno, and Comedy Central and provide a night club act
+        without the fatiguing repetition of hardcore language and content. Get a Jerry Seinfeld style of show, not Jerry
+        Springer. We want your genuine belly laugh, not the embarrassing "what did that person just say" shock laughter
+        that is associated with a foul comic.\n\n
+
+        Not just sometimes, but each week our Friday and Saturday shows will be rated on two levels: CONTENT
+        and LANGUAGE. Language is a \"soft R\" with no F-bombs, and Content is an \"R\" with adult humor but no hardcore vulgarity
+        or language.\n\n
+
+        We hope you join us for a night of laughs that will be comfortable for dates, groups, company functions, associations,
+        anniversaries, or just a fun night out. And since most of our comics have never performed live in Jacksonville before,
+        we offer a refreshing variety of top national touring comics who will give you lots of belly laughs.</string>
+    <string name="more_room">The Comedy Club of Jacksonville seats 300 comfortably. Our tables are bigger (because we serve great
+        food) and tables are spaced with more square footage per person, unlike the cramped seating of most other comedy clubs.
+        No longer do you have to sit on the lap of the person you are seated next to, but stretch out and enjoy top national
+        touring artists at the Comedy Club of Jacksonville.</string>
+    <string name="best_seats">Check out The Best Seats in the House. For that special occasion or just a fun night out, The Best Seats
+        in the House are actual front bucket seats from a 2007 XJ8 Jaguar automobile. They are functional for a custom seat position
+        plus includes your first beverage.</string>
+    <string name="no_two_item_minimum">Buy a ticket and that\'s it; we do have a full kitchen with high quality food and full bar plus
+        we have great prices on our items, but will not force you to buy anything as other clubs do. Our service is fast and
+        convenient and we hope you indulge but feel free to sit back and enjoy the show!</string>
+    <string name="online_tickets">We are also happy that buying your ticket online costs the same as buying a ticket at the door. There
+        is NO service charge for buying online. It is a free service, unlike other clubs who charge a few extra dollars to buy online.</string>
+    <string name="app_exclusives">Similar to buying tickets online, reserving seats through our app costs the same as buying a ticket at
+        the door.  Additionally, you have access to EXCLUSIVE deals only available to those download the app, as well as regular
+        updates on our weekend shows.</string>
+    <string name="saving_lives">The Comedy Club of Jacksonville is excited to work with The Blood Alliance in Jacksonville. In conjunction
+        with The Blood Alliance, donors from Jacksonville companies who participate in a blood drive and exceed their goal earn a
+        pair of tickets to a great night of comedy. Companies are recognized during the show with a stage shout out and a \"Thank
+        You\" slide on our pre-show projector slide show. It is proven that laughter can extend your life, and by donating
+        blood and sharing a laugh with us you get a double shot of \"Feel Good\".</string>
+    <string name="directions_string">We are located at:\n11000 Beach Blvd\nJacksonville, FL 32246</string>
+    <string name="name_text_view">Name (optional)</string>
+    <string name="message_text_view">Message</string>
+    <string name="name_edittext_hint">Enter name</string>
+    <string name="message_edittext_hint">Enter message</string>
+    <string name="send_email_button">Send Email</string>
+    <string name="contact_textview_main">To speak with a human being or to leave a message, you may reach us by telephone. Our phone
+        number is (904) 646-4277.\n\nAlternately, you may send an email by completing the fields below.\n</string>
+    <string name="enter_text_hint">Enter text</string>
+    <string name="nowhiring_main">We\'re always hiring at the Comedy Club of Jacksonville!\n\nTo apply, please email us your
+        resume at info@jacksonvillecomedy.com.</string>
+    <string name="groupsandparties_textview_main">Any time is a great time to get your group, company, or friends together for some
+		laughs.  We strive to offer top national touring comics who are not overly offensive or who have embarrassing humor, but
+        who are able to perform comedy that is \"F\" bomb free.  Ask about our FREE Sample the Club offer!\n\nIf your party needs to be
+        funny, clean, and delicious, press \'Reserve Seats\' below to begin your reservation, or you may request more information by
+        clicking \'More Info\'.</string>
+    <string name="groupsandparties_button_reserve_seats">Reserve Seats</string>
+    <string name="groupsandparties_textview_date">Date:</string>
+    <string name="groupsandparties_edittext_enter_number">Enter number</string>
+    <string name="groupsandparties_textview_guests">Guests:</string>
+    <string name="groupsandparties_textview_reservation_name">Reservation/Company Name:</string>
+    <string name="groupsandparties_button_more_info">More Info</string>
+    <string name="reserve_textview_show_time">Pick a show time:</string>
+    <string name="reserve_radiobutton_804_show">8:04 show (clean)</string>
+    <string name="reserve_radiobutton_1010_showtime">10:10 show (uncut)</string>
+    <string name="reserve_radiobutton_other_show">Other (special event)</string>
+    <string name="textview_deals_points_title">Reward Points:</string>
+    <string name="textview_deals_rewards_info">Earn 15 points per ticket purchase and 10 for viewing weekly notifications.  To claim
+        points from ticket purchases, present your device to the host upon paying for tickets.\n\nClick on any deal below to redeem, and
+        be ready to present it to the host or your server to confirm.</string>
+    <string name="textview_redeem_confirm_password">Password:</string>
+    <string name="textview_redeem_enter_password">Enter password</string>
+    <string name="button_redeem">Redeem</string>
+    <string name="button_add_points">Add points</string>
+    <string-array name="group_seats_string_array"></string-array>
+    <string-array name="date_array"></string-array>
+</resources>

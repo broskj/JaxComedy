@@ -1,0 +1,83 @@
+TODO:
+
+General:
+    -Contact and Groups and Parties layouts both use layout_margin="8dp" in the main layout, whereas
+      About Us uses layout_margin around the textviews.  Consider standardizing.
+    -remove 'daysuntilnextfriday/saturday' methods, and replace with show dates from google spreadsheet
+        -maybe move to 'this weekend' section, but changing it to look for the next weekend's show dates
+          (in case of wednesday/thursday shows)
+
+Structure:
+    -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
+      Reservation, Add Reward Points, Redeem Offer}
+        -This Weekend -> Reservation
+            -Current information for the weekend show.  Supply information from a spreadsheet, and update
+              on monday if possible.  This information will be the content of the weekly notifications, and
+              the notifications will link to this page.  A video widget at the top will show a youtube video of
+              the comedian.
+                -Able to reserve seats from here; include a button for each show, and pass that information to
+                  the reservation page.
+        -UpcomingShows -> Reservation
+            -format similar to calendar if possible.  Otherwise, display ordered list of dates which there
+              are shows, and include information such as show time, comedian, etc.
+                -Able to reserve seats from here; include a button for each show, and pass that information to
+                  the reservation page.
+        -Rewards and Offers -> {Add Reward Points, Redeem Offer}
+            -Populate from google spreadsheet.  Each deal will contain a title, description, and point value.
+              Deals come from a Rewards Program, where points are entered each visit and confirmed with a
+              4-digit pass code at the door.  Redeeming a reward resets/decrements the total point value a
+              certain amount.  Error message is displayed when the point value isn't high enough.  Initial point
+              value set high enough for automatic access to some deal.  Include some deals with 0 point values,
+              and make them unclickable or direct to information page.
+                -Can have deals with point values of 0, i.e. free to all mobile users without decrementing points.
+        -Food and Drink
+            -Expandable list of item names and prices, with expanded text being description of item.  Mostly
+              used for food items and drink specials.
+        -Groups and Parties
+            -Includes group/party overview with contact information for additional offers.  No reservations from
+              this page.
+        -Reservation
+            -Activity used to select showtime/date and guest number, and to leave a reservation name.  Needs to perform
+               checks on fields like name and guests (name has to be included, guests cannot be over 20) and needs to
+               enable/disable dates and show times based on availability (cannot reserve seats for a sold out show, a
+               show time that doesn't exist, etc.).
+            -Sends email confirmation to the user (confirmation code based on random number generator?) and to
+              info@jacksonvillecomedy.com, maybe to an alternate email for me as well for easier record keeping.
+        -Add Reward Points
+            -Reached from Rewards and Offers by clicking point value area near top.
+            -Includes fields for number of tickets purchased and for a 4-digit pass code to be entered at the door.
+              A confirm button checks for a correct password and if it's correctly entered, point value increments
+              and saves to device.
+        -Redeem Offer
+            -Confirmation page.  Requires password, and pushing confirm with correct password decrements point values.
+              Either needs to be presented at door or at table; deal needs to be confirmed and the customer needs
+              to be given a physical coupon if presented at the door, and if presented to a waiter/waitress, deal needs
+              to be confirmed and administered immediately upon confirmation (i.e., free appetizer coupon gets confirmed
+              and sent through the POS during the same interaction with the customer).
+
+AboutUs:
+Upcoming Shows:
+    -populate expandable list view with data from google spreadsheet.
+Contact:
+    -run check for empty name/content fields.
+    -eventually find a way to send emails without using an email intent.
+Rewards and Offers:
+    -consider giving free points each week, based on whether they open the weekly notification.
+Directions:
+    -consider moving from WebView to other map interface.
+FoodAndDrink:
+    -format xml for relativelayout and set/scale background, set bottombanner, manage action bar
+    -consider formatting a table with food/drink items and descriptions
+        -try expandable textview.  display name and price, then expand the name into name and description.
+GroupsAndParties:
+MainActivity:
+    -may be where all broadcast/notification events are handled.
+Settings:
+    -should be finished last.  Need to keep list of settings-applicable items, e.g. notifications,
+      rewards program opt-in, etc.
+ThisWeekend:
+    -where weekly notification directs to.
+    -format xml for relativelayout and set/scale background, set bottombanner, manage action bar
+    -consider using youtube widget of some sort at the top of the layout, and include information below.
+      information is populated from google spreadsheet daily (around midnight - look into AlarmManager).
+      include button that directs to Reserve and passes the show information (comedianName, date, showTime).
