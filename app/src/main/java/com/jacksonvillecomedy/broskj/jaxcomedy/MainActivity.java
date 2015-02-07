@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     SharedPreferences firstCheck;
-    final int initialPointValue = 150;
+    final int initialPointValue = 15;
     static final String prefsPointValueName = "userPointValue";
     Show show;
     Show[] shows;

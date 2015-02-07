@@ -6,6 +6,7 @@ General:
     -remove 'daysuntilnextfriday/saturday' methods, and replace with show dates from google spreadsheet
         -maybe move to 'this weekend' section, but changing it to look for the next weekend's show dates
           (in case of wednesday/thursday shows)
+    -Add facebook/twitter buttons to activity_main
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;

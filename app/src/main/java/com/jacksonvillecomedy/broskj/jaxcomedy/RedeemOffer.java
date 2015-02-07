@@ -48,8 +48,8 @@ public class RedeemOffer extends Activity {
     }//end onCreate
 
     @Override
-    public void onStop(){
-        super.onStop();
+    public void onPause(){
+        super.onPause();
 
         SharedPreferences.Editor editor = spPointValue.edit();
         editor.putInt("pointValue", pointValue);

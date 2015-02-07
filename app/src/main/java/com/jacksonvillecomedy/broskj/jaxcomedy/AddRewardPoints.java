@@ -40,8 +40,8 @@ public class AddRewardPoints extends Activity {
     }//end onCreate
 
     @Override
-    public void onStop(){
-        super.onStop();
+    public void onPause(){
+        super.onPause();
 
         SharedPreferences.Editor editor = spPointValue.edit();
         editor.putInt("pointValue", pointValue);
@@ -92,7 +92,7 @@ public class AddRewardPoints extends Activity {
     public void onAddPointsClick(View view) {
 
         if(Integer.parseInt(etAddPointsPassword.getText().toString()) == password){
-            String numTickets = Integer.toString(Integer.parseInt(etNumTickets.getText().toString())*15);
+            String numTickets = Integer.toString(Integer.parseInt(etNumTickets.getText().toString())*5);
             pointValue += Integer.parseInt(numTickets);
             Toast.makeText(this, numTickets + " points successfully added.", Toast.LENGTH_SHORT).show();
 

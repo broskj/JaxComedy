@@ -47,7 +47,6 @@ public class Deals extends Activity {
         declarations();
         manageActionBar();
         scaleBackground(screenWidth, screenHeight);
-        prepareListData();
 
     }//end onCreate
 
@@ -58,12 +57,13 @@ public class Deals extends Activity {
         spRewardPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
         rewardPointValue = spRewardPointValue.getInt("pointValue", -1);
         tvRewardPoints.setText(Integer.toString(rewardPointValue));
+        System.out.println("onResume called in deals.\ntvRewardPoints should read " + rewardPointValue);
 
     }//end onResume
 
-    public void declarations(){
+    public void declarations() {
         /*
-        dimension variables for scaling
+        dimension variables for background scaling
          */
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
@@ -83,15 +83,10 @@ public class Deals extends Activity {
           the adapter.
          */
         expListView = (ExpandableListView) (findViewById(R.id.elvDeals));
-        listAdapter = new DealsExpandableListAdapter(this, listDataHeader, listDataChild);
+        prepareListData();
+        listAdapter = new DealsExpandableListAdapter(Deals.this, listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
 
-        /*
-        used in prepareListData.  declares arraylist of headers for expListView and hashmap of
-          children Strings for expListView.
-         */
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
 
         /*
         creates listener for child objects of expListView.  on a child click, constructs an Offer
@@ -102,7 +97,7 @@ public class Deals extends Activity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 //offer = new Offer(offers[groupPosition].getPointValue(), offers[groupPosition].getOfferTitle,
                 // offers[groupPosition].getOfferDescription());
-                offer = new Offer(150, "Test Title", "Test description");
+                offer = new Offer(15, "Test Title", "Test description");
                 openRedeem(offer);
                 return true;
             }
@@ -171,8 +166,15 @@ public class Deals extends Activity {
           to set the text of each parent/child in expListView.
          */
         List<String>[] list = (ArrayList<String>[]) new ArrayList[5];
+        /*
+         declares arraylist of headers for expListView and hashmap of
+         children Strings for expListView.
+         */
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
 
         for (int i = 0; i < list.length; i++) {
+
             list[i] = new ArrayList<>();
             listDataHeader.add("(xxx) Deal " + i);
             list[i].add("Deal info " + i);
@@ -181,7 +183,7 @@ public class Deals extends Activity {
     }//end prepareListData
 
     public void openRedeem(Offer offer) {
-        /* 
+        /*
         checks if offer.getPointValue() is less than or equal to the number of points the user has.
             if true, then the user can redeem the offer.  RedeemOffer.class is opened and the point value
               and offer title are passed to the class.
