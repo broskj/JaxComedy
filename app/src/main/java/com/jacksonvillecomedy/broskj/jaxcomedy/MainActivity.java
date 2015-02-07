@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,7 +31,10 @@ public class MainActivity extends Activity {
 
     SharedPreferences firstCheck;
     final int initialPointValue = 15;
-    static final String prefsPointValueName = "userPointValue";
+    static final String prefsPointValueName = "userPointValue",
+        facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
+        twitterURL = "https://twitter.com/comedyclubofjax";
+    Intent browserIntent;
     Show show;
     Show[] shows;
 
@@ -208,4 +213,22 @@ public class MainActivity extends Activity {
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
         myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
     }//end scaleBackground
+
+    public void onFacebookClick(View view) {
+    /*
+    handles the click method for the facebook button.  opens an internet intent for the
+      comedy club facebook.
+     */
+        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookURL));
+        startActivity(browserIntent);
+    }
+
+    public void onTwitterClick(View view) {
+    /*
+    handles the click method for the twitter button.  opens an internet intent for the
+      comedy club twitter.
+     */
+        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(twitterURL));
+        startActivity(browserIntent);
+    }
 }
