@@ -23,9 +23,14 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 /**
- * Created by Steve on 12/29/2014.
+ * Created by Kyle on 12/29/2014.
+ *
+ * NO LONGER BEING USED, REPLACED WITH MAP INTENT.
  */
 public class Directions extends Activity {
+
+    int screenWidth, screenHeight;
+    final String addressURL = "https://www.google.com/maps/place/11000+Beach+Blvd,+Jacksonville,+FL+32246/";
 
     @TargetApi(16)
     @Override
@@ -36,7 +41,6 @@ public class Directions extends Activity {
 
         final int screenWidth = getIntent().getExtras().getInt("screenWidth");
         final int screenHeight = getIntent().getExtras().getInt("screenHeight");
-        String addressURL = "https://www.google.com/maps/place/11000+Beach+Blvd,+Jacksonville,+FL+32246/";
 
         manageActionBar();
         scaleBackground(screenWidth, screenHeight);

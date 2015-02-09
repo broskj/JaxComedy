@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,15 +25,22 @@ import android.widget.ListView;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+/**
+ * Created by Kyle on 12/29/2014.
+ */
 
 public class MainActivity extends Activity {
 
     SharedPreferences firstCheck;
     final int initialPointValue = 15;
+    int screenWidth, screenHeight;
     static final String prefsPointValueName = "userPointValue",
+        directionsURI = "geo:0,0?q=11000+beach+blvd+jacksonville+fl+32246",
         facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
         twitterURL = "https://twitter.com/comedyclubofjax";
     Intent browserIntent;
+    MyAdapter adapter;
+    ListView listView;
     Show show;
     Show[] shows;
 
@@ -45,44 +51,29 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         System.out.println("onCreate called");
 
-        final int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        final int screenHeight = getResources().getDisplayMetrics().heightPixels;
-
-        /*
-        first run check. If first run, sets reward point value to 150.
-         */
-        firstCheck = PreferenceManager.getDefaultSharedPreferences(this);
-        if(!firstCheck.getBoolean("firstRun", false)){
-            System.out.println("first run statement entered");
-            SharedPreferences spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
-            SharedPreferences.Editor editor = spPointValue.edit();
-            editor.putInt("pointValue", initialPointValue);
-            editor.commit();
-
-            editor = firstCheck.edit();
-            editor.putBoolean("firstRun", true);
-            editor.commit();
-        }
-
+        declarations();
         manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
+        scaleImages();
+        setListViewAdapter();
+        checkFirstRun();
+
+    }//end onCreate
+
+    public void declarations(){
+        screenWidth = getResources().getDisplayMetrics().widthPixels;
+        screenHeight = getResources().getDisplayMetrics().heightPixels;
+        firstCheck = PreferenceManager.getDefaultSharedPreferences(this);
 
         /*
         creates the ListView adapter and populates the ListView using generateData()
          */
-        MyAdapter adapter = new MyAdapter(this, generateData());
-        ListView listView = (ListView) findViewById(R.id.listview);
-        listView.setAdapter(adapter);
+        adapter = new MyAdapter(this, generateData());
+        listView = (ListView) findViewById(R.id.listview);
 
-        /*
-        scale the comedyclublogo imageview programmatically to improve performance
-         */
-        ImageView myImage = (ImageView) findViewById(R.id.ivLogo);
-        Bitmap bitmapIVLogo = BitmapFactory.decodeResource(getResources(), R.drawable.comedyclublogo2);
-        Bitmap resizedBitmapIVLogo = Bitmap.createScaledBitmap(bitmapIVLogo, screenWidth, screenHeight / 2, true);
-        myImage.setImageBitmap(resizedBitmapIVLogo);
+    }//end declarations
 
-        listView.setOnItemClickListener(new OnItemClickListener() {
+    public void setListViewAdapter(){
+        listView.setAdapter(adapter);listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position,
@@ -115,6 +106,23 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+    public void checkFirstRun(){
+        /*
+        first run check. If first run, sets reward point value to 15.
+         */
+        if(!firstCheck.getBoolean("firstRun", false)){
+            System.out.println("first run statement entered");
+            SharedPreferences spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
+            SharedPreferences.Editor editor = spPointValue.edit();
+            editor.putInt("pointValue", initialPointValue);
+            editor.commit();
+
+            editor = firstCheck.edit();
+            editor.putBoolean("firstRun", true);
+            editor.commit();
+        }
+    }//end checkFirstRun
 
     /*
     populates the ListView on activity_main.xml with an icon and title.
@@ -173,7 +181,11 @@ public class MainActivity extends Activity {
                 System.out.println("settings clicked");
                 return true;
             case R.id.action_directions:
-                startActivity(new Intent(MainActivity.this, Directions.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                Intent directionsIntent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(directionsURI));
+                if(directionsIntent.resolveActivity(getPackageManager()) != null){
+                    startActivity(directionsIntent);
+                }
+                //startActivity(new Intent(MainActivity.this, Directions.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
                 System.out.println("directions clicked");
                 return true;
             case R.id.action_about_us:
@@ -204,14 +216,21 @@ public class MainActivity extends Activity {
     }//end manageActionBar
 
     /*
-    scales background for performance
+    scales images for performance
     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
+    public void scaleImages() {
+        //background
         LinearLayout myLayout = (LinearLayout) findViewById(R.id.linearLayoutMain);
         Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
         myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
+
+        //comedy club logo
+        ImageView myImage = (ImageView) findViewById(R.id.ivLogo);
+        Bitmap bitmapIVLogo = BitmapFactory.decodeResource(getResources(), R.drawable.comedyclublogo2);
+        Bitmap resizedBitmapIVLogo = Bitmap.createScaledBitmap(bitmapIVLogo, screenWidth, screenHeight / 2, true);
+        myImage.setImageBitmap(resizedBitmapIVLogo);
     }//end scaleBackground
 
     public void onFacebookClick(View view) {
