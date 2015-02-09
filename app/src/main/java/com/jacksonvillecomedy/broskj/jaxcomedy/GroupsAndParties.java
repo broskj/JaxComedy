@@ -28,7 +28,7 @@ import java.util.*;
 import java.util.Calendar;
 
 /**
- * Created by Steve on 12/29/2014.
+ * Created by Kyle on 12/29/2014.
  */
 public class GroupsAndParties extends Activity {
 
@@ -41,14 +41,17 @@ public class GroupsAndParties extends Activity {
         setContentView(R.layout.groups_and_parties);
         System.out.println("groups and parties created");
 
+        declarations();
+        manageActionBar();
+        scaleBackground();
+    }//end onCreate
+
+    public void declarations(){
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
 
         tvMain = (TextView) (findViewById(R.id.tvGroupsAndPartiesMain));
-
-        manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
-    }
+    }//end declarations
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -74,7 +77,7 @@ public class GroupsAndParties extends Activity {
     scales background for performance
     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
+    public void scaleBackground() {
         RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlGroupsAndParties);
         Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);

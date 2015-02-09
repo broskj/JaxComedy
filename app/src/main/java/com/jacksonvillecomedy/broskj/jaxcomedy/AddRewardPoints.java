@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
- * Created by Steve on 2/5/2015.
+ * Created by Kyle on 2/5/2015.
  */
 public class AddRewardPoints extends Activity {
 
@@ -35,7 +35,7 @@ public class AddRewardPoints extends Activity {
 
         declarations();
         manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
+        scaleBackground();
 
     }//end onCreate
 
@@ -51,12 +51,20 @@ public class AddRewardPoints extends Activity {
     public void declarations(){
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
-        spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
-        pointValue = spPointValue.getInt("pointValue", -1);
+        loadSharedPreferences();
         etAddPointsPassword = (EditText) findViewById(R.id.etAddPointsPassword);
         etNumTickets = (EditText) findViewById(R.id.etNumTickets);
-
     }//end declarations
+
+    public void loadSharedPreferences(){
+        /*
+        initializes SharedPreferences object and gets its value; assigns to int pointValue.
+            this is just the reward point value, needs to be saved to device and shared
+            between activities.
+         */
+        spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
+        pointValue = spPointValue.getInt("pointValue", -1);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -82,7 +90,7 @@ public class AddRewardPoints extends Activity {
     scales background for performance
     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
+    public void scaleBackground() {
         RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlAddRewardPoints);
         Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
@@ -90,7 +98,13 @@ public class AddRewardPoints extends Activity {
     }//end scaleBackground
 
     public void onAddPointsClick(View view) {
-
+        /*
+        checks for correct password in the edittext field.
+            if correct, adds 5*(num tickets) to point value.  a toast is shown to
+              confirm, and the activity finishes.
+            if incorrect, resets the password field and gives it focus.  a toast is
+              shown to notify the incorrect password, and no points are rewarded.
+         */
         if(Integer.parseInt(etAddPointsPassword.getText().toString()) == password){
             String numTickets = Integer.toString(Integer.parseInt(etNumTickets.getText().toString())*5);
             pointValue += Integer.parseInt(numTickets);

@@ -17,18 +17,24 @@ import android.widget.RelativeLayout;
  */
 public class NowHiring extends Activity {
 
+    int screenWidth, screenHeight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.now_hiring);
         System.out.println("now hiring created");
 
-        final int screenWidth = getIntent().getExtras().getInt("screenWidth");
-        final int screenHeight = getIntent().getExtras().getInt("screenHeight");
-
+        declarations();
         manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
+        scaleBackground();
     }//end onCreate
+
+    public void declarations(){
+        screenWidth = getIntent().getExtras().getInt("screenWidth");
+        screenHeight = getIntent().getExtras().getInt("screenHeight");
+
+    }//end declarations
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -54,7 +60,7 @@ public class NowHiring extends Activity {
     scales background for performance
     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
+    public void scaleBackground() {
         RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlNowHiring);
         Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);

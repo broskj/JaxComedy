@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
- * Created by Steve on 12/29/2014.
+ * Created by Kyle on 12/29/2014.
  */
 public class Settings extends Activity {
 

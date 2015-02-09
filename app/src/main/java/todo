@@ -8,6 +8,7 @@ General:
           (in case of wednesday/thursday shows)
     -Add email EditText to reserve, and include it in the list of email addresses to send confirmation to.
     -Change directions to open Maps app with intent.
+    -In reserve, use Intent.EXTRA_CC or EXTRA_BCC to send courtesy copies to me and/or the user.
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;

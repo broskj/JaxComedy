@@ -1,7 +1,7 @@
 package com.jacksonvillecomedy.broskj.jaxcomedy;
 
 /**
- * Created by Steve on 12/29/2014.
+ * Created by Kyle on 12/29/2014.
  */
 
 import java.util.ArrayList;

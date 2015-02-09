@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Steve on 12/29/2014.
+ * Created by Kyle on 12/29/2014.
  */
 public class Deals extends Activity {
 

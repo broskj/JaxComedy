@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by Steve on 1/24/2015.
+ * Created by Kyle on 1/24/2015.
  */
 public class Reserve extends Activity {
 
@@ -33,7 +33,7 @@ public class Reserve extends Activity {
     final String email = "info@jacksonvillecomedy.com, kjbrost@gmail.com";
     String sName, sGuests, sDate, sShowtime;
     String confirmationCode, message, subject;
-    int groupPosition;
+    int screenWidth, screenHeight, groupPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,16 @@ public class Reserve extends Activity {
         setContentView(R.layout.reserve);
         System.out.println("groups and parties created");
 
-        final int screenWidth = getIntent().getExtras().getInt("screenWidth");
-        final int screenHeight = getIntent().getExtras().getInt("screenHeight");
+        declarations();
+        manageActionBar();
+        scaleBackground();
+        setDateAdapter();
+    }//end onCreate
+
+    public void declarations(){
+        screenWidth = getIntent().getExtras().getInt("screenWidth");
+        screenHeight = getIntent().getExtras().getInt("screenHeight");
+
         groupPosition = getIntent().getExtras().getInt("groupPosition");
 
         etName = (EditText) (findViewById(R.id.etGroupReservationName));
@@ -62,11 +70,7 @@ public class Reserve extends Activity {
                 sDate = parent.getItemAtPosition(0).toString();
             }
         });
-
-        manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
-        setDateAdapter();
-    }
+    }//end declarations
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -92,7 +96,7 @@ public class Reserve extends Activity {
     scales background for performance
     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
+    public void scaleBackground() {
         RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlReserve);
         Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);

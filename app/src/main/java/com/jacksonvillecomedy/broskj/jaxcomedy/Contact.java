@@ -34,20 +34,13 @@ public class Contact extends Activity {
     String sName, sEmail, someMessage, emailSubject;
     String[] email = {"kjbrost@gmail.com"};//{"info@jacksonvillecomedy.com"};
     Button sendEmail;
+    int screenWidth, screenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.contact);
         System.out.println("contact created");
-
-        final int screenWidth = getIntent().getExtras().getInt("screenWidth");
-        final int screenHeight = getIntent().getExtras().getInt("screenHeight");
-
-        tvMain = (TextView) (findViewById(R.id.tvContactMain));
-        etName = (EditText) (findViewById(R.id.etContactName));
-        etEmail = (EditText) (findViewById(R.id.etContactMessage));
-        sendEmail = (Button) (findViewById(R.id.btSendEmail));
 
         try {
             someMessage = getIntent().getExtras().getString("message");
@@ -56,12 +49,22 @@ public class Contact extends Activity {
         } catch (Exception e) {
             System.out.println("no value for someMessage");
         }
-
+        declarations();
         makePhoneNumberClickable();
         manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
+        scaleBackground();
 
     }//end onCreate
+
+    public void declarations(){
+        screenWidth = getIntent().getExtras().getInt("screenWidth");
+        screenHeight = getIntent().getExtras().getInt("screenHeight");
+
+        tvMain = (TextView) (findViewById(R.id.tvContactMain));
+        etName = (EditText) (findViewById(R.id.etContactName));
+        etEmail = (EditText) (findViewById(R.id.etContactMessage));
+        sendEmail = (Button) (findViewById(R.id.btSendEmail));
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,7 +90,7 @@ public class Contact extends Activity {
     scales background for performance
     */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
+    public void scaleBackground() {
         RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlContact);
         Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
@@ -109,7 +112,7 @@ public class Contact extends Activity {
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
-        if(emailSubject.equals(null))
+        if(emailSubject.equals(""))
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         else
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);

@@ -17,13 +17,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Created by Kyle on 12/29/2014.
+ */
 
 public class AboutUs extends Activity {
 
+    int screenWidth, screenHeight;
     AboutUsExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    ImageView myImage1;
 
     @TargetApi(16)
     @Override
@@ -32,18 +37,26 @@ public class AboutUs extends Activity {
         setContentView(R.layout.about_us);
         System.out.println("about us created");
 
-        final int screenWidth = getIntent().getExtras().getInt("screenWidth");
-        final int screenHeight = getIntent().getExtras().getInt("screenHeight");
-
-        expListView = (ExpandableListView) (findViewById(R.id.elvAboutUs));
-
+        declarations();
         manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
+        scaleImages();
+
+    } //end onCreate
+
+    public void declarations(){
+        screenWidth = getIntent().getExtras().getInt("screenWidth");
+        screenHeight = getIntent().getExtras().getInt("screenHeight");
+        myImage1 = (ImageView) findViewById(R.id.ivAboutUs);
+        expListView = (ExpandableListView) (findViewById(R.id.elvAboutUs));
         prepareListData();
 
         listAdapter = new AboutUsExpandableListAdapter(this, listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
 
+        /*
+        creates listener for parent objects of expListView.  when a parent is expanded to show child,
+          closes all other parents.
+         */
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
 
             @Override
@@ -54,20 +67,13 @@ public class AboutUs extends Activity {
                 }
             }
         });
-
-        /*
-        converts front_of_building to bitmap for
-        performance and sets as image
-         */
-        ImageView myImage1 = (ImageView) findViewById(R.id.ivAboutUs);
-        Bitmap bitmapAboutUs = BitmapFactory.decodeResource(getResources(), R.drawable.front_of_building);
-        Bitmap resizedBitmapAboutUs = Bitmap.createScaledBitmap(bitmapAboutUs, screenWidth, screenHeight / 4, true);
-        myImage1.setImageBitmap(resizedBitmapAboutUs);
-
-    } //end onCreate
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        /*
+        enables home button in actionbar
+         */
         switch (item.getItemId()) {
             case android.R.id.home:
                 this.finish();
@@ -77,61 +83,58 @@ public class AboutUs extends Activity {
         }
     } //end onOptionsItemSelected
 
-    /*
-    creates ActionBar object, enables the home button, and resets title to ''
-    */
     public void manageActionBar() {
+        /*
+        creates ActionBar object, enables the home button, and resets title to ''
+        */
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("About Us");
     }//end manageActionBar
 
-    /*
-    scales background for performance
-    */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
+    public void scaleImages() {
+        /*
+        scales background and building image for performance
+        */
         RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlAboutUs);
         Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
         myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
+
+        Bitmap bitmapAboutUs = BitmapFactory.decodeResource(getResources(), R.drawable.front_of_building);
+        Bitmap resizedBitmapAboutUs = Bitmap.createScaledBitmap(bitmapAboutUs, screenWidth, screenHeight / 4, true);
+        myImage1.setImageBitmap(resizedBitmapAboutUs);
 
     }//end scaleBackground
 
     private void prepareListData() {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
-        List<String> aboutTheClub = new ArrayList<>();
-        List<String> moreRoom = new ArrayList<>();
-        List<String> bestSeats = new ArrayList<>();
-        List<String> noTwoItemMinimum = new ArrayList<>();
-        List<String> onlineTickets = new ArrayList<>();
-        List<String> appExclusives = new ArrayList<>();
-        List<String> savingLives = new ArrayList<>();
+        /*
+         declares arraylist of headers for expListView and hashmap of
+         children Strings for expListView.  string arrays are used for header and children
+         text, and are traversed in the for loop to give text to expandable list view
+         sections.
+         */
+        List<String>[] list = (ArrayList<String>[]) new ArrayList[7];
+        String[] headers = {"About the Club", "More Room", "Best Seats", "No Two Item Minimum",
+                "Online Tickets", "App Exclusives", "Saving Lives"};
+        String[] children = {getResources().getString(R.string.about_the_club),
+                getResources().getString(R.string.more_room),
+                getResources().getString(R.string.best_seats),
+                getResources().getString(R.string.no_two_item_minimum),
+                getResources().getString(R.string.online_tickets),
+                getResources().getString(R.string.app_exclusives),
+                getResources().getString(R.string.saving_lives)};
 
-        listDataHeader.add("About the Club");
-        listDataHeader.add("More Room");
-        listDataHeader.add("Best Seats");
-        listDataHeader.add("No Two Item Minimum");
-        listDataHeader.add("Online Tickets");
-        listDataHeader.add("App Exclusives");
-        listDataHeader.add("Saving Lives");
+        for (int i = 0; i < list.length; i++) {
 
-        aboutTheClub.add(getResources().getString(R.string.about_the_club));
-        moreRoom.add(getResources().getString(R.string.more_room));
-        bestSeats.add(getResources().getString(R.string.best_seats));
-        noTwoItemMinimum.add(getResources().getString(R.string.no_two_item_minimum));
-        onlineTickets.add(getResources().getString(R.string.online_tickets));
-        appExclusives.add(getResources().getString(R.string.app_exclusives));
-        savingLives.add(getResources().getString(R.string.saving_lives));
-
-        listDataChild.put(listDataHeader.get(0), aboutTheClub);
-        listDataChild.put(listDataHeader.get(1), moreRoom);
-        listDataChild.put(listDataHeader.get(2), bestSeats);
-        listDataChild.put(listDataHeader.get(3), noTwoItemMinimum);
-        listDataChild.put(listDataHeader.get(4), onlineTickets);
-        listDataChild.put(listDataHeader.get(5), appExclusives);
-        listDataChild.put(listDataHeader.get(6), savingLives);
+            list[i] = new ArrayList<>();
+            listDataHeader.add(headers[i]);
+            list[i].add(children[i]);
+            listDataChild.put(listDataHeader.get(i), list[i]);
+        }
 
     }//end prepareListData
 }

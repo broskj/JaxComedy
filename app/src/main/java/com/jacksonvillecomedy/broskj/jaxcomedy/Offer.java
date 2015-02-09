@@ -1,7 +1,7 @@
 package com.jacksonvillecomedy.broskj.jaxcomedy;
 
 /**
- * Created by Steve on 2/4/2015.
+ * Created by Kyle on 2/4/2015.
  */
 public class Offer {
     private int pointValue;

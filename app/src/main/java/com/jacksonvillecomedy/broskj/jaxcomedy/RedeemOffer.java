@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Created by Steve on 2/4/2015.
+ * Created by Kyle on 2/4/2015.
  */
 public class RedeemOffer extends Activity {
 

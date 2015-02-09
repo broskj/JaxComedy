@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Steve on 12/29/2014.
- * <p/>
+ * Created by Kyle on 12/29/2014.
+ *
  * Renamed to 'Upcoming Shows'
  */
 public class Calendar extends Activity {
@@ -30,7 +30,7 @@ public class Calendar extends Activity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     Show[] shows;
-    int width, height;
+    int screenWidth, screenHeight;
 
     @TargetApi(16)
     @Override
@@ -39,16 +39,15 @@ public class Calendar extends Activity {
         setContentView(R.layout.calendar);
         System.out.println("calendar created");
 
-        final int screenWidth = getIntent().getExtras().getInt("screenWidth");
-        final int screenHeight = getIntent().getExtras().getInt("screenHeight");
-
-        width = screenWidth;
-        height = screenHeight;
-
-        expListView = (ExpandableListView) (findViewById(R.id.elvCalendar));
-
+        declarations();
         manageActionBar();
         scaleBackground(screenWidth, screenHeight);
+    }//end onCreate
+
+    public void declarations(){
+        screenWidth = getIntent().getExtras().getInt("screenWidth");
+        screenHeight = getIntent().getExtras().getInt("screenHeight");
+        expListView = (ExpandableListView) (findViewById(R.id.elvCalendar));
         prepareListData();
 
         listAdapter = new CalendarExpandableListAdapter(this, listDataHeader, listDataChild);
@@ -73,7 +72,7 @@ public class Calendar extends Activity {
                 }
             }
         });
-    }//end onCreate
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -109,7 +108,7 @@ public class Calendar extends Activity {
     public void prepareListData() {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
-        List<String>[] list = (ArrayList<String>[]) new ArrayList[19];
+        List<String>[] list = (ArrayList<String>[]) new ArrayList[10];
 
         for (int i = 0; i < list.length; i++) {
             list[i] = new ArrayList<>();
@@ -120,7 +119,7 @@ public class Calendar extends Activity {
     }//end prepareListData
 
     public void openReserve(int index) {
-        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", width).putExtra("screenHeight", height).putExtra("groupPosition", index));
+        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", index));
         System.out.println("reserve clicked from groups and parties");
     }//end openReserve
 }

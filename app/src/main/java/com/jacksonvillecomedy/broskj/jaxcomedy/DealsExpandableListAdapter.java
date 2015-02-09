@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by Steve on 2/4/2015.
+ * Created by Kyle on 2/4/2015.
  *
  * Courtesy of http://www.androidhive.info/2013/07/android-expandable-list-view-tutorial/
  */
