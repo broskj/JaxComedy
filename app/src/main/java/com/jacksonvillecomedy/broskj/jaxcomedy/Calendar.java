@@ -29,7 +29,7 @@ public class Calendar extends Activity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    Show[] shows;
+    ArrayList<Show> shows;
     int screenWidth, screenHeight;
 
     @TargetApi(16)
@@ -47,6 +47,11 @@ public class Calendar extends Activity {
     public void declarations(){
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
+
+
+        shows = new ArrayList<>();
+        shows = getIntent().getExtras().getParcelableArrayList("shows");
+
         expListView = (ExpandableListView) (findViewById(R.id.elvCalendar));
         prepareListData();
 
@@ -106,20 +111,37 @@ public class Calendar extends Activity {
     }//end scaleBackground
 
     public void prepareListData() {
+        List<String>[] list = (ArrayList<String>[]) new ArrayList[shows.size()];
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
-        List<String>[] list = (ArrayList<String>[]) new ArrayList[10];
+        String showTime;
 
         for (int i = 0; i < list.length; i++) {
+            switch(shows.get(i).getShowTime()){
+                case 0:
+                    showTime = "8:04";
+                    break;
+                case 1:
+                    showTime = "10:10";
+                    break;
+                case 2:
+                    showTime = "Other";
+                    break;
+                default:
+                    System.out.println("Something happened in showTime switch statement");
+                    showTime = "";
+                    break;
+            }
+
             list[i] = new ArrayList<>();
-            listDataHeader.add("(2/6-2/7) \n\tKyle Brost" + i);
-            list[i].add("comedianInfo" + i);
+            listDataHeader.add("(" + shows.get(i).getShowDate() + ") " + shows.get(i).getComedian() + " - " + showTime);
+            list[i].add(shows.get(i).getDescription());
             listDataChild.put(listDataHeader.get(i), list[i]);
         }
     }//end prepareListData
 
     public void openReserve(int index) {
-        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", index));
+        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", index).putParcelableArrayListExtra("shows", shows));
         System.out.println("reserve clicked from groups and parties");
     }//end openReserve
 }

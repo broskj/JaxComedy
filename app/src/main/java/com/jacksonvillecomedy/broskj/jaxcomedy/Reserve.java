@@ -33,7 +33,8 @@ public class Reserve extends Activity {
     final String email = "info@jacksonvillecomedy.com, kjbrost@gmail.com";
     String sName, sGuests, sDate, sShowtime;
     String confirmationCode, message, subject;
-    int screenWidth, screenHeight, groupPosition;
+    int screenWidth, screenHeight, groupPosition = -1;
+    ArrayList<Show> shows;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +46,23 @@ public class Reserve extends Activity {
         manageActionBar();
         scaleBackground();
         setDateAdapter();
+
+        /*
+        if(groupPosition != -1){
+            //navigated in from either this weekend or upcoming shows.  set date adapter
+                to disabled on correct date.
+        else
+            //navigated in from groups and parties, need to enable date adapter
+        }
+        */
     }//end onCreate
 
     public void declarations(){
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
+
+        shows = new ArrayList<>();
+        shows = getIntent().getExtras().getParcelableArrayList("shows");
 
         groupPosition = getIntent().getExtras().getInt("groupPosition");
 

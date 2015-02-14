@@ -34,6 +34,7 @@ public class GroupsAndParties extends Activity {
 
     TextView tvMain;
     int screenWidth, screenHeight;
+    ArrayList<Show> shows;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class GroupsAndParties extends Activity {
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
 
+        shows = new ArrayList<>();
+        shows = getIntent().getExtras().getParcelableArrayList("shows");
         tvMain = (TextView) (findViewById(R.id.tvGroupsAndPartiesMain));
     }//end declarations
 
@@ -87,7 +90,7 @@ public class GroupsAndParties extends Activity {
 
     public void onReserveSeatsClick(View view) {
         try {
-            startActivity(new Intent(this, com.jacksonvillecomedy.broskj.jaxcomedy.Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+            startActivity(new Intent(this, com.jacksonvillecomedy.broskj.jaxcomedy.Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
         }catch(ActivityNotFoundException e){
             e.printStackTrace();
         }

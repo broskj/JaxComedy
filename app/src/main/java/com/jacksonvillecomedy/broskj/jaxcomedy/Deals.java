@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +32,7 @@ public class Deals extends Activity {
     HashMap<String, List<String>> listDataChild;
     TextView tvRewardPoints;
     SharedPreferences spRewardPointValue;
-    Offer[] offers;
-    Offer offer;
+    ArrayList<Offer> offers;
     int screenWidth, screenHeight, rewardPointValue;
     static final String prefsPointValueName = "userPointValue";
 
@@ -69,6 +67,13 @@ public class Deals extends Activity {
         screenHeight = getIntent().getExtras().getInt("screenHeight");
 
         /*
+        initializes arraylist of offers and populates them with offer list from MainActivity,
+          which came from spreadsheet.
+         */
+        offers = new ArrayList<>();
+        offers = getIntent().getExtras().getParcelableArrayList("offers");
+
+        /*
         declares sharedpreferences file for the reward point value.
         gets the value and assigns it to the int variable rewardPointValue.
         declares textview containing the point value and sets the text to that value
@@ -95,10 +100,7 @@ public class Deals extends Activity {
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                //offer = new Offer(offers[groupPosition].getPointValue(), offers[groupPosition].getOfferTitle,
-                // offers[groupPosition].getOfferDescription());
-                offer = new Offer(15, "Test Title", "Test description");
-                openRedeem(offer);
+                openRedeem(offers.get(groupPosition));
                 return true;
             }
         });
@@ -165,19 +167,15 @@ public class Deals extends Activity {
           from google spreadsheet) and then sets the text from the list array and uses listDataChild.put
           to set the text of each parent/child in expListView.
          */
-        List<String>[] list = (ArrayList<String>[]) new ArrayList[5];
-        /*
-         declares arraylist of headers for expListView and hashmap of
-         children Strings for expListView.
-         */
+        List<String>[] list = (ArrayList<String>[]) new ArrayList[offers.size()];
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 
         for (int i = 0; i < list.length; i++) {
 
             list[i] = new ArrayList<>();
-            listDataHeader.add("(xxx) Deal " + i);
-            list[i].add("Deal info " + i);
+            listDataHeader.add("(" + offers.get(i).getPointValue() + ") " + offers.get(i).getOfferTitle());
+            list[i].add(offers.get(i).getOfferDescription());
             listDataChild.put(listDataHeader.get(i), list[i]);
         }
     }//end prepareListData

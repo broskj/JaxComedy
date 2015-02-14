@@ -1,27 +1,29 @@
 package com.jacksonvillecomedy.broskj.jaxcomedy;
 
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 
 /**
  * Created by Kyle on 1/28/2015.
  */
-public class Show {
+public class Show implements Parcelable{
     private String comedian;
     private String description;
-    private Date showDate;
+    private String showDate;
     private int showTime;
-    private boolean soldOut;
+    private int soldOut;
     final private int CLEAN = 0, UNCUT = 1, SPECIAL = 2;
 
     public Show() {
         comedian = "";
         description = "";
-        showDate = null;
+        showDate = "";
         showTime = -1;
-        soldOut = false;
+        soldOut = 0;
     }
 
-    public Show(String comedian, String description, Date showDate, int showTime, boolean soldOut) {
+    public Show(String comedian, String description, String showDate, int showTime, int soldOut) {
         this.comedian = comedian;
         this.description = description;
         this.showDate = showDate;
@@ -37,7 +39,7 @@ public class Show {
         this.description = description;
     }
 
-    public void setShowDate(Date showDate) {
+    public void setShowDate(String showDate) {
         this.showDate = showDate;
     }
 
@@ -45,7 +47,7 @@ public class Show {
         this.showTime = showTime;
     }
 
-    public void setSoldOut(boolean soldOut) {
+    public void setSoldOut(int soldOut) {
         this.soldOut = soldOut;
     }
 
@@ -57,7 +59,7 @@ public class Show {
         return this.description;
     }
 
-    public Date getShowDate() {
+    public String getShowDate() {
         return this.showDate;
     }
 
@@ -65,8 +67,43 @@ public class Show {
         return this.showTime;
     }
 
-    public boolean getSoldOut() {
+    public int getSoldOut() {
         return this.soldOut;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(comedian);
+        dest.writeString(description);
+        dest.writeString(showDate);
+        dest.writeInt(showTime);
+        dest.writeInt(soldOut);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static final Parcelable.Creator<Show> CREATOR = new Parcelable.Creator<Show>(){
+
+        @Override
+        public Show createFromParcel(Parcel in) {
+            return new Show(in);
+        }
+
+        @Override
+        public Show[] newArray(int size) {
+            return new Show[size];
+        }
+    };
+
+    private Show(Parcel in){
+        comedian = in.readString();
+        description = in.readString();
+        showDate = in.readString();
+        showTime = in.readInt();
+        soldOut = in.readInt();
+    }
 }

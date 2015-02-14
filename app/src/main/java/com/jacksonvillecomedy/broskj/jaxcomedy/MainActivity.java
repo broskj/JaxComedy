@@ -3,11 +3,14 @@ package com.jacksonvillecomedy.broskj.jaxcomedy;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,12 +24,20 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
  * Created by Kyle on 12/29/2014.
+ *
+ * TOOD:
+ * Daily or weekly, use alarmManager to call getShows and getDeals.
  */
 
 public class MainActivity extends Activity {
@@ -37,12 +48,16 @@ public class MainActivity extends Activity {
     static final String prefsPointValueName = "userPointValue",
         directionsURI = "geo:0,0?q=11000+beach+blvd+jacksonville+fl+32246",
         facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
-        twitterURL = "https://twitter.com/comedyclubofjax";
+        twitterURL = "https://twitter.com/comedyclubofjax",
+        showSpreadsheetURL = "https://spreadsheets.google.com/tq?key=1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc",
+        dealsSpreadsheetURL = "https://spreadsheets.google.com/tq?key=1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM";
     Intent browserIntent;
     MyAdapter adapter;
     ListView listView;
-    Show show;
-    Show[] shows;
+    ConnectivityManager connMgr;
+    NetworkInfo networkInfo;
+    ArrayList<Show> shows;
+    ArrayList<Offer> offers;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -57,18 +72,45 @@ public class MainActivity extends Activity {
         setListViewAdapter();
         checkFirstRun();
 
+        /*
+        place in AlarmManager method
+         */
+        try {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                getShows();
+                getDeals();
+            } else {
+                Toast.makeText(this, "Network info not available.", Toast.LENGTH_SHORT);
+                System.out.println("Network info not available.");
+            }
+        }catch (Exception e){
+            //nothing
+        }
+
+        for(int i = 0; i < shows.size(); i++){
+            System.out.println(shows.get(i).getComedian() + " " + shows.get(i).getShowDate() + " " + shows.get(i).getShowTime());
+        }
+
     }//end onCreate
 
     public void declarations(){
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         firstCheck = PreferenceManager.getDefaultSharedPreferences(this);
+        shows = new ArrayList<>();
+        offers = new ArrayList<>();
 
         /*
         creates the ListView adapter and populates the ListView using generateData()
          */
         adapter = new MyAdapter(this, generateData());
         listView = (ListView) findViewById(R.id.listview);
+
+        /*
+        creates a connectivitymanager and a networkinfo object.
+         */
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
 
     }//end declarations
 
@@ -81,15 +123,15 @@ public class MainActivity extends Activity {
                 System.out.println("position is " + position);
                 switch (position) {
                     case 0://this weekend
-                        startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                        startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight)/*.putExtra("show", shows.get(0))*/);
                         System.out.println("this weekend clicked");
                         break;
                     case 1://calendar
-                        startActivity(new Intent(MainActivity.this, Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                        startActivity(new Intent(MainActivity.this, Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
                         System.out.println("calendar clicked");
                         break;
                     case 2://deals
-                        startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                        startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("offers", offers));
                         System.out.println("deals clicked");
                         break;
                     case 3://food and drink
@@ -97,7 +139,7 @@ public class MainActivity extends Activity {
                         System.out.println("food and drink clicked");
                         break;
                     case 4://groups and parties
-                        startActivity(new Intent(MainActivity.this, GroupsAndParties.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                        startActivity(new Intent(MainActivity.this, GroupsAndParties.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
                         System.out.println("groups and parties clicked");
                         break;
                     default:
@@ -105,7 +147,7 @@ public class MainActivity extends Activity {
                 }
             }
         });
-    }
+    }//end setListViewAdapter
 
     public void checkFirstRun(){
         /*
@@ -128,7 +170,7 @@ public class MainActivity extends Activity {
     populates the ListView on activity_main.xml with an icon and title.
      */
     private ArrayList<Model> generateData() {
-        ArrayList<Model> models = new ArrayList<Model>();
+        ArrayList<Model> models = new ArrayList<>();
         models.add(new Model(R.drawable.ic_action_event, "This Weekend"));
         models.add(new Model(R.drawable.ic_action_go_to_today, "Upcoming Shows"));
         models.add(new Model(R.drawable.ic_action_important_gold, "Rewards and Offers"));
@@ -240,7 +282,7 @@ public class MainActivity extends Activity {
      */
         browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookURL));
         startActivity(browserIntent);
-    }
+    }//onFacebookClick
 
     public void onTwitterClick(View view) {
     /*
@@ -249,5 +291,65 @@ public class MainActivity extends Activity {
      */
         browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(twitterURL));
         startActivity(browserIntent);
+    }//end onTwitterClick
+
+    public void getShows(){
+        new DownloadWebpageTask(new AsyncResult() {
+            @Override
+            public void onResult(JSONObject object) {
+                processShowsJson(object);
+            }
+        }).execute(showSpreadsheetURL);
+    }//end getShows
+
+    public void getDeals(){
+        new DownloadWebpageTask(new AsyncResult() {
+            @Override
+            public void onResult(JSONObject object) {
+                processDealsJson(object);
+            }
+        }).execute(dealsSpreadsheetURL);
     }
+
+    private void processShowsJson(JSONObject object) {
+        try {
+            JSONArray rows = object.getJSONArray("rows");
+
+            for (int i = 0; i < rows.length(); ++i) {
+                JSONObject row = rows.getJSONObject(i);
+                JSONArray columns = row.getJSONArray("c");
+
+                String showDate = columns.getJSONObject(0).getString("v");
+                int showTime = columns.getJSONObject(1).getInt("v");
+                String comedian = columns.getJSONObject(2).getString("v");
+                String description = columns.getJSONObject(3).getString("v");
+                int soldOut = columns.getJSONObject(4).getInt("v");
+
+                Show show = new Show (comedian, description, showDate, showTime, soldOut);
+                shows.add(show);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }//end processShowsJson
+
+    private void processDealsJson(JSONObject object) {
+    try {
+        JSONArray rows = object.getJSONArray("rows");
+
+        for (int i = 0; i < rows.length(); ++i) {
+            JSONObject row = rows.getJSONObject(i);
+            JSONArray columns = row.getJSONArray("c");
+
+            String offerTitle = columns.getJSONObject(0).getString("v");
+            String offerDescription = columns.getJSONObject(1).getString("v");
+            int pointValue = columns.getJSONObject(2).getInt("v");
+
+            Offer offer = new Offer(pointValue, offerTitle, offerDescription);
+            offers.add(offer);
+        }
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+}//end processShowsJson
 }
