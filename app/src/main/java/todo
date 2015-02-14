@@ -7,6 +7,7 @@ General:
         -maybe move to 'this weekend' section, but changing it to look for the next weekend's show dates
           (in case of wednesday/thursday shows)
     -Add email EditText to reserve, and include it in the list of email addresses to send confirmation to.
+    -Change directions to open Maps app with intent.
     -In reserve, use Intent.EXTRA_CC or EXTRA_BCC to send courtesy copies to me and/or the user.
 
 Structure:
