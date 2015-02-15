@@ -12,23 +12,20 @@ public class Show implements Parcelable{
     private String description;
     private String showDate;
     private int showTime;
-    private int soldOut;
-    final private int CLEAN = 0, UNCUT = 1, SPECIAL = 2;
+    final private int CLEAN = 0, SPECIAL = 1;
 
     public Show() {
         comedian = "";
         description = "";
         showDate = "";
         showTime = -1;
-        soldOut = 0;
     }
 
-    public Show(String comedian, String description, String showDate, int showTime, int soldOut) {
+    public Show(String comedian, String description, String showDate, int showTime) {
         this.comedian = comedian;
         this.description = description;
         this.showDate = showDate;
         this.showTime = showTime;
-        this.soldOut = soldOut;
     }
 
     public void setComedian(String comedian) {
@@ -47,10 +44,6 @@ public class Show implements Parcelable{
         this.showTime = showTime;
     }
 
-    public void setSoldOut(int soldOut) {
-        this.soldOut = soldOut;
-    }
-
     public String getComedian() {
         return this.comedian;
     }
@@ -67,10 +60,6 @@ public class Show implements Parcelable{
         return this.showTime;
     }
 
-    public int getSoldOut() {
-        return this.soldOut;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -82,7 +71,6 @@ public class Show implements Parcelable{
         dest.writeString(description);
         dest.writeString(showDate);
         dest.writeInt(showTime);
-        dest.writeInt(soldOut);
     }
 
     @SuppressWarnings("unchecked")
@@ -104,6 +92,5 @@ public class Show implements Parcelable{
         description = in.readString();
         showDate = in.readString();
         showTime = in.readInt();
-        soldOut = in.readInt();
     }
 }
