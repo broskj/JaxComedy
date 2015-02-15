@@ -36,7 +36,7 @@ public class Reserve extends Activity {
     RadioButton rbEarlyShow, rbLateShow, rbSpecialShow;
     Spinner spDate;
     final String[] email = {"info@jacksonvillecomedy.com"};
-    final String [] ccEmail = {"kjbrost@gmail.com"};
+    final String [] ccEmail = {"jaxcomedy@gmail.com"};
     String sName, sGuests, sDate, sShowtime, sEmail;
     String confirmationCode, message, subject;
     int screenWidth, screenHeight, groupPosition = -1;
