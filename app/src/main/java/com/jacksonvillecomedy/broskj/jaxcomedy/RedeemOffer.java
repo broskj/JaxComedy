@@ -63,11 +63,9 @@ public class RedeemOffer extends Activity {
         spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
         pointValue = spPointValue.getInt("pointValue", -1);
         /*
-        gets the offer details from Deals.java
+        gets the offer object from Deals.java
          */
-        offer = new Offer();
-        offer.setPointValue(getIntent().getExtras().getInt("pointValue"));
-        offer.setOfferTitle(getIntent().getExtras().getString("offerTitle"));
+        offer = getIntent().getExtras().getParcelable("offer");
         redeemInfo = "Confirm offer for \'" + offer.getOfferTitle() + "\' for " + offer.getPointValue() +
                 " points.  Present your device to either the host or your server for them to confirm.\n";
         tvRedeemInfo = (TextView) findViewById(R.id.tvRedeemInfo);

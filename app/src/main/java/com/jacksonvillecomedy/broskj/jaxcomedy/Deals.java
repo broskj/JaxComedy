@@ -57,6 +57,13 @@ public class Deals extends Activity {
         tvRewardPoints.setText(Integer.toString(rewardPointValue));
         System.out.println("onResume called in deals.\ntvRewardPoints should read " + rewardPointValue);
 
+        /*
+        collapses all groups when activity is resumed, particularly for after a deal was redeemed.
+         */
+        for (int i = 0; i < expListView.getExpandableListAdapter().getGroupCount(); i++) {
+            expListView.collapseGroup(i);
+        }
+
     }//end onResume
 
     public void declarations() {
@@ -100,7 +107,8 @@ public class Deals extends Activity {
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                openRedeem(offers.get(groupPosition));
+                if(offers.get(groupPosition).getPointValue() != 0)
+                    openRedeem(offers.get(groupPosition));
                 return true;
             }
         });
@@ -174,7 +182,7 @@ public class Deals extends Activity {
         for (int i = 0; i < list.length; i++) {
 
             list[i] = new ArrayList<>();
-            listDataHeader.add("(" + offers.get(i).getPointValue() + ") " + offers.get(i).getOfferTitle());
+            listDataHeader.add("(" + offers.get(i).getPointValue() + ")\t" + offers.get(i).getOfferTitle());
             list[i].add(offers.get(i).getOfferDescription());
             listDataChild.put(listDataHeader.get(i), list[i]);
         }
@@ -189,7 +197,7 @@ public class Deals extends Activity {
          */
         if (offer.getPointValue() <= rewardPointValue) {
             startActivity(new Intent(this, RedeemOffer.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight)
-                    .putExtra("pointValue", offer.getPointValue()).putExtra("offerTitle", offer.getOfferTitle()));
+                    .putExtra("offer", offer));
             System.out.println("redeem offer clicked from deals");
         } else
             Toast.makeText(this, "Not enough points for this deal.", Toast.LENGTH_SHORT).show();

@@ -114,27 +114,11 @@ public class Calendar extends Activity {
         List<String>[] list = (ArrayList<String>[]) new ArrayList[shows.size()];
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
-        String showTime;
 
         for (int i = 0; i < list.length; i++) {
-            switch(shows.get(i).getShowTime()){
-                case 0:
-                    showTime = "8:04";
-                    break;
-                case 1:
-                    showTime = "10:10";
-                    break;
-                case 2:
-                    showTime = "Other";
-                    break;
-                default:
-                    System.out.println("Something happened in showTime switch statement");
-                    showTime = "";
-                    break;
-            }
 
             list[i] = new ArrayList<>();
-            listDataHeader.add("(" + shows.get(i).getShowDate() + ") " + shows.get(i).getComedian() + " - " + showTime);
+            listDataHeader.add("(" + shows.get(i).getShowDate() + ") " + shows.get(i).getComedian());
             list[i].add(shows.get(i).getDescription());
             listDataChild.put(listDataHeader.get(i), list[i]);
         }
