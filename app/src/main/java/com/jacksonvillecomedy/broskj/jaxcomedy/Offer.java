@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Kyle on 2/4/2015. 
+ * Created by Kyle on 2/4/2015.
  */
 public class Offer implements Parcelable{
     private int pointValue;
