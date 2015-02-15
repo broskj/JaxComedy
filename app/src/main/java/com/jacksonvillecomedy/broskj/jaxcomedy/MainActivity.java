@@ -49,8 +49,8 @@ public class MainActivity extends Activity {
         directionsURI = "geo:0,0?q=11000+beach+blvd+jacksonville+fl+32246",
         facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
         twitterURL = "https://twitter.com/comedyclubofjax",
-        showSpreadsheetURL = "https://spreadsheets.google.com/tq?key=1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc",
-        dealsSpreadsheetURL = "https://spreadsheets.google.com/tq?key=1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM";
+        showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq",
+        dealsSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM/gviz/tq";
     Intent browserIntent;
     MyAdapter adapter;
     ListView listView;
@@ -80,17 +80,11 @@ public class MainActivity extends Activity {
                 getShows();
                 getDeals();
             } else {
-                Toast.makeText(this, "Network info not available.", Toast.LENGTH_SHORT);
                 System.out.println("Network info not available.");
             }
         }catch (Exception e){
             //nothing
         }
-
-        for(int i = 0; i < shows.size(); i++){
-            System.out.println(shows.get(i).getComedian() + " " + shows.get(i).getShowDate() + " " + shows.get(i).getShowTime());
-        }
-
     }//end onCreate
 
     public void declarations(){
@@ -323,9 +317,8 @@ public class MainActivity extends Activity {
                 int showTime = columns.getJSONObject(1).getInt("v");
                 String comedian = columns.getJSONObject(2).getString("v");
                 String description = columns.getJSONObject(3).getString("v");
-                int soldOut = columns.getJSONObject(4).getInt("v");
 
-                Show show = new Show (comedian, description, showDate, showTime, soldOut);
+                Show show = new Show (comedian, description, showDate, showTime);
                 shows.add(show);
             }
         } catch (JSONException e) {
