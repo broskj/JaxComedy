@@ -5,9 +5,10 @@ General:
       About Us uses layout_margin around the textviews.  Consider standardizing.
     -Add popup in MainActivity on first run to indicate free points.
     -In MainActivity, save spreadsheet JSON to a file and use the file to load information in onCreate.
-        -populate file daily using AlarmManager
-    -Using AlarmManager in MainActivity, write condition that sends user a notification if the current
-      day is Tuesday (maybe Wednesday).  This notification will link to This Weekend.
+        -populate file daily using AlarmManager (nightly, around midnight).
+        -Be sure that the alarm still works if the device was turned off overnight.
+    -Using AlarmManager in MainActivity, write condition that sends user a notification on Tuesday (maybe
+      Wednesday).  This notification will link to This Weekend.
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
