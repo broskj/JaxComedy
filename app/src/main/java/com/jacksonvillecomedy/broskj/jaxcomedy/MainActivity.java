@@ -81,17 +81,11 @@ public class MainActivity extends Activity {
         setListViewAdapter();
         checkFirstRun();
 
-    }//end onCreate
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
         /*
         place in AlarmManager method
          */
         downloadShowsAndDeals();
-    }
+    }//end onCreate
 
     private void downloadShowsAndDeals() {
         try {
