@@ -54,11 +54,11 @@ public class Calendar extends Activity {
         for (int i = 0; i < expListView.getExpandableListAdapter().getGroupCount(); i++) {
             expListView.collapseGroup(i);
         }
-    }
+    }//end onRestart
+
     public void declarations(){
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
-
 
         shows = new ArrayList<>();
         shows = getIntent().getExtras().getParcelableArrayList("shows");

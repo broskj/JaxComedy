@@ -79,6 +79,7 @@ public class Deals extends Activity {
         offers = new ArrayList<>();
         offers = getIntent().getExtras().getParcelableArrayList("offers");
 
+
         /*
         declares sharedpreferences file for the reward point value.
         gets the value and assigns it to the int variable rewardPointValue.
