@@ -30,14 +30,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
  * Created by Kyle on 12/29/2014.
- *
- * TOOD:
- * Daily or weekly, use alarmManager to call getShows and getDeals.
  */
 
 public class MainActivity extends Activity {
@@ -46,11 +53,13 @@ public class MainActivity extends Activity {
     final int initialPointValue = 15;
     int screenWidth, screenHeight;
     static final String prefsPointValueName = "userPointValue",
-        directionsURI = "geo:0,0?q=11000+beach+blvd+jacksonville+fl+32246",
-        facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
-        twitterURL = "https://twitter.com/comedyclubofjax",
-        showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq",
-        dealsSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM/gviz/tq";
+            directionsURI = "geo:0,0?q=11000+beach+blvd+jacksonville+fl+32246",
+            facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
+            twitterURL = "https://twitter.com/comedyclubofjax",
+            showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq",
+            dealsSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM/gviz/tq",
+            showsFilename = "shows.txt",
+            dealsFilename = "deals.txt";
     Intent browserIntent;
     MyAdapter adapter;
     ListView listView;
@@ -71,10 +80,15 @@ public class MainActivity extends Activity {
         scaleImages();
         setListViewAdapter();
         checkFirstRun();
-
         /*
         place in AlarmManager method
          */
+        downloadShowsAndDeals();
+
+
+    }//end onCreate
+
+    private void downloadShowsAndDeals() {
         try {
             if (networkInfo != null && networkInfo.isConnected()) {
                 getShows();
@@ -82,12 +96,12 @@ public class MainActivity extends Activity {
             } else {
                 System.out.println("Network info not available.");
             }
-        }catch (Exception e){
-            //nothing
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }//end onCreate
+    }
 
-    public void declarations(){
+    public void declarations() {
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         firstCheck = PreferenceManager.getDefaultSharedPreferences(this);
@@ -108,8 +122,9 @@ public class MainActivity extends Activity {
 
     }//end declarations
 
-    public void setListViewAdapter(){
-        listView.setAdapter(adapter);listView.setOnItemClickListener(new OnItemClickListener() {
+    public void setListViewAdapter() {
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position,
@@ -143,16 +158,18 @@ public class MainActivity extends Activity {
         });
     }//end setListViewAdapter
 
-    public void checkFirstRun(){
+    public void checkFirstRun() {
         /*
         first run check. If first run, sets reward point value to 15.
          */
-        if(!firstCheck.getBoolean("firstRun", false)){
+        if (!firstCheck.getBoolean("firstRun", false)) {
             System.out.println("first run statement entered");
             SharedPreferences spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
             SharedPreferences.Editor editor = spPointValue.edit();
             editor.putInt("pointValue", initialPointValue);
             editor.commit();
+
+            downloadShowsAndDeals();
 
             editor = firstCheck.edit();
             editor.putBoolean("firstRun", true);
@@ -218,7 +235,7 @@ public class MainActivity extends Activity {
                 return true;
             case R.id.action_directions:
                 Intent directionsIntent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(directionsURI));
-                if(directionsIntent.resolveActivity(getPackageManager()) != null){
+                if (directionsIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(directionsIntent);
                 }
                 //startActivity(new Intent(MainActivity.this, Directions.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
@@ -287,7 +304,7 @@ public class MainActivity extends Activity {
         startActivity(browserIntent);
     }//end onTwitterClick
 
-    public void getShows(){
+    public void getShows() {
         new DownloadWebpageTask(new AsyncResult() {
             @Override
             public void onResult(JSONObject object) {
@@ -296,7 +313,8 @@ public class MainActivity extends Activity {
         }).execute(showSpreadsheetURL);
     }//end getShows
 
-    public void getDeals(){
+
+    public void getDeals() {
         new DownloadWebpageTask(new AsyncResult() {
             @Override
             public void onResult(JSONObject object) {
@@ -318,7 +336,7 @@ public class MainActivity extends Activity {
                 String comedian = columns.getJSONObject(2).getString("v");
                 String description = columns.getJSONObject(3).getString("v");
 
-                Show show = new Show (comedian, description, showDate, showTime);
+                Show show = new Show(comedian, description, showDate, showTime);
                 shows.add(show);
             }
         } catch (JSONException e) {
@@ -327,22 +345,23 @@ public class MainActivity extends Activity {
     }//end processShowsJson
 
     private void processDealsJson(JSONObject object) {
-    try {
-        JSONArray rows = object.getJSONArray("rows");
+        try {
+            JSONArray rows = object.getJSONArray("rows");
 
-        for (int i = 0; i < rows.length(); ++i) {
-            JSONObject row = rows.getJSONObject(i);
-            JSONArray columns = row.getJSONArray("c");
+            for (int i = 0; i < rows.length(); ++i) {
+                JSONObject row = rows.getJSONObject(i);
+                JSONArray columns = row.getJSONArray("c");
 
-            String offerTitle = columns.getJSONObject(0).getString("v");
-            String offerDescription = columns.getJSONObject(1).getString("v");
-            int pointValue = columns.getJSONObject(2).getInt("v");
+                String offerTitle = columns.getJSONObject(0).getString("v");
+                String offerDescription = columns.getJSONObject(1).getString("v");
+                int pointValue = columns.getJSONObject(2).getInt("v");
 
-            Offer offer = new Offer(pointValue, offerTitle, offerDescription);
-            offers.add(offer);
+                Offer offer = new Offer(pointValue, offerTitle, offerDescription);
+                offers.add(offer);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-    } catch (JSONException e) {
-        e.printStackTrace();
-    }
-}//end processShowsJson
+    }//end processShowsJson
+
 }

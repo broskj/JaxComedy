@@ -3,11 +3,10 @@ package com.jacksonvillecomedy.broskj.jaxcomedy;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 /**
  * Created by Kyle on 1/28/2015.
  */
-public class Show implements Parcelable{
+public class Show implements Parcelable {
     private String comedian;
     private String description;
     private String showDate;

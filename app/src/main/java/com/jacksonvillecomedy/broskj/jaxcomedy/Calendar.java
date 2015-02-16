@@ -44,6 +44,17 @@ public class Calendar extends Activity {
         scaleBackground(screenWidth, screenHeight);
     }//end onCreate
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        /*
+        collapses all groups when activity is resumed, particularly for after a deal was redeemed.
+         */
+        for (int i = 0; i < expListView.getExpandableListAdapter().getGroupCount(); i++) {
+            expListView.collapseGroup(i);
+        }
+    }
     public void declarations(){
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
