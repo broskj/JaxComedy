@@ -78,14 +78,31 @@ public class Reserve extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 System.out.println("onItemSelected called for spDate in Reserve at item " + pos);
-                //sets date string for email use equal to the substring from the start of the
-                //  text to the first space, where the name begins, i.e. 1/1/1970 John Doe
-                //  is saved as 1/1/1970
+
+                /*
+                sets date string for email use equal to the substring from the start of the
+                text to the first space, where the name begins, i.e. 1/1/1970 John Doe
+                is saved as 1/1/1970
+                 */
                 sDate = parent.getItemAtPosition(pos).toString().substring(0,
                         parent.getItemAtPosition(pos).toString().indexOf(" "));
 
-                spDate.setSelection(groupPosition);
+                /*
+                allows date spinner to be changed.  initializes selection to groupPosition,
+                then sets selection to pos thereafter.
+                 */
+                if(pos == 0) {
+                    spDate.setSelection(groupPosition);
+                    groupPosition = 0;
+                }
+                else {
+                    spDate.setSelection(pos);
+                }
 
+                /*
+                based on certain showtimes, enables/disables radio buttons and checks
+                or unchecks them.
+                 */
                 if(shows.get(pos).getShowTime() != 1) {
                     rbEarlyShow.setEnabled(true);
                     rbLateShow.setEnabled(true);
@@ -153,7 +170,9 @@ public class Reserve extends Activity {
         this commented code uses java.util.Calendar to get date of next saturday/sunday and
           put them in the spinner.  should be replaced with above code, but I'm keeping it
           here in case it becomes useful in the future.
+         */
 
+        /*
         SimpleDateFormat df = new SimpleDateFormat("MM/dd");
         java.util.Calendar today = java.util.Calendar.getInstance();
         int dayOfWeek = today.get(java.util.Calendar.DAY_OF_WEEK),
