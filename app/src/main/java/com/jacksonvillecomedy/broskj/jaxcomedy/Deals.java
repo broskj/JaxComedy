@@ -49,13 +49,12 @@ public class Deals extends Activity {
     }//end onCreate
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onRestart() {
+        super.onRestart();
 
         spRewardPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
         rewardPointValue = spRewardPointValue.getInt("pointValue", -1);
         tvRewardPoints.setText(Integer.toString(rewardPointValue));
-        System.out.println("onResume called in deals.\ntvRewardPoints should read " + rewardPointValue);
 
         /*
         collapses all groups when activity is resumed, particularly for after a deal was redeemed.

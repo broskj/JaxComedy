@@ -80,13 +80,18 @@ public class MainActivity extends Activity {
         scaleImages();
         setListViewAdapter();
         checkFirstRun();
+
+    }//end onCreate
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
         /*
         place in AlarmManager method
          */
         downloadShowsAndDeals();
-
-
-    }//end onCreate
+    }
 
     private void downloadShowsAndDeals() {
         try {

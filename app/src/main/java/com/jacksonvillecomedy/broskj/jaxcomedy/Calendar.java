@@ -45,8 +45,8 @@ public class Calendar extends Activity {
     }//end onCreate
 
     @Override
-    public void onResume(){
-        super.onResume();
+    public void onRestart(){
+        super.onRestart();
 
         /*
         collapses all groups when activity is resumed, particularly for after a deal was redeemed.
