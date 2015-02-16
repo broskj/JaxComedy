@@ -80,6 +80,7 @@
     <string name="button_add_points">Add points</string>
     <string name="textview_enter_email">Email Address:</string>
     <string name="edittext_hint_enter_email">Enter email</string>
+    <string name="tv_calendar_information">Select any show below to view information about the comedian. Click on the comedian\'s information to reserve seats for any available showtimes.\n\nTo reserve seats, fill out the fields on the following page and print the email you receive to confirm your reservation at the door.</string>
     <string-array name="group_seats_string_array"></string-array>
     <string-array name="date_array"></string-array>
 </resources>

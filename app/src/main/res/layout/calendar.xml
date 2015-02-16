@@ -5,10 +5,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tvCalendarInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_medium_material"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/tv_calendar_information"/>
+
     <ExpandableListView
         android:id="@+id/elvCalendar"
+        android:layout_below="@+id/tvCalendarInfo"
         android:layout_margin="8dp"
-        android:layout_alignParentTop="true"
         android:layout_above="@+id/imageViewBottomBanner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>
