@@ -3,18 +3,17 @@ package com.jacksonvillecomedy.broskj.jaxcomedy;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.view.View;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * Created by Kyle on 12/29/2014.
@@ -24,6 +23,7 @@ public class ThisWeekend extends Activity {
     int screenWidth, screenHeight;
     Show show;
     String videoID;
+    Uri videoUri;
     TextView tvHeadliner, tvInfo;
 
     @TargetApi(16)
@@ -44,6 +44,7 @@ public class ThisWeekend extends Activity {
 
         show = getIntent().getExtras().getParcelable("show");
         videoID = show.getVideoID();
+        videoUri = Uri.parse("http://www.youtube.com/watch?v=" + videoID);
 
         tvHeadliner = (TextView) findViewById(R.id.tvThisWeekendHeadliner);
         tvHeadliner.setText(tvHeadliner.getText().toString() + show.getComedian());
@@ -89,7 +90,7 @@ public class ThisWeekend extends Activity {
     }//end scaleBackground
 
     public void onImageClick(View view) {
-        Toast.makeText(this, "Image was clicked, going to video", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(Intent.ACTION_SEND, videoUri));
         //start youtube intent
     }//end onImageClick
 }
