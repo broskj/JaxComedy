@@ -1,7 +1,10 @@
 package com.jacksonvillecomedy.broskj.jaxcomedy;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.net.URI;
 
 /**
  * Created by Kyle on 1/28/2015.
@@ -11,20 +14,22 @@ public class Show implements Parcelable {
     private String description;
     private String showDate;
     private int showTime;
-    final private int CLEAN = 0, SPECIAL = 1;
+    private String videoID;
 
     public Show() {
         comedian = "";
         description = "";
         showDate = "";
         showTime = -1;
+        videoID = "";
     }
 
-    public Show(String comedian, String description, String showDate, int showTime) {
+    public Show(String comedian, String description, String showDate, int showTime, String videoID) {
         this.comedian = comedian;
         this.description = description;
         this.showDate = showDate;
         this.showTime = showTime;
+        this.videoID = videoID;
     }
 
     public void setComedian(String comedian) {
@@ -43,6 +48,8 @@ public class Show implements Parcelable {
         this.showTime = showTime;
     }
 
+    public void setVideoID(String videoID) { this.videoID = videoID; }
+
     public String getComedian() {
         return this.comedian;
     }
@@ -59,6 +66,9 @@ public class Show implements Parcelable {
         return this.showTime;
     }
 
+    public String getVideoID() { return this.videoID; }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -70,6 +80,7 @@ public class Show implements Parcelable {
         dest.writeString(description);
         dest.writeString(showDate);
         dest.writeInt(showTime);
+        dest.writeString(videoID);
     }
 
     @SuppressWarnings("unchecked")
@@ -91,5 +102,6 @@ public class Show implements Parcelable {
         description = in.readString();
         showDate = in.readString();
         showTime = in.readInt();
+        videoID = in.readString();
     }
 }
