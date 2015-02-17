@@ -73,6 +73,10 @@
             android:label="Redeem Offer"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity android:name=".ReportABug"
+            android:label="Report a Bug"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Reserve"
             android:label="Reserve"

@@ -252,6 +252,9 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, NowHiring.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
                 System.out.println("now hiring clicked");
                 return true;
+            case R.id.action_report_a_bug:
+                startActivity(new Intent(MainActivity.this, ReportABug.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                System.out.println("report a bug clicked");
             default:
                 return super.onOptionsItemSelected(item);
         }
