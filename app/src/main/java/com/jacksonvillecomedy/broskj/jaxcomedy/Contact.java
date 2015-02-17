@@ -32,7 +32,7 @@ public class Contact extends Activity {
 
     TextView tvMain;
     EditText etName, etEmail;
-    String sName, sEmail, someMessage, emailSubject;
+    String sName, sEmail, someMessage="", emailSubject="";
     String[] email = {"info@jacksonvillecomedy.com"};
     Button sendEmail;
     int screenWidth, screenHeight;
@@ -43,13 +43,6 @@ public class Contact extends Activity {
         setContentView(R.layout.contact);
         System.out.println("contact created");
 
-        try {
-            someMessage = getIntent().getExtras().getString("message");
-            etEmail.setText(someMessage);
-            emailSubject = "Group Party information requested";
-        } catch (Exception e) {
-            System.out.println("no value for someMessage");
-        }
         declarations();
         makePhoneNumberClickable();
         manageActionBar();
@@ -66,7 +59,17 @@ public class Contact extends Activity {
         etEmail = (EditText) (findViewById(R.id.etContactMessage));
         etEmail.setMovementMethod(new ScrollingMovementMethod());
         sendEmail = (Button) (findViewById(R.id.btSendEmail));
-    }
+
+        try {
+            someMessage = getIntent().getExtras().getString("message");
+            if (!someMessage.matches("")) {
+                etEmail.setText(someMessage);
+                emailSubject = "Group Party information requested";
+            }
+        } catch(Exception e){
+            System.out.println("someMessage in Contact equal to \"\"");
+        }
+    }//end declarations
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -112,7 +115,7 @@ public class Contact extends Activity {
         }
         else if(sEmail.matches("")){
             etEmail.requestFocus();
-            etEmail.setError("Must enter email.");
+            etEmail.setError("Must enter message.");
         }
         else {
             SimpleDateFormat dateformat = new SimpleDateFormat(
@@ -124,7 +127,7 @@ public class Contact extends Activity {
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
             emailIntent.setType("plain/text");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
-            if (emailSubject.equals(""))
+            if (emailSubject.matches(""))
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
             else
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
@@ -135,10 +138,6 @@ public class Contact extends Activity {
 
     }//end onSendEmail
 
-    /*
-    to do:
-    run check for empty fields to prevent spam
-     */
     private void convertEditTextToString() {
         // TODO Auto-generated method stub
         sName = etName.getText().toString();
