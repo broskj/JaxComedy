@@ -9,6 +9,7 @@ General:
         -Be sure that the alarm still works if the device was turned off overnight.
     -Using AlarmManager in MainActivity, write condition that sends user a notification on Tuesday (maybe
       Wednesday).  This notification will link to This Weekend.
+    -In MainActivity, check show dates to prevent app from displaying past shows.
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
