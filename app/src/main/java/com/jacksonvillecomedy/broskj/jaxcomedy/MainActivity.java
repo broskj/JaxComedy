@@ -131,7 +131,7 @@ public class MainActivity extends Activity {
                 System.out.println("position is " + position);
                 switch (position) {
                     case 0://this weekend
-                        startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight)/*.putExtra("show", shows.get(0))*/);
+                        startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("show", shows.get(0)));
                         System.out.println("this weekend clicked");
                         break;
                     case 1://calendar
@@ -337,8 +337,9 @@ public class MainActivity extends Activity {
                 int showTime = columns.getJSONObject(1).getInt("v");
                 String comedian = columns.getJSONObject(2).getString("v");
                 String description = columns.getJSONObject(3).getString("v");
+                String videoURL = columns.getJSONObject(4).getString("v");
 
-                Show show = new Show(comedian, description, showDate, showTime);
+                Show show = new Show(comedian, description, showDate, showTime, videoURL);
                 shows.add(show);
             }
         } catch (JSONException e) {
