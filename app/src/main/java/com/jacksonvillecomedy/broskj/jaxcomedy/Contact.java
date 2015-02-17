@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +33,7 @@ public class Contact extends Activity {
     TextView tvMain;
     EditText etName, etEmail;
     String sName, sEmail, someMessage, emailSubject;
-    String[] email = {"kjbrost@gmail.com"};//{"info@jacksonvillecomedy.com"};
+    String[] email = {"info@jacksonvillecomedy.com"};
     Button sendEmail;
     int screenWidth, screenHeight;
 
@@ -62,7 +63,9 @@ public class Contact extends Activity {
 
         tvMain = (TextView) (findViewById(R.id.tvContactMain));
         etName = (EditText) (findViewById(R.id.etContactName));
+        etName.requestFocus();
         etEmail = (EditText) (findViewById(R.id.etContactMessage));
+        etEmail.setMovementMethod(new ScrollingMovementMethod());
         sendEmail = (Button) (findViewById(R.id.btSendEmail));
     }
 
@@ -103,21 +106,33 @@ public class Contact extends Activity {
      */
     public void onSendEmail(View view) {
         convertEditTextToString();
-        SimpleDateFormat dateformat = new SimpleDateFormat(
-                "MM/dd/yyyy HH:mm:ss");
-        Date date = new Date();
-        String message = sName + '\n' + sEmail + '\n' + dateformat.format(date);
-        String subject = "Mobile App Message From " + sName;
 
-        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-        emailIntent.setType("plain/text");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
-        if(emailSubject.equals(""))
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        else
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, message);
-        startActivity(emailIntent);
+        if(sName.matches("")){
+            etName.requestFocus();
+            etName.setError("Must enter name.");
+        }
+        else if(sEmail.matches("")){
+            etEmail.requestFocus();
+            etEmail.setError("Must enter email.");
+        }
+        else {
+            SimpleDateFormat dateformat = new SimpleDateFormat(
+                    "MM/dd/yyyy HH:mm:ss");
+            Date date = new Date();
+            String message = sName + '\n' + sEmail + '\n' + dateformat.format(date);
+            String subject = "Mobile App Message From " + sName;
+
+            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.setType("plain/text");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
+            if (emailSubject.equals(""))
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+            else
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+            emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+            startActivity(emailIntent);
+            this.finish();
+        }
 
     }//end onSendEmail
 
