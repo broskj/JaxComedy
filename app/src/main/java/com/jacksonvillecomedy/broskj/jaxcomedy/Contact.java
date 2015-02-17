@@ -54,7 +54,6 @@ public class Contact extends Activity {
         makePhoneNumberClickable();
         manageActionBar();
         scaleBackground();
-
     }//end onCreate
 
     public void declarations(){
