@@ -106,7 +106,7 @@ public class ReportABug extends Activity {
         }
         else if(sSteps.matches("")){
             etSteps.requestFocus();
-            etDescription.setError("Please enter steps.");
+            etDescription.setError("Must enter steps.");
         }
         else {
             SimpleDateFormat dateformat = new SimpleDateFormat(

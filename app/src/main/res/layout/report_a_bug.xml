@@ -59,7 +59,7 @@
             <EditText
                 android:id="@+id/etReportBugSteps"
                 android:layout_width="fill_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:hint="@string/enter_steps"
                 android:inputType="textMultiLine|textCapSentences" />
 
