@@ -88,6 +88,8 @@
     <string name="enter_description">Enter description</string>
     <string name="textview_report_bug_describe">Describe the error:</string>
     <string name="submit_bug_report">Submit Bug Report</string>
+    <string name="textview_this_weekend_header">Headlining this weekend at the Comedy Club of Jacksonville:</string>
+    <string name="reserve_seats">Reserve Seats</string>
     <string-array name="group_seats_string_array"></string-array>
     <string-array name="date_array"></string-array>
 </resources>

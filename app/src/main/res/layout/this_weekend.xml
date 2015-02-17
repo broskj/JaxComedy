@@ -1,7 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/rlThisWeekend">
 
-</LinearLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/btThisWeekendReserve"
+        android:isScrollContainer="false"
+        android:layout_margin="8dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:gravity="center"
+                android:text="@string/textview_this_weekend_header"/>
+
+            <TextView
+                android:id="@+id/tvThisWeekendHeadliner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_large_material"
+                android:gravity="center"
+                android:textColor="#ffc91c15"/>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="196dp"
+                android:background="@color/material_blue_grey_800"
+                android:alpha=".8"
+                android:layout_margin="8dp"
+                android:onClick="onImageClick">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/ic_action_play_over_video"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/ivThisWeekend"/>
+
+                </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvThisWeekendInfo"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/abc_text_size_medium_material"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    <Button
+        android:id="@+id/btThisWeekendReserve"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_above="@+id/imageViewBottomBanner"
+        android:text="@string/reserve_seats"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/imageViewBottomBanner"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottombanner" />
+
+</RelativeLayout>
