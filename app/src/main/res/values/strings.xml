@@ -80,9 +80,12 @@
     <string name="button_add_points">Add points</string>
     <string name="textview_enter_email">Email Address:</string>
     <string name="edittext_hint_enter_email">Enter email</string>
-    <string name="tv_calendar_information">Select any show below to view information about the comedian. Click on the comedian\'s information to reserve seats for any available showtimes.</string>
+    <string name="tv_calendar_information">Select any show below to view information about the comedian. Click on the comedian\'s
+        information to reserve seats for any available showtimes.</string>
     <string name="report_a_bug">Report a Bug</string>
-    <string name="textview_report_bug_main">I\'m sorry something doesn\'t work; I\'m only human after all! To best help me fix any errors you\'re encountering, fill out the fields below. Be as descriptive as possible, and include details such as where the error occurred and what device you\'re using.\n</string>
+    <string name="textview_report_bug_main">I\'m sorry something doesn\'t work; I\'m only human after all! To best help me fix any
+        errors you\'re encountering, fill out the fields below. Be as descriptive as possible, and include details such as where the
+        error occurred and what device you\'re using.\n</string>
     <string name="enter_steps">Enter steps</string>
     <string name="textview_report_bug_steps">Please list the steps to recreate:</string>
     <string name="enter_description">Enter description</string>
@@ -90,6 +93,25 @@
     <string name="submit_bug_report">Submit Bug Report</string>
     <string name="textview_this_weekend_header">Headlining this weekend at the Comedy Club of Jacksonville:</string>
     <string name="reserve_seats">Reserve Seats</string>
-    <string-array name="group_seats_string_array"></string-array>
-    <string-array name="date_array"></string-array>
+    <string name="appetizers">Stuffed Jalapeno Poppers\nFried Onion Rings\nMozzarella Sticks\nTortilla Chips with Salsa\nFrench Fries
+        \nPotato Skins with Cheese and Bacon</string>
+    <string name="salads">Crispy Chicken Tossed\nGrilled Chicken Tossed\nFilet Mignon Tossed\nCaesar Salad\nCaesar Salad</string>
+    <string name="shtick_entrees">Seasoned Filet Mignon Tips\nSeasoned Grilled Chicken</string>
+    <string name="additional">Wings(8) Mild/Hot\nChicken Tenders\nCoconut Fried Shrimp (6) with Orange Marmalade\nTacos (shredded beef or chicken)</string>
+    <string name="bun_entrees">Laurel &amp; Hearty Burger\nPhilly Cheese Burger with Onions and Peppers\nComedy Club \"Club\" Sandwich\n
+        Crispy Fried Chicken Sandwich\nGrilled Chicken Breast Sandwich\nBLT\nAll Beef Hot Dog (1/4 lb)</string>
+    <string name="pizza">8\" Personal (cheese, pepperoni, or sausage)\n12\" Large (cheese, pepperoni, or sausage)</string>
+    <string name="cakes">Fresh cakes straight from the Beaches.  Varies by availability.\n\tChocoholic\n\tOld Yeller\n\t
+        Carrot\n\tRed Velvet\n\tStrawberry Cheesecake</string>
+    <string name="beer">Budweiser\nBud Light\nBud Light Lime\nCoors Light\nMiller Light\nMichelob Ultra\nCorona\nYuengling\nBlue Moon</string>
+    <string name="wine">Chardonnay\nMoscato\nPinot Grigio\nRiesling\nWhite Zinfandel\nCabernet\nMerlot</string>
+    <string name="vodka">Grey Goose\n3 Olives, 3 Olives Flavors\nMartinis</string>
+    <string name="rum">Bacardi, Bacardi Limon\nMalibu\nSailor Jerry\'s Spiced\nMyer\'s</string>
+    <string name="gin">Tangueray</string>
+    <string name="tequila">Jose Quervo Gold\nPatron Silver</string>
+    <string name="scotch">Dewar\'s\nJohnny Walker Red</string>
+    <string name="bourbons_blends_whiskeys">Jack Daniel\'s\nSo Co\nJim Beam\nSeagrams 7\nCrown Royal\nJameson\nMaker\'s Mark</string>
+    <string name="cordials_liqueurs">Amaretto, Amaretto Di Saronno\nRazz Ma Tazz\nBrandy\nMidori\nSloe Gin\nGrand Marnier\nJager\nBailey\'s\nKahlua</string>
+    <string name="non_alcoholic">Coke, Diet Coke\nSprite\nGinger Ale\nSweet/Unsweet Tea\nCoffee\nBottled Water\nRed Bull\nJodi Juice with Sugar Rim</string>
+
 </resources>
