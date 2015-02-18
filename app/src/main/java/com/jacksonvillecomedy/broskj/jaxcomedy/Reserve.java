@@ -263,7 +263,7 @@ public class Reserve extends Activity {
             Date date = new Date();
             subject = "Reservation for " + sGuests + " on " + sDate;
             confirmationCode = Integer.toString(new Random().nextInt(999999) + 1);
-            message = sName + " has requested " + sGuests + " tickets for the " + sShowtime + " show on " +
+            message = sName + " has requested " + sGuests + " ticket(s) for the " + sShowtime + " show on " +
                     sDate + ".\nConfirmation code: " + confirmationCode + "\n\n" + dateformat.format(date);
 
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
