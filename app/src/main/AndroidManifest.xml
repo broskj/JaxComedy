@@ -55,7 +55,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".FoodAndDrink"
-            android:label="Food and Drink"
+            android:label="Food and Drinks"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
