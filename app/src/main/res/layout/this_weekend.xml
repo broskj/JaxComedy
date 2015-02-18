@@ -29,6 +29,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:background="@color/background_material_dark"
+                android:alpha=".8"
                 android:textColor="#ffc91c15"
                 android:textSize="@dimen/abc_text_size_large_material" />
 
@@ -37,7 +39,7 @@
                 android:layout_height="196dp"
                 android:layout_margin="8dp"
                 android:alpha=".8"
-                android:background="@color/material_blue_grey_800"
+                android:background="@color/dim_foreground_disabled_material_light"
                 android:onClick="onImageClick">
 
                 <ImageView
