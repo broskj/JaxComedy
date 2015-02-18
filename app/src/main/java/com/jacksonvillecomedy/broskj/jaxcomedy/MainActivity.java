@@ -41,7 +41,11 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Kyle on 12/29/2014.
@@ -57,9 +61,7 @@ public class MainActivity extends Activity {
             facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
             twitterURL = "https://twitter.com/comedyclubofjax",
             showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq",
-            dealsSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM/gviz/tq",
-            showsFilename = "shows.txt",
-            dealsFilename = "deals.txt";
+            dealsSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM/gviz/tq";
     Intent browserIntent;
     MyAdapter adapter;
     ListView listView;
@@ -67,6 +69,8 @@ public class MainActivity extends Activity {
     NetworkInfo networkInfo;
     ArrayList<Show> shows;
     ArrayList<Offer> offers;
+    DateFormat df;
+    Date today;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -85,6 +89,7 @@ public class MainActivity extends Activity {
         place in AlarmManager method
          */
         downloadShowsAndDeals();
+
     }//end onCreate
 
     private void downloadShowsAndDeals() {
@@ -104,7 +109,7 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }//downloadShowsAndDeals
 
     public void declarations() {
         screenWidth = getResources().getDisplayMetrics().widthPixels;
@@ -119,7 +124,26 @@ public class MainActivity extends Activity {
         adapter = new MyAdapter(this, generateData());
         listView = (ListView) findViewById(R.id.listview);
 
+        /*
+        simpledateformat used to compare dates from spreadsheet
+        to current date
+         */
+        df = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+        today = new Date();
+
     }//end declarations
+
+    public void checkForPastShows() {
+        try {
+            for (int i = 0; i < shows.size(); i++) {
+                if (today.after(df.parse(shows.get(i).getShowDate()))) {
+                    shows.remove(i);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void setListViewAdapter() {
         listView.setAdapter(adapter);
@@ -129,11 +153,12 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> adapter, View v, int position,
                                     long arg3) {
                 System.out.println("position is " + position);
+                checkForPastShows();
                 switch (position) {
                     case 0://this weekend
                         if (!shows.isEmpty())
                             startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("show", shows.get(0)));
-                        else{
+                        else {
                             Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
                             downloadShowsAndDeals();
                         }
@@ -142,7 +167,7 @@ public class MainActivity extends Activity {
                     case 1://calendar
                         if (!shows.isEmpty())
                             startActivity(new Intent(MainActivity.this, Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
-                        else{
+                        else {
                             Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
                             downloadShowsAndDeals();
                         }
@@ -151,7 +176,7 @@ public class MainActivity extends Activity {
                     case 2://rewards and offers
                         if (!shows.isEmpty())
                             startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("offers", offers));
-                        else{
+                        else {
                             Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
                             downloadShowsAndDeals();
                         }
