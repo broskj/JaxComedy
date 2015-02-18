@@ -1,15 +1,12 @@
 TODO:
 
 General:
-    -Contact and Groups and Parties layouts both use layout_margin="8dp" in the main layout, whereas
-      About Us uses layout_margin around the textviews.  Consider standardizing.
     -Add popup in MainActivity on first run to indicate free points.
     -In MainActivity, save spreadsheet JSON to a file and use the file to load information in onCreate.
         -populate file daily using AlarmManager (nightly, around midnight).
         -Be sure that the alarm still works if the device was turned off overnight.
     -Using AlarmManager in MainActivity, write condition that sends user a notification on Tuesday (maybe
       Wednesday).  This notification will link to This Weekend.
-    -In MainActivity, check show dates to prevent app from displaying past shows.
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
@@ -61,18 +58,13 @@ Structure:
 
 AboutUs:
 Upcoming Shows:
-    -populate expandable list view with data from google spreadsheet.
 Contact:
-    -run check for empty name/content fields.
     -eventually find a way to send emails without using an email intent.
 Rewards and Offers:
     -consider giving free points each week, based on whether they open the weekly notification.
 Directions:
-    -consider moving from WebView to other map interface.
 FoodAndDrink:
-    -format xml for relativelayout and set/scale background, set bottombanner, manage action bar
-    -consider formatting a table with food/drink items and descriptions
-        -try expandable textview.  display name and price, then expand the name into name and description.
+    -consider reformatting; currently looks bad.
 GroupsAndParties:
 MainActivity:
     -may be where all broadcast/notification events are handled.
@@ -81,7 +73,3 @@ Settings:
       rewards program opt-in, etc.
 ThisWeekend:
     -where weekly notification directs to.
-    -format xml for relativelayout and set/scale background, set bottombanner, manage action bar
-    -consider using youtube widget of some sort at the top of the layout, and include information below.
-      information is populated from google spreadsheet daily (around midnight - look into AlarmManager).
-      include button that directs to Reserve and passes the show information (comedianName, date, showTime).
