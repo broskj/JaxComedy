@@ -229,7 +229,7 @@ public class MainActivity extends Activity {
         models.add(new Model(R.drawable.ic_action_event, "This Weekend"));
         models.add(new Model(R.drawable.ic_action_go_to_today, "Upcoming Shows"));
         models.add(new Model(R.drawable.ic_action_important_gold, "Rewards and Offers"));
-        models.add(new Model(R.drawable.ic_action_view_as_list, "Food and Drink"));
+        models.add(new Model(R.drawable.ic_action_view_as_list, "Food and Drinks"));
         models.add(new Model(R.drawable.ic_action_group, "Groups and Parties"));
 
         return models;
