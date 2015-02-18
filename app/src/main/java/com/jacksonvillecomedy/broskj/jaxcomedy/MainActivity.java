@@ -100,7 +100,7 @@ public class MainActivity extends Activity {
         connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         networkInfo = connMgr.getActiveNetworkInfo();
         try {
-            if (networkInfo != null && networkInfo.isConnected()) {
+            if (networkInfo != null && networkInfo.isConnected() && shows.isEmpty()) {
                 getShows();
                 getDeals();
             } else {
@@ -138,6 +138,10 @@ public class MainActivity extends Activity {
             for (int i = 0; i < shows.size(); i++) {
                 if (today.after(df.parse(shows.get(i).getShowDate()))) {
                     shows.remove(i);
+                    for(int j = 0; j < shows.size(); j++){
+                        if(shows.get(i).equals(shows.get(j)) && i != j)
+                            shows.remove(j);
+                    }
                 }
             }
         } catch (Exception e) {
