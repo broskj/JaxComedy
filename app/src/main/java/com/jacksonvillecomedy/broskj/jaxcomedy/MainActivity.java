@@ -157,7 +157,7 @@ public class MainActivity extends Activity {
                 switch (position) {
                     case 0://this weekend
                         if (!shows.isEmpty())
-                            startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("show", shows.get(0)));
+                            startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
                         else {
                             Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
                             downloadShowsAndDeals();
