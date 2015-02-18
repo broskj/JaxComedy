@@ -88,6 +88,12 @@ public class MainActivity extends Activity {
     }//end onCreate
 
     private void downloadShowsAndDeals() {
+        /*
+        creates a connectivitymanager and a networkinfo object.
+        if network connection is available, calls getShows and getDeals
+         */
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
         try {
             if (networkInfo != null && networkInfo.isConnected()) {
                 getShows();
@@ -113,12 +119,6 @@ public class MainActivity extends Activity {
         adapter = new MyAdapter(this, generateData());
         listView = (ListView) findViewById(R.id.listview);
 
-        /*
-        creates a connectivitymanager and a networkinfo object.
-         */
-        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        networkInfo = connMgr.getActiveNetworkInfo();
-
     }//end declarations
 
     public void setListViewAdapter() {
@@ -131,15 +131,30 @@ public class MainActivity extends Activity {
                 System.out.println("position is " + position);
                 switch (position) {
                     case 0://this weekend
-                        startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("show", shows.get(0)));
+                        if (!shows.isEmpty())
+                            startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("show", shows.get(0)));
+                        else{
+                            Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
+                            downloadShowsAndDeals();
+                        }
                         System.out.println("this weekend clicked");
                         break;
                     case 1://calendar
-                        startActivity(new Intent(MainActivity.this, Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
+                        if (!shows.isEmpty())
+                            startActivity(new Intent(MainActivity.this, Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
+                        else{
+                            Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
+                            downloadShowsAndDeals();
+                        }
                         System.out.println("calendar clicked");
                         break;
-                    case 2://deals
-                        startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("offers", offers));
+                    case 2://rewards and offers
+                        if (!shows.isEmpty())
+                            startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("offers", offers));
+                        else{
+                            Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
+                            downloadShowsAndDeals();
+                        }
                         System.out.println("deals clicked");
                         break;
                     case 3://food and drink
@@ -151,7 +166,8 @@ public class MainActivity extends Activity {
                         System.out.println("groups and parties clicked");
                         break;
                     default:
-                        System.out.println("Something went wrong");
+                        Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
+                        downloadShowsAndDeals();
                 }
             }
         });

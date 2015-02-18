@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -89,12 +90,12 @@ public class GroupsAndParties extends Activity {
 
 
     public void onReserveSeatsClick(View view) {
-        try {
+        if (!shows.isEmpty())
             startActivity(new Intent(this, com.jacksonvillecomedy.broskj.jaxcomedy.Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
-        }catch(ActivityNotFoundException e){
-            e.printStackTrace();
+        else {
+            Toast.makeText(this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
-        System.out.println("reserve clicked from groups and parties");
     }
 
     public void onMoreInfoClick(View view) {
