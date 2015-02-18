@@ -15,12 +15,16 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kyle on 12/29/2014.
+ *
  */
 public class ThisWeekend extends Activity {
 
     int screenWidth, screenHeight;
+    ArrayList<Show> shows;
     Show show;
     String videoID;
     Uri videoUri;
@@ -42,7 +46,9 @@ public class ThisWeekend extends Activity {
         screenWidth = getIntent().getExtras().getInt("screenWidth");
         screenHeight = getIntent().getExtras().getInt("screenHeight");
 
-        show = getIntent().getExtras().getParcelable("show");
+        shows = getIntent().getExtras().getParcelableArrayList("shows");
+        show = shows.get(0);
+
         videoID = show.getVideoID();
         videoUri = Uri.parse("http://www.youtube.com/watch?v=" + videoID);
 
@@ -90,7 +96,10 @@ public class ThisWeekend extends Activity {
     }//end scaleBackground
 
     public void onImageClick(View view) {
-        startActivity(new Intent(Intent.ACTION_SEND, videoUri));
-        //start youtube intent
+        startActivity(new Intent(Intent.ACTION_VIEW, videoUri));
     }//end onImageClick
+
+    public void onReserveSeatsClick(View view) {
+        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", 0).putParcelableArrayListExtra("shows", shows));
+    }
 }
