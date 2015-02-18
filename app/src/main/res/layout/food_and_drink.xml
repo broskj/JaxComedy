@@ -6,62 +6,62 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-        <RelativeLayout
-            android:id="@+id/rlDrinks"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".5">
+    <RelativeLayout
+        android:id="@+id/rlDrinks"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5">
 
-                <TextView
-                    android:id="@+id/tvDrinkMenuTitle"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Drink Menu"
-                    android:textColor="#ffc91c15"
-                    android:gravity="center"
-                    android:background="@color/background_material_dark"
-                    android:alpha=".8"
-                    android:textSize="@dimen/abc_text_size_large_material" />
+        <TextView
+            android:id="@+id/tvDrinkMenuTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:alpha=".8"
+            android:background="@color/background_material_dark"
+            android:gravity="center"
+            android:text="@string/drink_menu"
+            android:textColor="#ffc91c15"
+            android:textSize="@dimen/abc_text_size_large_material" />
 
-                <ExpandableListView
-                    android:id="@+id/elvDrinks"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvDrinkMenuTitle" />
+        <ExpandableListView
+            android:id="@+id/elvDrinks"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDrinkMenuTitle" />
 
-            </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight=".5">
 
-                <TextView
-                    android:id="@+id/tvFoodMenuTitle"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:background="@color/background_material_dark"
-                    android:alpha=".8"
-                    android:text="Food Menu"
-                    android:textColor="#ffc91c15"
-                    android:textSize="@dimen/abc_text_size_large_material" />
+        <TextView
+            android:id="@+id/tvFoodMenuTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:alpha=".8"
+            android:background="@color/background_material_dark"
+            android:gravity="center"
+            android:text="@string/food_menu"
+            android:textColor="#ffc91c15"
+            android:textSize="@dimen/abc_text_size_large_material" />
 
-                <ExpandableListView
-                    android:id="@+id/elvFood"
-                    android:layout_below="@id/tvFoodMenuTitle"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"/>
+        <ExpandableListView
+            android:id="@+id/elvFood"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvFoodMenuTitle" />
 
-        </RelativeLayout>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/imageViewBottomBanner"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
-        android:baselineAlignBottom="true"
         android:background="@drawable/bottombanner"
+        android:baselineAlignBottom="true"
         android:contentDescription="bottom banner" />
 
 </LinearLayout>

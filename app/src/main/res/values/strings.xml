@@ -113,5 +113,7 @@
     <string name="bourbons_blends_whiskeys">Jack Daniel\'s\nSo Co\nJim Beam\nSeagrams 7\nCrown Royal\nJameson\nMaker\'s Mark</string>
     <string name="cordials_liqueurs">Amaretto, Amaretto Di Saronno\nRazz Ma Tazz\nBrandy\nMidori\nSloe Gin\nGrand Marnier\nJager\nBailey\'s\nKahlua</string>
     <string name="non_alcoholic">Coke, Diet Coke\nSprite\nGinger Ale\nSweet/Unsweet Tea\nCoffee\nBottled Water\nRed Bull\nJodi Juice with Sugar Rim</string>
+    <string name="drink_menu">Drink Menu</string>
+    <string name="food_menu">Food Menu</string>
 
 </resources>

@@ -10,6 +10,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:alpha=".8"
+        android:background="@color/background_material_dark"
         android:gravity="center"
         android:text="@string/about_us_title"
         android:textColor="#ffc91c15"
@@ -23,11 +25,11 @@
 
     <ExpandableListView
         android:id="@+id/elvAboutUs"
-        android:layout_margin="8dp"
-        android:layout_below="@+id/ivAboutUs"
-        android:layout_above="@+id/imageViewBottomBanner"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageViewBottomBanner"
+        android:layout_below="@+id/ivAboutUs"
+        android:layout_margin="8dp" />
 
     <ImageView
         android:id="@+id/imageViewBottomBanner"

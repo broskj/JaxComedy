@@ -9,8 +9,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/btSendReport"
-        android:isScrollContainer="false"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:isScrollContainer="false">
 
         <LinearLayout
             android:layout_width="fill_parent"

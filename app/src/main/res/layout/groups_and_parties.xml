@@ -36,18 +36,18 @@
         android:id="@+id/llGroupsBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_above="@id/imageViewBottomBanner"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
         android:layout_marginBottom="8dp"
-        android:layout_gravity="center">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btMoreInformation"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:onClick="onMoreInfoClick"
-            android:text="@string/groupsandparties_button_more_info"/>
+            android:text="@string/groupsandparties_button_more_info" />
 
         <Button
             android:id="@+id/btReserveSeats"
@@ -56,8 +56,7 @@
             android:onClick="onReserveSeatsClick"
             android:text="@string/groupsandparties_button_reserve_seats" />
 
-        </LinearLayout>
-
+    </LinearLayout>
 
 
     <ImageView

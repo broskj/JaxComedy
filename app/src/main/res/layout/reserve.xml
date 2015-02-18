@@ -111,8 +111,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/abc_text_size_medium_material"
-                android:text="@string/reserve_textview_show_time"/>
+                android:text="@string/reserve_textview_show_time"
+                android:textSize="@dimen/abc_text_size_medium_material" />
 
             <RadioGroup
                 android:id="@+id/rbgShowTimes"
@@ -124,28 +124,28 @@
                     android:id="@+id/rbEarlyShow"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:text="@string/reserve_radiobutton_804_show"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:text="@string/reserve_radiobutton_804_show" />
 
                 <RadioButton
                     android:id="@+id/rbLateShow"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:text="@string/reserve_radiobutton_1010_showtime"/>
+                    android:text="@string/reserve_radiobutton_1010_showtime" />
 
                 <RadioButton
                     android:id="@+id/rbSpecialShow"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:text="@string/reserve_radiobutton_other_show"/>
+                    android:text="@string/reserve_radiobutton_other_show" />
 
-                </RadioGroup>
+            </RadioGroup>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/abc_text_size_medium_material"
-                android:text="Pressing 'Reserve Seats' will redirect you to your phone's email client.  Print the email and present it at the door."/>
+                android:text="Pressing 'Reserve Seats' will redirect you to your phone's email client.  Print the email and present it at the door."
+                android:textSize="@dimen/abc_text_size_medium_material" />
 
         </LinearLayout>
 

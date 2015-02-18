@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llDeals"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/llDeals">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:textSize="24sp"
-            android:text="@string/textview_deals_points_title"/>
+            android:text="@string/textview_deals_points_title"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/tvRewardPoints"
@@ -28,10 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvDealsPointsTitle"
             android:gravity="center"
-            android:textSize="36sp"/>
+            android:textSize="36sp" />
 
 
-     </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,14 +44,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textSize="@dimen/abc_text_size_medium_material"
-            android:text="@string/textview_deals_rewards_info"/>
+            android:text="@string/textview_deals_rewards_info"
+            android:textSize="@dimen/abc_text_size_medium_material" />
 
         <ExpandableListView
             android:id="@+id/elvDeals"
-            android:layout_below="@+id/tvDealsInfo"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/tvDealsInfo" />
 
     </RelativeLayout>
 

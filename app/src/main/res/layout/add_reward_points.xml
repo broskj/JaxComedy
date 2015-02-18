@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/rlAddRewardPoints"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rlAddRewardPoints">
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -19,42 +20,42 @@
                 android:id="@+id/tvAddPointsInfo"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/abc_text_size_medium_material"/>
+                android:textSize="@dimen/abc_text_size_medium_material" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/abc_text_size_medium_material"
-                android:text="Number of Tickets:"/>
+                android:text="Number of Tickets:"
+                android:textSize="@dimen/abc_text_size_medium_material" />
 
             <EditText
                 android:id="@+id/etNumTickets"
                 android:layout_width="fill_parent"
                 android:layout_height="48dp"
                 android:hint="Enter number"
-                android:inputType="number"/>
+                android:inputType="number" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/abc_text_size_medium_material"
-                android:text="@string/textview_redeem_confirm_password"/>
+                android:text="@string/textview_redeem_confirm_password"
+                android:textSize="@dimen/abc_text_size_medium_material" />
 
             <EditText
                 android:id="@+id/etAddPointsPassword"
                 android:layout_width="fill_parent"
                 android:layout_height="48dp"
-                android:inputType="numberPassword"
-                android:hint="@string/textview_redeem_enter_password"/>
+                android:hint="@string/textview_redeem_enter_password"
+                android:inputType="numberPassword" />
 
             <TextView
                 android:id="@+id/tvPassword"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/abc_text_size_large_material"
-                android:gravity="center"
                 android:layout_marginTop="8dp"
-                android:textColor="#ffc91c15"/>
+                android:gravity="center"
+                android:textColor="#ffc91c15"
+                android:textSize="@dimen/abc_text_size_large_material" />
 
         </LinearLayout>
 
@@ -68,7 +69,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:onClick="onAddPointsClick"
-        android:text="@string/button_add_points"/>
+        android:text="@string/button_add_points" />
 
     <ImageView
         android:id="@+id/imageViewBottomBanner"
@@ -76,6 +77,6 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/bottombanner"/>
+        android:background="@drawable/bottombanner" />
 
 </RelativeLayout>
