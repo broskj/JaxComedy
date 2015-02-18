@@ -3,7 +3,8 @@
     android:id="@+id/llFoodAndDrink"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
         <RelativeLayout
             android:id="@+id/rlDrinks"
@@ -13,11 +14,13 @@
 
                 <TextView
                     android:id="@+id/tvDrinkMenuTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:text="Drink Menu"
                     android:textColor="#ffc91c15"
+                    android:gravity="center"
+                    android:background="@color/background_material_dark"
+                    android:alpha=".8"
                     android:textSize="@dimen/abc_text_size_large_material" />
 
                 <ExpandableListView
@@ -35,9 +38,11 @@
 
                 <TextView
                     android:id="@+id/tvFoodMenuTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:background="@color/background_material_dark"
+                    android:alpha=".8"
                     android:text="Food Menu"
                     android:textColor="#ffc91c15"
                     android:textSize="@dimen/abc_text_size_large_material" />
