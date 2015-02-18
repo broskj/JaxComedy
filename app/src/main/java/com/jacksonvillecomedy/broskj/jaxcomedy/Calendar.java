@@ -136,7 +136,6 @@ public class Calendar extends Activity {
     }//end prepareListData
 
     public void openReserve(int index) {
-        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", index).putParcelableArrayListExtra("shows", shows));
-        System.out.println("reserve clicked from groups and parties");
+        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", index).putParcelableArrayListExtra("shows", shows));        System.out.println("reserve clicked from groups and parties");
     }//end openReserve
 }
