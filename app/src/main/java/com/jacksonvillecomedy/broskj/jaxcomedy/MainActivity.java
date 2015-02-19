@@ -53,10 +53,12 @@ import java.util.Locale;
 
 public class MainActivity extends Activity {
 
-    SharedPreferences firstCheck;
+    SharedPreferences firstCheck, spPointValue, spNotifications;
+    SharedPreferences.Editor editor;
     final int initialPointValue = 15;
     int screenWidth, screenHeight;
     static final String prefsPointValueName = "userPointValue",
+            prefsNotificationToggle = "notificationToggle",
             directionsURI = "geo:0,0?q=11000+beach+blvd+jacksonville+fl+32246",
             facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
             twitterURL = "https://twitter.com/comedyclubofjax",
@@ -89,6 +91,8 @@ public class MainActivity extends Activity {
         place in AlarmManager method
          */
         downloadShowsAndDeals();
+
+        System.out.println("Notifications are set as " + spNotifications.getBoolean("notifications", false));
 
     }//end onCreate
 
@@ -130,6 +134,8 @@ public class MainActivity extends Activity {
          */
         df = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         today = new Date();
+
+        spNotifications = getSharedPreferences(prefsNotificationToggle, MODE_PRIVATE);
 
     }//end declarations
 
@@ -208,12 +214,14 @@ public class MainActivity extends Activity {
          */
         if (!firstCheck.getBoolean("firstRun", false)) {
             System.out.println("first run statement entered");
-            SharedPreferences spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
-            SharedPreferences.Editor editor = spPointValue.edit();
+            spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
+            editor = spPointValue.edit();
             editor.putInt("pointValue", initialPointValue);
             editor.commit();
 
-            downloadShowsAndDeals();
+            editor = spNotifications.edit();
+            editor.putBoolean("notifications", true);
+            editor.commit();
 
             editor = firstCheck.edit();
             editor.putBoolean("firstRun", true);
