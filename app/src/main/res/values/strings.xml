@@ -115,5 +115,6 @@
     <string name="non_alcoholic">Coke, Diet Coke\nSprite\nGinger Ale\nSweet/Unsweet Tea\nCoffee\nBottled Water\nRed Bull\nJodi Juice with Sugar Rim</string>
     <string name="drink_menu">Drink Menu</string>
     <string name="food_menu">Food Menu</string>
+    <string name="notifications">Notifications</string>
 
 </resources>
