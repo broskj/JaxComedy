@@ -25,6 +25,9 @@ import java.util.Locale;
 
 /**
  * Created by Kyle on 2/19/2015.
+ *
+ * TODO:
+ * check if shows.get(0) is a special show; notification should only show regular shows.
  */
 public class AlarmReceiver extends BroadcastReceiver {
 
