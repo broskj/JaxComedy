@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,6 +30,8 @@ public class ThisWeekend extends Activity {
     String videoID;
     Uri videoUri;
     TextView tvHeadliner, tvInfo;
+    SharedPreferences spDimensions;
+    final static String prefsDimensions = "dimensions";
 
     @TargetApi(16)
     @Override
@@ -43,11 +46,17 @@ public class ThisWeekend extends Activity {
     }//end onCreate
 
     public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+        spDimensions = getSharedPreferences(prefsDimensions, MODE_PRIVATE);
+        screenWidth = spDimensions.getInt("screenWidth", -1);
+        screenHeight = spDimensions.getInt("screenHeight", -1);
 
         shows = getIntent().getExtras().getParcelableArrayList("shows");
-        show = shows.get(0);
+        for (int i = 0; i < shows.size(); i++) {
+            if (shows.get(i).getShowTime() == 0) {
+                show = shows.get(i);
+                break;
+            }
+        }
 
         videoID = show.getVideoID();
         videoUri = Uri.parse("http://www.youtube.com/watch?v=" + videoID);
@@ -67,7 +76,7 @@ public class ThisWeekend extends Activity {
          */
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish();
+                startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
