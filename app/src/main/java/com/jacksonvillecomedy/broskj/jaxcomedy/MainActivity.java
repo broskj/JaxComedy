@@ -3,6 +3,8 @@ package com.jacksonvillecomedy.broskj.jaxcomedy;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,16 +32,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -53,18 +45,25 @@ import java.util.Locale;
 
 public class MainActivity extends Activity {
 
-    SharedPreferences firstCheck, spPointValue, spNotifications;
+    SharedPreferences firstCheck,
+            spPointValue,
+            spNotifications,
+            spDimensions,
+            spSpreadsheets;
     SharedPreferences.Editor editor;
     final int initialPointValue = 15;
     int screenWidth, screenHeight;
+    boolean notificationsIsChecked;
     static final String prefsPointValueName = "userPointValue",
             prefsNotificationToggle = "notificationToggle",
-            directionsURI = "geo:0,0?q=11000+beach+blvd+jacksonville+fl+32246",
+            prefsDimensions = "dimensions",
+            prefsSpreadsheets = "spreadsheets",
+            directionsURI = "geo:0,0?q=11000+Beach+Blvd+Jacksonville+Fl+32246",
             facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
             twitterURL = "https://twitter.com/comedyclubofjax",
             showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq",
             dealsSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM/gviz/tq";
-    Intent browserIntent;
+    Intent browserIntent, alarmIntent, updateIntent;
     MyAdapter adapter;
     ListView listView;
     ConnectivityManager connMgr;
@@ -73,6 +72,9 @@ public class MainActivity extends Activity {
     ArrayList<Offer> offers;
     DateFormat df;
     Date today;
+    java.util.Calendar calendar, updateCalendar;
+    AlarmManager alarmManager, updateAlarmManager;
+    PendingIntent pendingIntent, updatePendingIntent;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -86,41 +88,25 @@ public class MainActivity extends Activity {
         scaleImages();
         setListViewAdapter();
         checkFirstRun();
-
-        /*
-        place in AlarmManager method
-         */
-        downloadShowsAndDeals();
-
-        System.out.println("Notifications are set as " + spNotifications.getBoolean("notifications", false));
+        checkForPastShows();
 
     }//end onCreate
-
-    private void downloadShowsAndDeals() {
-        /*
-        creates a connectivitymanager and a networkinfo object.
-        if network connection is available, calls getShows and getDeals
-         */
-        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        networkInfo = connMgr.getActiveNetworkInfo();
-        try {
-            if (networkInfo != null && networkInfo.isConnected() && shows.isEmpty()) {
-                getShows();
-                getDeals();
-            } else {
-                System.out.println("Network info not available.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//downloadShowsAndDeals
 
     public void declarations() {
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
+
+        spDimensions = getSharedPreferences(prefsDimensions, MODE_PRIVATE);
+        editor = spDimensions.edit();
+        editor.putInt("screenWidth", screenWidth);
+        editor.putInt("screenHeight", screenHeight);
+        editor.apply();
+
         firstCheck = PreferenceManager.getDefaultSharedPreferences(this);
         shows = new ArrayList<>();
         offers = new ArrayList<>();
+
+        spSpreadsheets = getSharedPreferences(prefsSpreadsheets, MODE_PRIVATE);
 
         /*
         creates the ListView adapter and populates the ListView using generateData()
@@ -134,10 +120,47 @@ public class MainActivity extends Activity {
          */
         df = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
         today = new Date();
+        today.setTime(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
 
         spNotifications = getSharedPreferences(prefsNotificationToggle, MODE_PRIVATE);
 
+        /*
+        alarmmanager and notification declarations
+         */
+        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarmIntent = new Intent(this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        calendar = java.util.Calendar.getInstance();
+
+        updateAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        updateIntent = new Intent(this, Update.class);
+        updatePendingIntent = PendingIntent.getBroadcast(this, 0, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        updateCalendar = java.util.Calendar.getInstance();
+
     }//end declarations
+
+    public void manageNotifications() {
+        System.out.println("notifications are set to " + notificationsIsChecked);
+        if (notificationsIsChecked) {
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
+            calendar.set(java.util.Calendar.HOUR_OF_DAY, 10);
+            calendar.set(java.util.Calendar.MINUTE, 15);
+
+            /*
+            sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
+             */
+            alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60/*1000 * 60 * 60 * 24 * 7*/, pendingIntent);
+        }
+    }//end manageNotifications
+
+    public void updateSpreadsheets() {
+        updateCalendar.setTimeInMillis(System.currentTimeMillis());
+        updateCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        updateCalendar.set(java.util.Calendar.MINUTE, 0);
+
+        updateAlarmManager.setInexactRepeating(AlarmManager.RTC, updateCalendar.getTimeInMillis(), 1000 * 60 * 60 * 24, updatePendingIntent);
+    }//end updateSpreadsheets
 
     public void checkForPastShows() {
         try {
@@ -163,14 +186,13 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> adapter, View v, int position,
                                     long arg3) {
                 System.out.println("position is " + position);
-                checkForPastShows();
                 switch (position) {
                     case 0://this weekend
                         if (!shows.isEmpty())
                             startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
                         else {
                             Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
-                            downloadShowsAndDeals();
+                            getShows();
                         }
                         System.out.println("this weekend clicked");
                         break;
@@ -179,16 +201,17 @@ public class MainActivity extends Activity {
                             startActivity(new Intent(MainActivity.this, Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
                         else {
                             Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
-                            downloadShowsAndDeals();
+                            getShows();
                         }
                         System.out.println("calendar clicked");
                         break;
                     case 2://rewards and offers
-                        if (!shows.isEmpty())
+                        if (!offers.isEmpty())
                             startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("offers", offers));
                         else {
                             Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
-                            downloadShowsAndDeals();
+                            getDeals();
+                            //startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("offers", offers));
                         }
                         System.out.println("deals clicked");
                         break;
@@ -200,9 +223,6 @@ public class MainActivity extends Activity {
                         startActivity(new Intent(MainActivity.this, GroupsAndParties.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
                         System.out.println("groups and parties clicked");
                         break;
-                    default:
-                        Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
-                        downloadShowsAndDeals();
                 }
             }
         });
@@ -210,22 +230,38 @@ public class MainActivity extends Activity {
 
     public void checkFirstRun() {
         /*
-        first run check. If first run, sets reward point value to 15.
+        first run check. If first run, sets reward point value to 15, sets notifications
+        to true, and downloads shows and deals.
          */
         if (!firstCheck.getBoolean("firstRun", false)) {
             System.out.println("first run statement entered");
+            getShows();
+            getDeals();
+
             spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
             editor = spPointValue.edit();
             editor.putInt("pointValue", initialPointValue);
-            editor.commit();
+            editor.apply();
 
             editor = spNotifications.edit();
             editor.putBoolean("notifications", true);
-            editor.commit();
+            editor.apply();
 
             editor = firstCheck.edit();
             editor.putBoolean("firstRun", true);
-            editor.commit();
+            editor.apply();
+
+            notificationsIsChecked = spNotifications.getBoolean("notifications", false);
+            manageNotifications();
+
+            updateSpreadsheets();
+        } else {
+            try {
+                processShowsJson(new JSONObject(spSpreadsheets.getString("showsSpreadsheet", "")));
+                processDealsJson(new JSONObject(spSpreadsheets.getString("dealsSpreadsheet", "")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }//end checkFirstRun
 
@@ -274,9 +310,6 @@ public class MainActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         System.out.println("onOptionsItemSelected called");
-
-        final int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        final int screenHeight = getResources().getDisplayMetrics().heightPixels;
 
         int id = item.getItemId();
 
@@ -360,22 +393,51 @@ public class MainActivity extends Activity {
     }//end onTwitterClick
 
     public void getShows() {
-        new DownloadWebpageTask(new AsyncResult() {
-            @Override
-            public void onResult(JSONObject object) {
-                processShowsJson(object);
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+        try {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                if (shows.isEmpty() || spSpreadsheets.getString("showsSpreadsheet", "").isEmpty()) {
+                    new DownloadWebpageTask(this, new AsyncResult() {
+                        @Override
+                        public void onResult(JSONObject object) {
+                            processShowsJson(object);
+                            editor = spSpreadsheets.edit();
+                            editor.putString("showsSpreadsheet", object.toString());
+                            editor.apply();
+                        }
+                    }).execute(showSpreadsheetURL);
+                }
+            } else {
+                System.out.println("Network info not available.");
             }
-        }).execute(showSpreadsheetURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//end getShows
 
-
     public void getDeals() {
-        new DownloadWebpageTask(new AsyncResult() {
-            @Override
-            public void onResult(JSONObject object) {
-                processDealsJson(object);
+        connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connMgr.getActiveNetworkInfo();
+        try {
+            if (networkInfo != null && networkInfo.isConnected()) {
+                if (offers.isEmpty() || spSpreadsheets.getString("dealsSpreadsheet", "").isEmpty()) {
+                    new DownloadWebpageTask(this, new AsyncResult() {
+                        @Override
+                        public void onResult(JSONObject object) {
+                            processDealsJson(object);
+                            editor = spSpreadsheets.edit();
+                            editor.putString("dealsSpreadsheet", object.toString());
+                            editor.apply();
+                        }
+                    }).execute(dealsSpreadsheetURL);
+                }
+            } else {
+                System.out.println("Network info not available.");
             }
-        }).execute(dealsSpreadsheetURL);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void processShowsJson(JSONObject object) {
@@ -418,6 +480,6 @@ public class MainActivity extends Activity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }//end processShowsJson
+    }//end processDealsJson
 
 }
