@@ -34,13 +34,14 @@ public class Settings extends Activity {
         System.out.println("settings created");
 
         declarations();
-        manageActionBar();
-        scaleImages();
+        //manageActionBar();
+        //scaleImages();
     }
 
     public void declarations() {
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlSettings), R.drawable.background);
 
         swSettings = (Switch) findViewById(R.id.swSettings);
 
@@ -49,6 +50,7 @@ public class Settings extends Activity {
 
         notificationsIsChecked = spNotifications.getBoolean("notifications", false);
         swSettings.setChecked(notificationsIsChecked);
+        editor.apply();
 
         swSettings.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -58,7 +60,7 @@ public class Settings extends Activity {
                 } else {
                     editor.putBoolean("notifications", false);
                 }
-                editor.commit();
+                editor.apply();
             }
         });
 
@@ -77,25 +79,4 @@ public class Settings extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     } //end onOptionsItemSelected
-
-    public void manageActionBar() {
-        /*
-        creates ActionBar object, enables the home button, and resets title to ''
-        */
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Settings");
-    }//end manageActionBar
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleImages() {
-        /*
-        scales background and building image for performance
-        */
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlSettings);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-
-    }//end scaleBackground
 }

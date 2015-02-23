@@ -5,8 +5,15 @@ General:
     -In MainActivity, save spreadsheet JSON to a file and use the file to load information in onCreate.
         -populate file daily using AlarmManager (nightly, around midnight).
         -Be sure that the alarm still works if the device was turned off overnight.
-    -Using AlarmManager in MainActivity, write condition that sends user a notification on Tuesday (maybe
-      Wednesday).  This notification will link to This Weekend.
+    -Create classes to use common methods
+        -For example, SpreadsheetContent for shows and deals from spreadsheet that has methods such
+          as downloadShows, getDeals, and processJson.
+        -Also, consider creating a ThemeManager (?) class to retrieve screen dimensions, set screen size,
+          enable back button, etc.
+    -Add checks for <1 or >200 guests in Reserve
+    -In reserve, add check box to request Best Seats.  Include a button with a dialog explaining what the
+      best seats are.
+    -In reserve, add dialog confirmation with instructions to print.
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
