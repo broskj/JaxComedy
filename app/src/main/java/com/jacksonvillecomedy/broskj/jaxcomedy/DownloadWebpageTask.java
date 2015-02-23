@@ -7,6 +7,9 @@ package com.jacksonvillecomedy.broskj.jaxcomedy;
  * http://blogs.telerik.com/androidteam/posts/15-01-21/google-spreadsheet-as-data-source-android
  */
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.json.JSONException;
@@ -21,8 +24,11 @@ import java.net.URL;
 
 public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
     AsyncResult callback;
+    Context context;
+    ProgressDialog dialog;
 
-    public DownloadWebpageTask(AsyncResult callback) {
+    public DownloadWebpageTask(Context context, AsyncResult callback) {
+        this.context = context;
         this.callback = callback;
     }
 
@@ -35,6 +41,13 @@ public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         } catch (IOException e) {
             return "Unable to download the requested page.";
         }
+    }
+
+    @Override
+    protected void onPreExecute() {
+        dialog = new ProgressDialog(context);
+        dialog.setMessage("Processing...");
+        dialog.show();
     }
 
     // onPostExecute displays the results of the AsyncTask.
@@ -50,6 +63,8 @@ public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        dialog.dismiss();
     }
 
     private String downloadUrl(String urlString) throws IOException {
