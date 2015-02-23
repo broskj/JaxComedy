@@ -79,13 +79,12 @@ public class Deals extends Activity {
         offers = new ArrayList<>();
         offers = getIntent().getExtras().getParcelableArrayList("offers");
 
-
         /*
         declares sharedpreferences file for the reward point value.
         gets the value and assigns it to the int variable rewardPointValue.
         declares textview containing the point value and sets the text to that value
          */
-        spRewardPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
+        spRewardPointValue = getSharedPreferences(prefsPointValueName, MODE_MULTI_PROCESS);
         rewardPointValue = spRewardPointValue.getInt("pointValue", -1);
         tvRewardPoints = (TextView) findViewById(R.id.tvRewardPoints);
         tvRewardPoints.setText(Integer.toString(rewardPointValue));
