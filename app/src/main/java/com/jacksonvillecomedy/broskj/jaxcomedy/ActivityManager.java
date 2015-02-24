@@ -44,10 +44,10 @@ public class ActivityManager extends Activity {
 
     }
 
-    public void scaleImage(ImageView myImage, int imageID, int widthScale, int heightScale) {
+    public void scaleImage(ImageView myImage, int imageID, double widthScale, double heightScale) {
 
         Bitmap bitmapIVLogo = BitmapFactory.decodeResource(context.getResources(), imageID);
-        Bitmap resizedBitmapIVLogo = Bitmap.createScaledBitmap(bitmapIVLogo, screenWidth * widthScale, screenHeight * heightScale, true);
+        Bitmap resizedBitmapIVLogo = Bitmap.createScaledBitmap(bitmapIVLogo, (int) (screenWidth * widthScale), (int) (screenHeight * heightScale), true);
         myImage.setImageBitmap(resizedBitmapIVLogo);
     }
 }
