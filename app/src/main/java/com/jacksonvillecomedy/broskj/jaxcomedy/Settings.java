@@ -34,8 +34,6 @@ public class Settings extends Activity {
         System.out.println("settings created");
 
         declarations();
-        //manageActionBar();
-        //scaleImages();
     }
 
     public void declarations() {
