@@ -89,10 +89,10 @@
 
         <receiver
             android:process=":remote"
-            android:name="AlarmReceiver" />
+            android:name=".AlarmReceiver" />
         <receiver
             android:process=":remote"
-            android:name="Update" />
+            android:name=".Update" />
     </application>
 
 
