@@ -47,12 +47,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Directions"
-            android:label="Directions"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".FoodAndDrink"
             android:label="Food and Drinks"
             android:screenOrientation="portrait"
@@ -96,6 +90,10 @@
         <receiver
             android:process=":remote"
             android:name="AlarmReceiver" />
+        <receiver
+            android:process=":remote"
+            android:name="Update" />
     </application>
+
 
 </manifest>
