@@ -15,15 +15,11 @@
         of entertainment. Our comics appear on David Letterman, Jay Leno, and Comedy Central and provide a night club act
         without the fatiguing repetition of hardcore language and content. Get a Jerry Seinfeld style of show, not Jerry
         Springer. We want your genuine belly laugh, not the embarrassing "what did that person just say" shock laughter
-        that is associated with a foul comic.\n\n
-
-        Not just sometimes, but each week our Friday and Saturday shows will be rated on two levels: CONTENT
-        and LANGUAGE. Language is a \"soft R\" with no F-bombs, and Content is an \"R\" with adult humor but no hardcore vulgarity
-        or language.\n\n
-
-        We hope you join us for a night of laughs that will be comfortable for dates, groups, company functions, associations,
-        anniversaries, or just a fun night out. And since most of our comics have never performed live in Jacksonville before,
-        we offer a refreshing variety of top national touring comics who will give you lots of belly laughs.</string>
+        that is associated with a foul comic.\n\nNot just sometimes, but each week our Friday and Saturday shows will be rated
+        on two levels: CONTENT and LANGUAGE. Language is a \"soft R\" with no F-bombs, and Content is an \"R\" with adult humor
+        but no hardcore vulgarity or language.\n\n We  anniversaries, or just a fun night out. And since most of our comics have
+        never performed live in Jacksonville before, we offer a refreshing variety of top national touring comics who will give you
+        lots of belly laughs.</string>
     <string name="more_room">The Comedy Club of Jacksonville seats 300 comfortably. Our tables are bigger (because we serve great
         food) and tables are spaced with more square footage per person, unlike the cramped seating of most other comedy clubs.
         No longer do you have to sit on the lap of the person you are seated next to, but stretch out and enjoy top national
@@ -71,7 +67,7 @@
     <string name="reserve_radiobutton_1010_showtime">10:10 show (uncut)</string>
     <string name="reserve_radiobutton_other_show">Other (special event)</string>
     <string name="textview_deals_points_title">Reward Points:</string>
-    <string name="textview_deals_rewards_info">Earn 5 points per ticket purchase and 2 for viewing weekly notifications.  To claim
+    <string name="textview_deals_rewards_info">Earn 5 points per ticket purchase and 2 each week for using the app.  To claim
         points from ticket purchases, present your device to the host upon paying for tickets.\n\nClick on any deal below to redeem, and
         be ready to present it to the host or hostess to confirm.</string>
     <string name="textview_redeem_confirm_password">Password:</string>
@@ -101,8 +97,8 @@
     <string name="bun_entrees">Laurel &amp; Hearty Burger\nPhilly Cheese Burger with Onions and Peppers\nComedy Club \"Club\" Sandwich\n
         Crispy Fried Chicken Sandwich\nGrilled Chicken Breast Sandwich\nBLT\nAll Beef Hot Dog (1/4 lb)</string>
     <string name="pizza">8\" Personal (cheese, pepperoni, or sausage)\n12\" Large (cheese, pepperoni, or sausage)</string>
-    <string name="cakes">Fresh cakes straight from the Beaches.  Varies by availability.\n\tChocoholic\n\tOld Yeller\n\tCarrot\n
-        \tRed Velvet\n\tStrawberry Cheesecake</string>
+    <string name="cakes">Fresh cakes straight from the Beaches.  Varies by availability.\n\t\tChocoholic\n\t\tOld Yeller\n\t\tCarrot\n
+        \t\tRed Velvet\n\t\tStrawberry Cheesecake</string>
     <string name="beer">Budweiser\nBud Light\nBud Light Lime\nCoors Light\nMiller Light\nMichelob Ultra\nCorona\nYuengling\nBlue Moon</string>
     <string name="wine">Chardonnay\nMoscato\nPinot Grigio\nRiesling\nWhite Zinfandel\nCabernet\nMerlot</string>
     <string name="vodka">Grey Goose\n3 Olives, 3 Olives Flavors\nMartinis</string>
