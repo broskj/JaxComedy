@@ -159,7 +159,7 @@ public class MainActivity extends Activity {
         updateCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
         updateCalendar.set(java.util.Calendar.MINUTE, 0);
 
-        updateAlarmManager.setInexactRepeating(AlarmManager.RTC, updateCalendar.getTimeInMillis(), 1000 * 60 * 60 * 24, updatePendingIntent);
+        updateAlarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateCalendar.getTimeInMillis(), 1000 * 60 * 60 * 24, updatePendingIntent);
     }//end updateSpreadsheets
 
     public void checkForPastShows() {
