@@ -26,13 +26,12 @@ public class NowHiring extends Activity {
         System.out.println("now hiring created");
 
         declarations();
-        manageActionBar();
-        scaleBackground();
     }//end onCreate
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlNowHiring), R.drawable.background);
 
     }//end declarations
 
@@ -46,24 +45,4 @@ public class NowHiring extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     } //end onOptionsItemSelected
-
-    /*
-    creates ActionBar object, enables the home button, and resets title to ''
-    */
-    public void manageActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Now Hiring!");
-    }//end manageActionBar
-
-    /*
-    scales background for performance
-    */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground() {
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlNowHiring);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-    }//end scaleBackground
 }

@@ -28,7 +28,6 @@ public class AboutUs extends Activity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    ImageView myImage1;
 
     @TargetApi(16)
     @Override
@@ -38,15 +37,15 @@ public class AboutUs extends Activity {
         System.out.println("about us created");
 
         declarations();
-        manageActionBar();
-        scaleImages();
 
     } //end onCreate
 
     public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
-        myImage1 = (ImageView) findViewById(R.id.ivAboutUs);
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlAboutUs), R.drawable.background);
+        manager.scaleImage((ImageView) findViewById(R.id.ivAboutUs), R.drawable.front_of_building, 1, .25);
+
         expListView = (ExpandableListView) (findViewById(R.id.elvAboutUs));
         prepareListData();
 
@@ -82,31 +81,6 @@ public class AboutUs extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     } //end onOptionsItemSelected
-
-    public void manageActionBar() {
-        /*
-        creates ActionBar object, enables the home button, and resets title to ''
-        */
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("About Us");
-    }//end manageActionBar
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleImages() {
-        /*
-        scales background and building image for performance
-        */
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlAboutUs);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-
-        Bitmap bitmapAboutUs = BitmapFactory.decodeResource(getResources(), R.drawable.front_of_building);
-        Bitmap resizedBitmapAboutUs = Bitmap.createScaledBitmap(bitmapAboutUs, screenWidth, screenHeight / 4, true);
-        myImage1.setImageBitmap(resizedBitmapAboutUs);
-
-    }//end scaleBackground
 
     private void prepareListData() {
         listDataHeader = new ArrayList<>();

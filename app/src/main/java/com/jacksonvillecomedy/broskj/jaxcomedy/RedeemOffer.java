@@ -43,12 +43,10 @@ public class RedeemOffer extends Activity {
         System.out.println("RedeemOffer created");
 
         declarations();
-        manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
     }//end onCreate
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
 
         SharedPreferences.Editor editor = spPointValue.edit();
@@ -56,9 +54,11 @@ public class RedeemOffer extends Activity {
         editor.commit();
     }//end onStop
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlRedeemOffer), R.drawable.background);
+
         etRedeemPassword = (EditText) findViewById(R.id.etRedeemPassword);
         spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
         pointValue = spPointValue.getInt("pointValue", -1);
@@ -84,33 +84,12 @@ public class RedeemOffer extends Activity {
         }
     } //end onOptionsItemSelected
 
-    /*
-    creates ActionBar object, enables the home button, and resets title
-    */
-    public void manageActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Redeem Offer");
-    }//end manageActionBar
-
-    /*
-    scales background for performance
-    */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlRedeemOffer);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-    }//end scaleBackground
-
     public void onRedeemClick(View view) {
-        if(Integer.parseInt(etRedeemPassword.getText().toString()) == password){
+        if (Integer.parseInt(etRedeemPassword.getText().toString()) == password) {
             pointValue -= offer.getPointValue();
             Toast.makeText(this, "Offer redeemed!", Toast.LENGTH_SHORT).show();
             this.finish();
-        }
-        else{
+        } else {
             etRedeemPassword.setText("");
             etRedeemPassword.hasFocus();
             Toast.makeText(this, "Incorrect password.", Toast.LENGTH_SHORT).show();

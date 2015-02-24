@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Created by Kyle on 12/29/2014.
- *
+ * <p/>
  * Renamed to 'Upcoming Shows'
  */
 public class Calendar extends Activity {
@@ -40,12 +40,10 @@ public class Calendar extends Activity {
         System.out.println("calendar created");
 
         declarations();
-        manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
     }//end onCreate
 
     @Override
-    public void onRestart(){
+    public void onRestart() {
         super.onRestart();
 
         /*
@@ -56,9 +54,10 @@ public class Calendar extends Activity {
         }
     }//end onRestart
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlCalendar), R.drawable.background);
 
         shows = new ArrayList<>();
         shows = getIntent().getExtras().getParcelableArrayList("shows");
@@ -101,26 +100,6 @@ public class Calendar extends Activity {
         }
     } //end onOptionsItemSelected
 
-    /*
-    creates ActionBar object, enables the home button, and resets title to ''
-    */
-    public void manageActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Upcoming Shows");
-    }//end manageActionBar
-
-    /*
-    scales background for performance
-    */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlCalendar);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-    }//end scaleBackground
-
     public void prepareListData() {
         List<String>[] list = (ArrayList<String>[]) new ArrayList[shows.size()];
         listDataHeader = new ArrayList<>();
@@ -136,6 +115,7 @@ public class Calendar extends Activity {
     }//end prepareListData
 
     public void openReserve(int index) {
-        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", index).putParcelableArrayListExtra("shows", shows));        System.out.println("reserve clicked from groups and parties");
+        startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", index).putParcelableArrayListExtra("shows", shows));
+        System.out.println("reserve clicked from groups and parties");
     }//end openReserve
 }

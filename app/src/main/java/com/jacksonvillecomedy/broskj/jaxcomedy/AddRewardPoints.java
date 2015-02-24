@@ -34,13 +34,11 @@ public class AddRewardPoints extends Activity {
         System.out.println("RedeemOffer created");
 
         declarations();
-        manageActionBar();
-        scaleBackground();
 
     }//end onCreate
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
 
         SharedPreferences.Editor editor = spPointValue.edit();
@@ -48,15 +46,17 @@ public class AddRewardPoints extends Activity {
         editor.commit();
     }//end onStop
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlAddRewardPoints), R.drawable.background);
+
         loadSharedPreferences();
         etAddPointsPassword = (EditText) findViewById(R.id.etAddPointsPassword);
         etNumTickets = (EditText) findViewById(R.id.etNumTickets);
     }//end declarations
 
-    public void loadSharedPreferences(){
+    public void loadSharedPreferences() {
         /*
         initializes SharedPreferences object and gets its value; assigns to int pointValue.
             this is just the reward point value, needs to be saved to device and shared
@@ -77,26 +77,6 @@ public class AddRewardPoints extends Activity {
         }
     } //end onOptionsItemSelected
 
-    /*
-    creates ActionBar object, enables the home button, and resets title
-    */
-    public void manageActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Reward Points");
-    }//end manageActionBar
-
-    /*
-    scales background for performance
-    */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground() {
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlAddRewardPoints);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-    }//end scaleBackground
-
     public void onAddPointsClick(View view) {
         /*
         checks for correct password in the edittext field.
@@ -105,14 +85,13 @@ public class AddRewardPoints extends Activity {
             if incorrect, resets the password field and gives it focus.  a toast is
               shown to notify the incorrect password, and no points are rewarded.
          */
-        if(Integer.parseInt(etAddPointsPassword.getText().toString()) == password){
-            String numTickets = Integer.toString(Integer.parseInt(etNumTickets.getText().toString())*5);
+        if (Integer.parseInt(etAddPointsPassword.getText().toString()) == password) {
+            String numTickets = Integer.toString(Integer.parseInt(etNumTickets.getText().toString()) * 5);
             pointValue += Integer.parseInt(numTickets);
             Toast.makeText(this, numTickets + " points successfully added.", Toast.LENGTH_SHORT).show();
 
             this.finish();
-        }
-        else{
+        } else {
             etAddPointsPassword.setText("");
             etAddPointsPassword.hasFocus();
             Toast.makeText(this, "Incorrect password.", Toast.LENGTH_SHORT).show();

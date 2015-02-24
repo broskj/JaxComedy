@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 /**
  * Created by Kyle on 12/29/2014.
- *
  */
 public class ThisWeekend extends Activity {
 
@@ -30,8 +29,6 @@ public class ThisWeekend extends Activity {
     String videoID;
     Uri videoUri;
     TextView tvHeadliner, tvInfo;
-    SharedPreferences spDimensions;
-    final static String prefsDimensions = "dimensions";
 
     @TargetApi(16)
     @Override
@@ -41,14 +38,12 @@ public class ThisWeekend extends Activity {
         System.out.println("this_weekend created");
 
         declarations();
-        scaleImages();
-        manageActionBar();
     }//end onCreate
 
-    public void declarations(){
-        spDimensions = getSharedPreferences(prefsDimensions, MODE_PRIVATE);
-        screenWidth = spDimensions.getInt("screenWidth", -1);
-        screenHeight = spDimensions.getInt("screenHeight", -1);
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlThisWeekend), R.drawable.background);
 
         shows = getIntent().getExtras().getParcelableArrayList("shows");
         for (int i = 0; i < shows.size(); i++) {
@@ -82,27 +77,6 @@ public class ThisWeekend extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     } //end onOptionsItemSelected
-
-    public void manageActionBar() {
-        /*
-        creates ActionBar object, enables the home button, and resets title to ''
-        */
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("This Weekend");
-    }//end manageActionBar
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleImages() {
-        /*
-        scales background and building image for performance
-        */
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlThisWeekend);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-
-    }//end scaleBackground
 
     public void onImageClick(View view) {
         startActivity(new Intent(Intent.ACTION_VIEW, videoUri));

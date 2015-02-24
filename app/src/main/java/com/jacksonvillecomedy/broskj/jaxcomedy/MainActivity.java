@@ -48,7 +48,6 @@ public class MainActivity extends Activity {
     SharedPreferences firstCheck,
             spPointValue,
             spNotifications,
-            spDimensions,
             spSpreadsheets;
     SharedPreferences.Editor editor;
     final int initialPointValue = 15;
@@ -56,7 +55,6 @@ public class MainActivity extends Activity {
     boolean notificationsIsChecked;
     static final String prefsPointValueName = "userPointValue",
             prefsNotificationToggle = "notificationToggle",
-            prefsDimensions = "dimensions",
             prefsSpreadsheets = "spreadsheets",
             directionsURI = "geo:0,0?q=11000+Beach+Blvd+Jacksonville+Fl+32246",
             facebookURL = "https://www.facebook.com/ComedyClubOfJacksonville",
@@ -84,8 +82,7 @@ public class MainActivity extends Activity {
         System.out.println("onCreate called");
 
         declarations();
-        manageActionBar();
-        scaleImages();
+        addMenuButtonFunctionality();
         setListViewAdapter();
         checkFirstRun();
         checkForPastShows();
@@ -93,14 +90,10 @@ public class MainActivity extends Activity {
     }//end onCreate
 
     public void declarations() {
-        screenWidth = getResources().getDisplayMetrics().widthPixels;
-        screenHeight = getResources().getDisplayMetrics().heightPixels;
-
-        spDimensions = getSharedPreferences(prefsDimensions, MODE_PRIVATE);
-        editor = spDimensions.edit();
-        editor.putInt("screenWidth", screenWidth);
-        editor.putInt("screenHeight", screenHeight);
-        editor.apply();
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((LinearLayout) findViewById(R.id.linearLayoutMain), R.drawable.background);
+        manager.scaleImage((ImageView) findViewById(R.id.ivLogo), R.drawable.comedyclublogo2, 1, .5);
 
         firstCheck = PreferenceManager.getDefaultSharedPreferences(this);
         shows = new ArrayList<>();
@@ -156,6 +149,7 @@ public class MainActivity extends Activity {
 
     public void updateSpreadsheets() {
         updateCalendar.setTimeInMillis(System.currentTimeMillis());
+        updateCalendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.TUESDAY);
         updateCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
         updateCalendar.set(java.util.Calendar.MINUTE, 0);
 
@@ -189,38 +183,37 @@ public class MainActivity extends Activity {
                 switch (position) {
                     case 0://this weekend
                         if (!shows.isEmpty())
-                            startActivity(new Intent(MainActivity.this, ThisWeekend.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
+                            startActivity(new Intent(MainActivity.this, ThisWeekend.class).putParcelableArrayListExtra("shows", shows));
                         else {
-                            Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
                             getShows();
+                            startActivity(new Intent(MainActivity.this, Calendar.class).putParcelableArrayListExtra("shows", shows));
                         }
                         System.out.println("this weekend clicked");
                         break;
                     case 1://calendar
                         if (!shows.isEmpty())
-                            startActivity(new Intent(MainActivity.this, Calendar.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
+                            startActivity(new Intent(MainActivity.this, Calendar.class).putParcelableArrayListExtra("shows", shows));
                         else {
-                            Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
                             getShows();
+                            startActivity(new Intent(MainActivity.this, Calendar.class).putParcelableArrayListExtra("shows", shows));
                         }
                         System.out.println("calendar clicked");
                         break;
                     case 2://rewards and offers
                         if (!offers.isEmpty())
-                            startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("offers", offers));
+                            startActivity(new Intent(MainActivity.this, Deals.class).putParcelableArrayListExtra("offers", offers));
                         else {
-                            Toast.makeText(MainActivity.this, "Cannot connect to server, try again.", Toast.LENGTH_SHORT).show();
                             getDeals();
-                            //startActivity(new Intent(MainActivity.this, Deals.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("offers", offers));
+                            startActivity(new Intent(MainActivity.this, Deals.class).putParcelableArrayListExtra("offers", offers));
                         }
                         System.out.println("deals clicked");
                         break;
                     case 3://food and drink
-                        startActivity(new Intent(MainActivity.this, FoodAndDrink.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                        startActivity(new Intent(MainActivity.this, FoodAndDrink.class));
                         System.out.println("food and drink clicked");
                         break;
                     case 4://groups and parties
-                        startActivity(new Intent(MainActivity.this, GroupsAndParties.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putParcelableArrayListExtra("shows", shows));
+                        startActivity(new Intent(MainActivity.this, GroupsAndParties.class).putParcelableArrayListExtra("shows", shows));
                         System.out.println("groups and parties clicked");
                         break;
                 }
@@ -257,6 +250,7 @@ public class MainActivity extends Activity {
             updateSpreadsheets();
         } else {
             try {
+                System.out.println("checkFirstRun else entered");
                 processShowsJson(new JSONObject(spSpreadsheets.getString("showsSpreadsheet", "")));
                 processDealsJson(new JSONObject(spSpreadsheets.getString("dealsSpreadsheet", "")));
             } catch (Exception e) {
@@ -279,10 +273,10 @@ public class MainActivity extends Activity {
         return models;
     }
 
+    public void addMenuButtonFunctionality() {
     /*
     enables overflow menu icon, even with presence of hardware menu key
      */
-    public void addMenuButtonFunctionality() {
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
@@ -315,7 +309,7 @@ public class MainActivity extends Activity {
 
         switch (id) {
             case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this, Settings.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                startActivity(new Intent(MainActivity.this, Settings.class));
                 System.out.println("settings clicked");
                 return true;
             case R.id.action_directions:
@@ -323,56 +317,27 @@ public class MainActivity extends Activity {
                 if (directionsIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(directionsIntent);
                 }
-                //startActivity(new Intent(MainActivity.this, Directions.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
                 System.out.println("directions clicked");
                 return true;
             case R.id.action_about_us:
-                startActivity(new Intent(MainActivity.this, AboutUs.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                startActivity(new Intent(MainActivity.this, AboutUs.class));
                 System.out.println("about us clicked");
                 return true;
             case R.id.action_contact:
-                startActivity(new Intent(MainActivity.this, Contact.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                startActivity(new Intent(MainActivity.this, Contact.class));
                 System.out.println("contact clicked");
                 return true;
             case R.id.action_now_hiring:
-                startActivity(new Intent(MainActivity.this, NowHiring.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                startActivity(new Intent(MainActivity.this, NowHiring.class));
                 System.out.println("now hiring clicked");
                 return true;
             case R.id.action_report_a_bug:
-                startActivity(new Intent(MainActivity.this, ReportABug.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+                startActivity(new Intent(MainActivity.this, ReportABug.class));
                 System.out.println("report a bug clicked");
             default:
                 return super.onOptionsItemSelected(item);
         }
     }//end onOptionsItemSelected
-
-    /*
-    creates ActionBar object and resets title to ''
-    adds menu functionality
-    */
-    public void manageActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setTitle("Jax Comedy");
-        addMenuButtonFunctionality();
-    }//end manageActionBar
-
-    /*
-    scales images for performance
-    */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleImages() {
-        //background
-        LinearLayout myLayout = (LinearLayout) findViewById(R.id.linearLayoutMain);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-
-        //comedy club logo
-        ImageView myImage = (ImageView) findViewById(R.id.ivLogo);
-        Bitmap bitmapIVLogo = BitmapFactory.decodeResource(getResources(), R.drawable.comedyclublogo2);
-        Bitmap resizedBitmapIVLogo = Bitmap.createScaledBitmap(bitmapIVLogo, screenWidth, screenHeight / 2, true);
-        myImage.setImageBitmap(resizedBitmapIVLogo);
-    }//end scaleBackground
 
     public void onFacebookClick(View view) {
     /*

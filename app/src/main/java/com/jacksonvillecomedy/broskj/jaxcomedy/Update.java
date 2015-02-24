@@ -23,6 +23,7 @@ public class Update extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        System.out.println("Update onReceive entered");
         getShows(context);
         getDeals(context);
     }//end onReceive

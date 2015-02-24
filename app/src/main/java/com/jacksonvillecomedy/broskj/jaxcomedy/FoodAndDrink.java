@@ -36,13 +36,12 @@ public class FoodAndDrink extends Activity {
         System.out.println("food and drinks created");
 
         declarations();
-        scaleImages();
-        manageActionBar();
     }
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((LinearLayout) findViewById(R.id.llFoodAndDrink), R.drawable.background);
 
         elvFoodView = (ExpandableListView) findViewById(R.id.elvFood);
         elvDrinksView = (ExpandableListView) findViewById(R.id.elvDrinks);
@@ -92,28 +91,6 @@ public class FoodAndDrink extends Activity {
         }
     } //end onOptionsItemSelected
 
-    public void manageActionBar() {
-        /*
-        creates ActionBar object, enables the home button, and resets title to ''
-        */
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Food and Drinks");
-    }//end manageActionBar
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleImages() {
-        /*
-        scales background and building image for performance
-        */
-        LinearLayout myLayout = (LinearLayout) findViewById(R.id.llFoodAndDrink);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-
-    }//end scaleBackground
-
-
     private void prepareFoodListData() {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
@@ -121,7 +98,7 @@ public class FoodAndDrink extends Activity {
         List<String>[] list = (ArrayList<String>[]) new ArrayList[7];
         String[] headers = {"Appetizers", "Salads", "Shtick Entrees", "Additional", "Bun Entrees",
                 "Papa Murphy's Pizza", "Dessert Cakes"};
-        String[] subheaders = {"","Includes dinner roll","Served with house salad and roll","Served with fries (substitute onion rings $1)",
+        String[] subheaders = {"", "Includes dinner roll", "Served with house salad and roll", "Served with fries (substitute onion rings $1)",
                 "Served with fries (substitute onion rings $1)", "They make it, we bake it", "From Cinnoti's Bakery"};
         String[] children = {getResources().getString(R.string.appetizers),
                 getResources().getString(R.string.salads),
@@ -146,9 +123,9 @@ public class FoodAndDrink extends Activity {
         listDataChild = new HashMap<>();
 
         List<String>[] list = (ArrayList<String>[]) new ArrayList[10];
-        String[] headers = {"Beer", "Wine","Vodka","Rum","Gin","Tequila","Scotch","Bourbon, " +
+        String[] headers = {"Beer", "Wine", "Vodka", "Rum", "Gin", "Tequila", "Scotch", "Bourbon, " +
                 "Blends, & Whiskey", "Cordials/Liqueurs", "Non-alcoholic"};
-        String[] subheaders = {"Bottles or a bucket of 5","Glasses or bottles","","","","","","","","No free refills"};
+        String[] subheaders = {"Bottles or a bucket of 5", "Glasses or bottles", "", "", "", "", "", "", "", "No free refills"};
         String[] children = {getResources().getString(R.string.beer),
                 getResources().getString(R.string.wine),
                 getResources().getString(R.string.vodka),

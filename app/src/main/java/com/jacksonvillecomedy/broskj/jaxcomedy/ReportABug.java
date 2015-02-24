@@ -36,13 +36,12 @@ public class ReportABug extends Activity {
         System.out.println("report_a_bug created");
 
         declarations();
-        scaleImages();
-        manageActionBar();
     }//end onCreate
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlReportABug), R.drawable.background);
 
         etName = (EditText) findViewById(R.id.etBugReportName);
         etName.requestFocus();
@@ -51,6 +50,7 @@ public class ReportABug extends Activity {
         etSteps = (EditText) findViewById(R.id.etReportBugSteps);
         etSteps.setMovementMethod(new ScrollingMovementMethod());
     }//end declarations
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         /*
@@ -65,27 +65,6 @@ public class ReportABug extends Activity {
         }
     } //end onOptionsItemSelected
 
-    public void manageActionBar() {
-        /*
-        creates ActionBar object, enables the home button, and resets title to ''
-        */
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Report a Bug");
-    }//end manageActionBar
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleImages() {
-        /*
-        scales background and building image for performance
-        */
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlReportABug);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-
-    }//end scaleBackground
-
     private void convertEditTextToString() {
         // TODO Auto-generated method stub
         sName = etName.getText().toString();
@@ -96,19 +75,16 @@ public class ReportABug extends Activity {
     public void onSubmitReport(View view) {
         convertEditTextToString();
 
-        if(sName.matches("")){
+        if (sName.matches("")) {
             etName.requestFocus();
             etName.setError("Must enter name.");
-        }
-        else if(sDescription.matches("")){
+        } else if (sDescription.matches("")) {
             etDescription.requestFocus();
             etDescription.setError("Must enter description.");
-        }
-        else if(sSteps.matches("")){
+        } else if (sSteps.matches("")) {
             etSteps.requestFocus();
             etDescription.setError("Must enter steps.");
-        }
-        else {
+        } else {
             SimpleDateFormat dateformat = new SimpleDateFormat(
                     "MM/dd/yyyy HH:mm:ss");
             Date date = new Date();

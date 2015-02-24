@@ -32,7 +32,7 @@ public class Contact extends Activity {
 
     TextView tvMain;
     EditText etName, etEmail;
-    String sName, sEmail, someMessage="", emailSubject="";
+    String sName, sEmail, someMessage = "", emailSubject = "";
     String[] email = {"info@jacksonvillecomedy.com"};
     Button sendEmail;
     int screenWidth, screenHeight;
@@ -45,13 +45,12 @@ public class Contact extends Activity {
 
         declarations();
         makePhoneNumberClickable();
-        manageActionBar();
-        scaleBackground();
     }//end onCreate
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlContact), R.drawable.background);
 
         tvMain = (TextView) (findViewById(R.id.tvContactMain));
         etName = (EditText) (findViewById(R.id.etContactName));
@@ -66,7 +65,7 @@ public class Contact extends Activity {
                 etEmail.setText(someMessage);
                 emailSubject = "Group Party information requested";
             }
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("someMessage in Contact equal to \"\"");
         }
     }//end declarations
@@ -83,41 +82,19 @@ public class Contact extends Activity {
     } //end onOptionsItemSelected
 
     /*
-    creates ActionBar object, enables the home button, and resets title to ''
-    */
-    public void manageActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Contact");
-    }//end manageActionBar
-
-    /*
-    scales background for performance
-    */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground() {
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlContact);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-    }//end scaleBackground
-
-    /*
     onClick method for email button.  Converts EditText text to string, formats a date, and
     compiles them into an email message.
      */
     public void onSendEmail(View view) {
         convertEditTextToString();
 
-        if(sName.matches("")){
+        if (sName.matches("")) {
             etName.requestFocus();
             etName.setError("Must enter name.");
-        }
-        else if(sEmail.matches("")){
+        } else if (sEmail.matches("")) {
             etEmail.requestFocus();
             etEmail.setError("Must enter message.");
-        }
-        else {
+        } else {
             SimpleDateFormat dateformat = new SimpleDateFormat(
                     "MM/dd/yyyy HH:mm:ss");
             Date date = new Date();
@@ -159,11 +136,5 @@ public class Contact extends Activity {
 
         tvMain.setText(ss);
         tvMain.setMovementMethod(LinkMovementMethod.getInstance());
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
     }
 }

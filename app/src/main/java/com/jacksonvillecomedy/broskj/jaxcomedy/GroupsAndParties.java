@@ -44,13 +44,12 @@ public class GroupsAndParties extends Activity {
         System.out.println("groups and parties created");
 
         declarations();
-        manageActionBar();
-        scaleBackground();
     }//end onCreate
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlGroupsAndParties), R.drawable.background);
 
         shows = new ArrayList<>();
         shows = getIntent().getExtras().getParcelableArrayList("shows");
@@ -67,27 +66,6 @@ public class GroupsAndParties extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     } //end onOptionsItemSelected
-
-    /*
-    creates ActionBar object, enables the home button, and resets title to ''
-    */
-    public void manageActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Groups and Parties");
-    }//end manageActionBar
-
-    /*
-    scales background for performance
-    */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground() {
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlGroupsAndParties);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-    }//end scaleBackground
-
 
     public void onReserveSeatsClick(View view) {
         if (!shows.isEmpty())

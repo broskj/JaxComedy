@@ -43,8 +43,6 @@ public class Deals extends Activity {
         System.out.println("deals created");
 
         declarations();
-        manageActionBar();
-        scaleBackground(screenWidth, screenHeight);
 
     }//end onCreate
 
@@ -66,11 +64,9 @@ public class Deals extends Activity {
     }//end onResume
 
     public void declarations() {
-        /*
-        dimension variables for background scaling
-         */
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((LinearLayout) findViewById(R.id.llDeals), R.drawable.background);
 
         /*
         initializes arraylist of offers and populates them with offer list from MainActivity,
@@ -106,7 +102,7 @@ public class Deals extends Activity {
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if(offers.get(groupPosition).getPointValue() != 0)
+                if (offers.get(groupPosition).getPointValue() != 0)
                     openRedeem(offers.get(groupPosition));
                 return true;
             }
@@ -138,26 +134,6 @@ public class Deals extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     } //end onOptionsItemSelected
-
-    public void manageActionBar() {
-    /*
-    creates ActionBar object, enables the home button, and resets title
-    */
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Rewards and Offers");
-    }//end manageActionBar
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground(int screenWidth, int screenHeight) {
-    /*
-    scales background for performance
-    */
-        LinearLayout myLayout = (LinearLayout) findViewById(R.id.llDeals);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-    }//end scaleBackground
 
     public void onRewardPointsClick(View view) {
         /*

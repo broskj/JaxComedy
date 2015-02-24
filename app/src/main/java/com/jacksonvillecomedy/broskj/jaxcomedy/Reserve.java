@@ -27,7 +27,6 @@ import java.util.*;
 
 /**
  * Created by Kyle on 1/24/2015.
- *
  */
 public class Reserve extends Activity {
 
@@ -36,7 +35,7 @@ public class Reserve extends Activity {
     RadioButton rbEarlyShow, rbLateShow, rbSpecialShow;
     Spinner spDate;
     final String[] email = {"info@jacksonvillecomedy.com"};
-    final String [] ccEmail = {"jaxcomedy@gmail.com"};
+    final String[] ccEmail = {"jaxcomedy@gmail.com"};
     String sName, sGuests, sDate, sShowtime, sEmail;
     String confirmationCode, message, subject;
     int screenWidth, screenHeight, groupPosition = -1;
@@ -49,15 +48,14 @@ public class Reserve extends Activity {
         System.out.println("groups and parties created");
 
         declarations();
-        manageActionBar();
-        scaleBackground();
         setDateAdapter();
 
     }//end onCreate
 
-    public void declarations(){
-        screenWidth = getIntent().getExtras().getInt("screenWidth");
-        screenHeight = getIntent().getExtras().getInt("screenHeight");
+    public void declarations() {
+        ActivityManager manager = new ActivityManager(this);
+        manager.manageActionBar(getActionBar());
+        manager.scaleBackground((RelativeLayout) findViewById(R.id.rlReserve), R.drawable.background);
 
         shows = new ArrayList<>();
         shows = getIntent().getExtras().getParcelableArrayList("shows");
@@ -91,11 +89,10 @@ public class Reserve extends Activity {
                 allows date spinner to be changed.  initializes selection to groupPosition,
                 then sets selection to pos thereafter.
                  */
-                if(pos == 0) {
+                if (pos == 0) {
                     spDate.setSelection(groupPosition);
                     groupPosition = 0;
-                }
-                else {
+                } else {
                     spDate.setSelection(pos);
                 }
 
@@ -103,15 +100,14 @@ public class Reserve extends Activity {
                 based on certain showtimes, enables/disables radio buttons and checks
                 or unchecks them.
                  */
-                if(shows.get(pos).getShowTime() != 1) {
+                if (shows.get(pos).getShowTime() != 1) {
                     rbEarlyShow.setEnabled(true);
                     rbLateShow.setEnabled(true);
                     rbSpecialShow.setEnabled(false);
 
                     rbEarlyShow.setChecked(true);
                     rbSpecialShow.setChecked(false);
-                }
-                else{
+                } else {
                     rbEarlyShow.setEnabled(false);
                     rbLateShow.setEnabled(false);
                     rbSpecialShow.setEnabled(true);
@@ -140,30 +136,10 @@ public class Reserve extends Activity {
         }
     } //end onOptionsItemSelected
 
-    /*
-    creates ActionBar object, enables the home button, and resets title to ''
-    */
-    public void manageActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Reserve Seats");
-    }//end manageActionBar
-
-    /*
-    scales background for performance
-    */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void scaleBackground() {
-        RelativeLayout myLayout = (RelativeLayout) findViewById(R.id.rlReserve);
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(getResources(), R.drawable.background);
-        Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
-        myLayout.setBackground(new BitmapDrawable(getResources(), resizedBitmapBackground));
-    }//end scaleBackground
-
     public void setDateAdapter() {
         String[] s = new String[shows.size()];
 
-        for(int i = 0; i < s.length; i++){
+        for (int i = 0; i < s.length; i++) {
             s[i] = shows.get(i).getShowDate() + " " + shows.get(i).getComedian();
         }
         /*
@@ -245,19 +221,16 @@ public class Reserve extends Activity {
         checks if the string of each edittext field is empty, and sets focus
           to that edittext if it is and gives a message.
          */
-        if(sName.matches("")){
+        if (sName.matches("")) {
             etName.requestFocus();
             etName.setError("Must enter name.");
-        }
-        else if(sEmail.matches("")){
+        } else if (sEmail.matches("")) {
             etEmail.requestFocus();
             etEmail.setError("Must enter email.");
-        }
-        else if(sGuests.matches("")){
+        } else if (sGuests.matches("")) {
             etGuests.requestFocus();
             etGuests.setError("Must enter number.");
-        }
-        else {
+        } else {
             SimpleDateFormat dateformat = new SimpleDateFormat(
                     "MM/dd/yyyy HH:mm:ss");
             Date date = new Date();
@@ -270,7 +243,7 @@ public class Reserve extends Activity {
             emailIntent.setType("plain/text");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
             emailIntent.putExtra(Intent.EXTRA_CC, ccEmail);
-            emailIntent.putExtra(Intent.EXTRA_BCC, new String[] {sEmail});
+            emailIntent.putExtra(Intent.EXTRA_BCC, new String[]{sEmail});
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
             emailIntent.putExtra(Intent.EXTRA_TEXT, message);
             startActivity(emailIntent);
