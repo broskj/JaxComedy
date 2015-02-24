@@ -143,14 +143,14 @@ public class MainActivity extends Activity {
         System.out.println("notifications are set to " + notificationsIsChecked);
         if (notificationsIsChecked) {
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.MONDAY);
+            calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.WEDNESDAY);
             calendar.set(java.util.Calendar.HOUR_OF_DAY, 10);
             calendar.set(java.util.Calendar.MINUTE, 15);
 
             /*
             sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
              */
-            alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60/*1000 * 60 * 60 * 24 * 7*/, pendingIntent);
+            alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
         }
     }//end manageNotifications
 
