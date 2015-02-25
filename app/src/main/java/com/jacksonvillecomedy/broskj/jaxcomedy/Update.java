@@ -3,11 +3,13 @@ package com.jacksonvillecomedy.broskj.jaxcomedy;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.OutputStreamWriter;
 
 /**
  * Created by Kyle on 2/23/2015.
@@ -16,14 +18,17 @@ public class Update extends BroadcastReceiver {
 
     ConnectivityManager connMgr;
     NetworkInfo networkInfo;
-    SharedPreferences spSpreadsheets;
-    SharedPreferences.Editor editor;
-    final String showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq",
+    final String showsFileName = "shows.txt",
+            dealsFileName = "deals.txt",
+            showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq",
             dealsSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM/gviz/tq";
+    OutputStreamWriter osw;
+    Context context;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         System.out.println("Update onReceive entered");
+        this.context = context;
         getShows(context);
         getDeals(context);
     }//end onReceive
@@ -37,9 +42,7 @@ public class Update extends BroadcastReceiver {
                 new DownloadWebpageTask(context, new AsyncResult() {
                     @Override
                     public void onResult(JSONObject object) {
-                        editor = spSpreadsheets.edit();
-                        editor.putString("showsSpreadsheet", object.toString());
-                        editor.apply();
+                        saveToFile(object.toString(), showsFileName);
                     }
                 }).execute(showSpreadsheetURL);
             } else {
@@ -58,9 +61,7 @@ public class Update extends BroadcastReceiver {
                 new DownloadWebpageTask(context, new AsyncResult() {
                     @Override
                     public void onResult(JSONObject object) {
-                        editor = spSpreadsheets.edit();
-                        editor.putString("dealsSpreadsheet", object.toString());
-                        editor.apply();
+                        saveToFile(object.toString(), dealsFileName);
                     }
                 }).execute(dealsSpreadsheetURL);
             } else {
@@ -70,4 +71,15 @@ public class Update extends BroadcastReceiver {
             e.printStackTrace();
         }
     }//end getDeals
+
+    void saveToFile(String s, String filename) {
+        try {
+            osw = new OutputStreamWriter(context.getApplicationContext()
+                    .openFileOutput(filename, Context.MODE_PRIVATE));
+            osw.write(s);
+            osw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//end saveToFile
 }
