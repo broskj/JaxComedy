@@ -39,6 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
         System.out.println("AlarmReceiver created");
+        int nextRegularShowIndex = 0, i = 0;
 
         spSpreadsheets = context.getSharedPreferences("spreadsheets", Context.MODE_PRIVATE);
         shows = new ArrayList<>();
@@ -46,12 +47,21 @@ public class AlarmReceiver extends BroadcastReceiver {
         try {
             if (spSpreadsheets.getString("showsSpreadsheet", "").matches(""))
                 getShows(context);
+
+            while (shows.get(i).getShowTime() != 0) {
+                /*
+                checks for first instance of a regular showtime
+                 */
+                i++;
+                nextRegularShowIndex = i;
+            }
+
             shows = processShowsJson(new JSONObject(spSpreadsheets.getString("showsSpreadsheet", "")));
             checkForPastShows();
             notificationBuilder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.applogo)
                     .setContentTitle("Comedy Club of Jacksonville")
-                    .setContentText(shows.get(0).getComedian() + " headlines this weekend at the Comedy " +
+                    .setContentText(shows.get(nextRegularShowIndex).getComedian() + " headlines this weekend at the Comedy " +
                             "Club of Jacksonville.  Click to read more.")
                     .setDefaults(Notification.DEFAULT_ALL);
             notificationResultIntent = new Intent(context, ThisWeekend.class).putParcelableArrayListExtra("shows", shows);
