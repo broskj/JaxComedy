@@ -1,5 +1,6 @@
 package com.jacksonvillecomedy.broskj.jaxcomedy;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -25,60 +26,60 @@ import java.util.Locale;
 
 /**
  * Created by Kyle on 2/19/2015.
- *
- * TODO:
- * check if shows.get(0) is a special show; notification should only show regular shows.
  */
 public class AlarmReceiver extends BroadcastReceiver {
 
     NotificationCompat.Builder notificationBuilder;
     Intent notificationResultIntent;
     ArrayList<Show> shows;
-    SharedPreferences spSpreadsheets;
+    SharedPreferences spSpreadsheets, spNotifications;
     final String showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq";
 
     public void onReceive(Context context, Intent intent) {
         System.out.println("AlarmReceiver created");
-        int nextRegularShowIndex = 0, i = 0;
-
+        spNotifications = context.getSharedPreferences("notificationToggle", Context.MODE_PRIVATE);
         spSpreadsheets = context.getSharedPreferences("spreadsheets", Context.MODE_PRIVATE);
-        shows = new ArrayList<>();
 
-        try {
-            if (spSpreadsheets.getString("showsSpreadsheet", "").matches(""))
-                getShows(context);
+        if (spNotifications.getBoolean("notifications", false)) {
+            int nextRegularShowIndex = 0, i = 0;
 
-            while (shows.get(i).getShowTime() != 0) {
+            shows = new ArrayList<>();
+
+            try {
+                if (spSpreadsheets.getString("showsSpreadsheet", "").equals(""))
+                    getShows(context);
+                shows = processShowsJson(new JSONObject(spSpreadsheets.getString("showsSpreadsheet", "")));
+
+                while (shows.get(i).getShowTime() != 0) {
                 /*
                 checks for first instance of a regular showtime
                  */
-                i++;
-                nextRegularShowIndex = i;
-            }
+                    i++;
+                    nextRegularShowIndex = i;
+                }
+                checkForPastShows();
+                notificationBuilder = new NotificationCompat.Builder(context)
+                        .setSmallIcon(R.drawable.applogo)
+                        .setContentTitle("Comedy Club of Jacksonville")
+                        .setContentText(shows.get(nextRegularShowIndex).getComedian() + " headlines this weekend at the Comedy " +
+                                "Club of Jacksonville.  Click to read more.")
+                        .setDefaults(Notification.DEFAULT_ALL);
+                notificationResultIntent = new Intent(context, ThisWeekend.class).putParcelableArrayListExtra("shows", shows);
 
-            shows = processShowsJson(new JSONObject(spSpreadsheets.getString("showsSpreadsheet", "")));
-            checkForPastShows();
-            notificationBuilder = new NotificationCompat.Builder(context)
-                    .setSmallIcon(R.drawable.applogo)
-                    .setContentTitle("Comedy Club of Jacksonville")
-                    .setContentText(shows.get(nextRegularShowIndex).getComedian() + " headlines this weekend at the Comedy " +
-                            "Club of Jacksonville.  Click to read more.")
-                    .setDefaults(Notification.DEFAULT_ALL);
-            notificationResultIntent = new Intent(context, ThisWeekend.class).putParcelableArrayListExtra("shows", shows);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                stackBuilder.addParentStack(ThisWeekend.class);
+                stackBuilder.addNextIntent(notificationResultIntent);
+                PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                notificationBuilder.setContentIntent(resultPendingIntent);
+                notificationBuilder.setAutoCancel(true);
+                NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(0, notificationBuilder.build());
+                System.out.println("Notification built");
 
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addParentStack(ThisWeekend.class);
-            stackBuilder.addNextIntent(notificationResultIntent);
-            PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-            notificationBuilder.setContentIntent(resultPendingIntent);
-            notificationBuilder.setAutoCancel(true);
-            NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(0, notificationBuilder.build());
-            System.out.println("Notification built");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }//end onReceive
+            } catch (Exception e) {
+                e.printStackTrace();
+            }//end onReceive
+        }
     }
 
     private ArrayList<Show> processShowsJson(JSONObject object) {
