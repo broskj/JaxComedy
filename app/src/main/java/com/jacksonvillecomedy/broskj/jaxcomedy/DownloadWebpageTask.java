@@ -21,15 +21,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
     AsyncResult callback;
     Context context;
     ProgressDialog dialog;
+    boolean flag;
 
     public DownloadWebpageTask(Context context, AsyncResult callback) {
         this.context = context;
         this.callback = callback;
+        this.flag = false;
     }
 
     @Override
@@ -45,8 +48,8 @@ public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
-        dialog = new ProgressDialog(context);
-        dialog.setMessage("Processing...");
+        this.dialog = new ProgressDialog(context);
+        this.dialog.setMessage("Processing...");
         dialog.show();
     }
 
@@ -63,8 +66,11 @@ public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        flag = true;
 
-        dialog.dismiss();
+        if (dialog.isShowing())
+            dialog.dismiss();
+
     }
 
     private String downloadUrl(String urlString) throws IOException {
