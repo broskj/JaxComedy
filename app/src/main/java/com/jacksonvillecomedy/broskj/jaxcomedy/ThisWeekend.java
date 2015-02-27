@@ -29,6 +29,8 @@ public class ThisWeekend extends Activity {
     String videoID;
     Uri videoUri;
     TextView tvHeadliner, tvInfo;
+    SharedPreferences spPointValue;
+    boolean fromNotification = false;
 
     @TargetApi(16)
     @Override
@@ -46,12 +48,13 @@ public class ThisWeekend extends Activity {
         manager.scaleBackground((RelativeLayout) findViewById(R.id.rlThisWeekend), R.drawable.background);
 
         shows = getIntent().getExtras().getParcelableArrayList("shows");
-        for (int i = 0; i < shows.size(); i++) {
-            if (shows.get(i).getShowTime() == 0) {
-                show = shows.get(i);
-                break;
-            }
+
+        int nextRegularShowIndex = 0, i = 0;
+        while (shows.get(i).getShowTime() != 0) {
+            i++;
+            nextRegularShowIndex = i;
         }
+        show = shows.get(nextRegularShowIndex);
 
         videoID = show.getVideoID();
         videoUri = Uri.parse("http://www.youtube.com/watch?v=" + videoID);
@@ -60,6 +63,16 @@ public class ThisWeekend extends Activity {
         tvHeadliner.setText(tvHeadliner.getText().toString() + show.getComedian());
         tvInfo = (TextView) findViewById(R.id.tvThisWeekendInfo);
         tvInfo.setText(show.getDescription());
+
+        spPointValue = getSharedPreferences("userPointValue", MODE_MULTI_PROCESS);
+
+        fromNotification = getIntent().getExtras().getBoolean("fromNotification");
+        if (fromNotification) {
+            SharedPreferences.Editor editor = spPointValue.edit();
+            int currentPoints = spPointValue.getInt("pointValue", 0);
+            editor.putInt("pointValue", currentPoints + 2);
+            editor.apply();
+        }
 
     }//end declarations
 
