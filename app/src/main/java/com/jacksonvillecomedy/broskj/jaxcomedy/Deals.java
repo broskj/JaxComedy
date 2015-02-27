@@ -50,7 +50,7 @@ public class Deals extends Activity {
     public void onRestart() {
         super.onRestart();
 
-        spRewardPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
+        spRewardPointValue = getSharedPreferences(prefsPointValueName, MODE_MULTI_PROCESS);
         rewardPointValue = spRewardPointValue.getInt("pointValue", -1);
         tvRewardPoints.setText(Integer.toString(rewardPointValue));
 
