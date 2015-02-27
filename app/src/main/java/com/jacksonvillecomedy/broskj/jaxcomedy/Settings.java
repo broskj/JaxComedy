@@ -48,7 +48,6 @@ public class Settings extends Activity {
 
         notificationsIsChecked = spNotifications.getBoolean("notifications", false);
         swSettings.setChecked(notificationsIsChecked);
-        editor.apply();
 
         swSettings.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
