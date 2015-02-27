@@ -13,6 +13,7 @@ General:
       best seats are.
     -In reserve, add dialog confirmation with instructions to print.
     -Add notification when new deals are added
+    -Add points when user clicks notification
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
