@@ -3,6 +3,9 @@ package com.jacksonvillecomedy.broskj.jaxcomedy;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -246,6 +249,16 @@ public class Reserve extends Activity {
             emailIntent.putExtra(Intent.EXTRA_BCC, new String[]{sEmail});
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
             emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+/*
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Confirm your reservation")
+                    .setMessage("Pressing OK will direct you to your phone's email client.  " +
+                    "Print the email and present it at the door to confirm your reservation with" +
+                    "the host or hostess.");
+            //need onclicklistener
+            AlertDialog dialog = builder.create();
+            dialog.show();
+*/
             startActivity(emailIntent);
             this.finish();
         }
