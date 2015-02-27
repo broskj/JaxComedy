@@ -8,8 +8,6 @@ General:
     -Create classes to use common methods
         -For example, SpreadsheetContent for shows and deals from spreadsheet that has methods such
           as downloadShows, getDeals, and processJson.
-        -Also, consider creating a ThemeManager (?) class to retrieve screen dimensions, set screen size,
-          enable back button, etc.
     -Add checks for <1 or >200 guests in Reserve
     -In reserve, add check box to request Best Seats.  Include a button with a dialog explaining what the
       best seats are.
