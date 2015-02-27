@@ -1,16 +1,12 @@
 package com.jacksonvillecomedy.broskj.jaxcomedy;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -32,6 +28,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -52,7 +52,6 @@ public class MainActivity extends Activity {
     SharedPreferences.Editor editor;
     final int initialPointValue = 15;
     int screenWidth, screenHeight;
-    boolean notificationsIsChecked;
     static final String prefsPointValueName = "userPointValue",
             prefsNotificationToggle = "notificationToggle",
             prefsSpreadsheets = "spreadsheets",
@@ -61,7 +60,7 @@ public class MainActivity extends Activity {
             twitterURL = "https://twitter.com/comedyclubofjax",
             showSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1Ax2-gUY33i_pRHZIwR8AULy6-nbnAbM8Qm5-CGISevc/gviz/tq",
             dealsSpreadsheetURL = "https://docs.google.com/spreadsheets/d/1dnpODnbz6ME4RY5vNwrtAc6as3-uj2rK_IgtYszsvsM/gviz/tq";
-    Intent browserIntent, alarmIntent, updateIntent;
+    Intent browserIntent, alarmIntent/*, updateIntent*/;
     MyAdapter adapter;
     ListView listView;
     ConnectivityManager connMgr;
@@ -125,31 +124,32 @@ public class MainActivity extends Activity {
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         calendar = java.util.Calendar.getInstance();
 
+        /*
         updateAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        updateIntent = new Intent(this, Update.class);
-        updatePendingIntent = PendingIntent.getBroadcast(this, 0, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        updateIntent = new Intent(MainActivity.this, Update.class);
+        updatePendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         updateCalendar = java.util.Calendar.getInstance();
-
+        */
     }//end declarations
 
     public void manageNotifications() {
-        System.out.println("notifications are set to " + notificationsIsChecked);
-        if (notificationsIsChecked) {
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.WEDNESDAY);
-            calendar.set(java.util.Calendar.HOUR_OF_DAY, 10);
+        calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.FRIDAY);
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, 8);
             calendar.set(java.util.Calendar.MINUTE, 15);
 
             /*
             sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
+            for testing, starts at 815 every morning starting wednesday
              */
-            alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
-        }
+        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24/*1000 * 60 * 60 * 24 * 7*/, pendingIntent);
     }//end manageNotifications
 
     public void updateSpreadsheets() {
+        /*
+        not currently being used, will revisit later.
+         */
         updateCalendar.setTimeInMillis(System.currentTimeMillis());
-        updateCalendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.TUESDAY);
         updateCalendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
         updateCalendar.set(java.util.Calendar.MINUTE, 0);
 
@@ -159,12 +159,11 @@ public class MainActivity extends Activity {
     public void checkForPastShows() {
         try {
             for (int i = 0; i < shows.size(); i++) {
-                if (today.after(df.parse(shows.get(i).getShowDate()))) {
+                if (today.after(df.parse(shows.get(i).getShowDate())))
                     shows.remove(i);
-                    for(int j = 0; j < shows.size(); j++){
-                        if(shows.get(i).equals(shows.get(j)) && i != j)
-                            shows.remove(j);
-                    }
+                for (int j = 0; j < shows.size(); j++) {
+                    if (shows.get(i).equals(shows.get(j)) && i != j)
+                        shows.remove(j);
                 }
             }
         } catch (Exception e) {
@@ -177,9 +176,7 @@ public class MainActivity extends Activity {
         listView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> adapter, View v, int position,
-                                    long arg3) {
-                System.out.println("position is " + position);
+            public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
                 switch (position) {
                     case 0://this weekend
                         if (!shows.isEmpty())
@@ -224,14 +221,13 @@ public class MainActivity extends Activity {
     public void checkFirstRun() {
         /*
         first run check. If first run, sets reward point value to 15, sets notifications
-        to true, and downloads shows and deals.
+        to true, manages notifications.
          */
-        if (!firstCheck.getBoolean("firstRun", false)) {
-            System.out.println("first run statement entered");
-            getShows();
-            getDeals();
+        getShows();
+        getDeals();
 
-            spPointValue = getSharedPreferences(prefsPointValueName, MODE_PRIVATE);
+        if (!firstCheck.getBoolean("firstRun", false)) {
+            spPointValue = getSharedPreferences(prefsPointValueName, MODE_MULTI_PROCESS);
             editor = spPointValue.edit();
             editor.putInt("pointValue", initialPointValue);
             editor.apply();
@@ -244,13 +240,10 @@ public class MainActivity extends Activity {
             editor.putBoolean("firstRun", true);
             editor.apply();
 
-            notificationsIsChecked = spNotifications.getBoolean("notifications", false);
             manageNotifications();
-
-            updateSpreadsheets();
+            //updateSpreadsheets();
         } else {
             try {
-                System.out.println("checkFirstRun else entered");
                 processShowsJson(new JSONObject(spSpreadsheets.getString("showsSpreadsheet", "")));
                 processDealsJson(new JSONObject(spSpreadsheets.getString("dealsSpreadsheet", "")));
             } catch (Exception e) {
@@ -259,10 +252,10 @@ public class MainActivity extends Activity {
         }
     }//end checkFirstRun
 
-    /*
-    populates the ListView on activity_main.xml with an icon and title.
-     */
     private ArrayList<Model> generateData() {
+        /*
+        populates the ListView on activity_main.xml with an icon and title.
+         */
         ArrayList<Model> models = new ArrayList<>();
         models.add(new Model(R.drawable.ic_action_event, "This Weekend"));
         models.add(new Model(R.drawable.ic_action_go_to_today, "Upcoming Shows"));
@@ -274,9 +267,9 @@ public class MainActivity extends Activity {
     }
 
     public void addMenuButtonFunctionality() {
-    /*
-    enables overflow menu icon, even with presence of hardware menu key
-     */
+        /*
+        enables overflow menu icon, even with presence of hardware menu key
+         */
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
@@ -294,15 +287,11 @@ public class MainActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        System.out.println("onCreateOptionsMenu called");
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         System.out.println("onOptionsItemSelected called");
 
         int id = item.getItemId();
@@ -362,18 +351,20 @@ public class MainActivity extends Activity {
         networkInfo = connMgr.getActiveNetworkInfo();
         try {
             if (networkInfo != null && networkInfo.isConnected()) {
-                if (shows.isEmpty() || spSpreadsheets.getString("showsSpreadsheet", "").isEmpty()) {
-                    new DownloadWebpageTask(this, new AsyncResult() {
-                        @Override
-                        public void onResult(JSONObject object) {
+                new DownloadWebpageTask(this, new AsyncResult() {
+                    @Override
+                    public void onResult(JSONObject object) {
+                        if (!object.toString().equals(spSpreadsheets.getString("showsSpreadsheet", ""))) {
+                            System.out.println("shows spreadsheet is the same");
                             processShowsJson(object);
                             editor = spSpreadsheets.edit();
                             editor.putString("showsSpreadsheet", object.toString());
                             editor.apply();
                         }
-                    }).execute(showSpreadsheetURL);
-                }
+                    }
+                }).execute(showSpreadsheetURL);
             } else {
+                Toast.makeText(this, "Network not available.", Toast.LENGTH_SHORT).show();
                 System.out.println("Network info not available.");
             }
         } catch (Exception e) {
@@ -386,18 +377,20 @@ public class MainActivity extends Activity {
         networkInfo = connMgr.getActiveNetworkInfo();
         try {
             if (networkInfo != null && networkInfo.isConnected()) {
-                if (offers.isEmpty() || spSpreadsheets.getString("dealsSpreadsheet", "").isEmpty()) {
-                    new DownloadWebpageTask(this, new AsyncResult() {
-                        @Override
-                        public void onResult(JSONObject object) {
+                new DownloadWebpageTask(this, new AsyncResult() {
+                    @Override
+                    public void onResult(JSONObject object) {
+                        if (!object.toString().equals(spSpreadsheets.getString("dealsSpreadsheet", ""))) {
+                            System.out.println("deals spreadsheet is the same");
                             processDealsJson(object);
                             editor = spSpreadsheets.edit();
                             editor.putString("dealsSpreadsheet", object.toString());
                             editor.apply();
                         }
-                    }).execute(dealsSpreadsheetURL);
-                }
+                    }
+                }).execute(dealsSpreadsheetURL);
             } else {
+                Toast.makeText(this, "Network not available.", Toast.LENGTH_SHORT).show();
                 System.out.println("Network info not available.");
             }
         } catch (Exception e) {
@@ -446,5 +439,4 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
     }//end processDealsJson
-
 }
