@@ -113,5 +113,7 @@
     <string name="food_menu">Food Menu</string>
     <string name="notifications">Notifications</string>
     <string name="reserve_checkbox_request_best_seats">Request Best Seats</string>
+    <string name="tap_to_reserve">(Tap to reserve)</string>
+    <string name="tap_to_redeem">(Tap to redeem)</string>
 
 </resources>
