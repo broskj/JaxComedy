@@ -1,7 +1,6 @@
 TODO:
 
 General:
-    -Add popup in MainActivity on first run to indicate free points.
     -In MainActivity, save spreadsheet JSON to a file and use the file to load information in onCreate.
         -populate file daily using AlarmManager (nightly, around midnight).
         -Be sure that the alarm still works if the device was turned off overnight.
@@ -9,9 +8,6 @@ General:
         -For example, SpreadsheetContent for shows and deals from spreadsheet that has methods such
           as downloadShows, getDeals, and processJson.
     -Add checks for <1 or >200 guests in Reserve
-    -In reserve, add check box to request Best Seats.  Include a button with a dialog explaining what the
-      best seats are.
-    -In reserve, add dialog confirmation with instructions to print.
     -Add notification when new deals are added
     -Add points when user clicks notification
 
