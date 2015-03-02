@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.view.KeyEvent;
 import android.view.View;
 import android.os.Build;
 import android.os.Bundle;
@@ -90,6 +91,17 @@ public class ThisWeekend extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     } //end onOptionsItemSelected
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                return true;
+            default:
+                return super.onKeyDown(keyCode, event);
+        }
+    }//end onKeyDown
 
     public void onImageClick(View view) {
         startActivity(new Intent(Intent.ACTION_VIEW, videoUri));
