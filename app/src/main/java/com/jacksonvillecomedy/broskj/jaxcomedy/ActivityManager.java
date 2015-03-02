@@ -38,7 +38,9 @@ public class ActivityManager extends Activity {
 
     public void scaleBackground(LinearLayout myLayout, int backgroundID) {
 
-        Bitmap bitmapBackground = BitmapFactory.decodeResource(context.getResources(), backgroundID);
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 8;
+        Bitmap bitmapBackground = BitmapFactory.decodeResource(context.getResources(), backgroundID, options);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
         myLayout.setBackground(new BitmapDrawable(context.getResources(), resizedBitmapBackground));
 
