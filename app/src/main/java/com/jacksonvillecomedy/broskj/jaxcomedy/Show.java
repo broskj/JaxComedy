@@ -68,6 +68,13 @@ public class Show implements Parcelable {
 
     public String getVideoID() { return this.videoID; }
 
+    public boolean equals(Show show) {
+        return (this.comedian.equals(show.getComedian()) ||
+                this.description.equals(show.getDescription()) ||
+                this.showDate.equals(show.getShowDate()) ||
+                this.showTime == show.getShowTime() ||
+                this.videoID.equals(show.getVideoID()));
+    }
 
     @Override
     public int describeContents() {
