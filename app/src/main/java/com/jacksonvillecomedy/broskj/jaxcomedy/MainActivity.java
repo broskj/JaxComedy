@@ -140,8 +140,7 @@ public class MainActivity extends Activity {
         calendar.set(java.util.Calendar.MINUTE, 15);
 
             /*
-            sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
-            for testing, starts at 815 every morning starting wednesday
+            sets alarm manager to go off at 8:15 in the morning every 7 days on Wednesday
              */
         alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7/*1000 * 60 * 60 * 24 * 7*/, pendingIntent);
     }//end manageNotifications
