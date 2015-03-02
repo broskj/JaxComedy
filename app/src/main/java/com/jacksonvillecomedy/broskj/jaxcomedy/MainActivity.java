@@ -3,8 +3,10 @@ package com.jacksonvillecomedy.broskj.jaxcomedy;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -90,7 +92,6 @@ public class MainActivity extends Activity {
 
     public void declarations() {
         ActivityManager manager = new ActivityManager(this);
-        manager.manageActionBar(getActionBar());
         manager.scaleBackground((LinearLayout) findViewById(R.id.linearLayoutMain), R.drawable.background);
         manager.scaleImage((ImageView) findViewById(R.id.ivLogo), R.drawable.comedyclublogo2, 1, .5);
 
@@ -133,16 +134,16 @@ public class MainActivity extends Activity {
     }//end declarations
 
     public void manageNotifications() {
-            calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.FRIDAY);
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.WEDNESDAY);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 8);
-            calendar.set(java.util.Calendar.MINUTE, 15);
+        calendar.set(java.util.Calendar.MINUTE, 15);
 
             /*
             sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
             for testing, starts at 815 every morning starting wednesday
              */
-        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24/*1000 * 60 * 60 * 24 * 7*/, pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7/*1000 * 60 * 60 * 24 * 7*/, pendingIntent);
     }//end manageNotifications
 
     public void updateSpreadsheets() {
@@ -242,6 +243,20 @@ public class MainActivity extends Activity {
 
             manageNotifications();
             //updateSpreadsheets();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("Free Reward Points!")
+                    .setMessage("Thanks for downloading our app!  To show our appreciation, you'll " +
+                            "find 15 free reward points have been added to your device.  Navigate to " +
+                            "the Rewards and Offers section to see what deals are available.");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         } else {
             try {
                 processShowsJson(new JSONObject(spSpreadsheets.getString("showsSpreadsheet", "")));
