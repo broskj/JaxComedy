@@ -49,7 +49,7 @@ public class DownloadWebpageTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
         this.dialog = new ProgressDialog(context);
-        this.dialog.setMessage("Processing...");
+        this.dialog.setMessage("Loading...");
         dialog.show();
     }
 
