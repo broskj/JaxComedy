@@ -236,6 +236,9 @@ public class Reserve extends Activity {
         } else if (sGuests.matches("")) {
             etGuests.requestFocus();
             etGuests.setError("Must enter number.");
+        } else if (Integer.parseInt(sGuests) < 1 || Integer.parseInt(sGuests) > 100) {
+            etGuests.requestFocus();
+            etGuests.setError("Must enter between 1 and 100 guests.");
         } else {
             if (cbBestSeats.isChecked()) {
                 bestSeatsDialog = "\n\nYou've requested the Best Seats in the house; please be aware " +
