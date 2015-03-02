@@ -37,7 +37,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Calendar"
-            android:label="Calendar"
+            android:label="Upcoming Shows"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -47,7 +47,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Deals"
-            android:label="Deals"
+            android:label="Rewards and Offers"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
