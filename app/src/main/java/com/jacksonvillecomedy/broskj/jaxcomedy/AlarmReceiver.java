@@ -64,7 +64,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setContentText(shows.get(nextRegularShowIndex).getComedian() + " headlines this weekend at the Comedy " +
                                 "Club of Jacksonville.  Click to read more.")
                         .setDefaults(Notification.DEFAULT_ALL);
-                notificationResultIntent = new Intent(context, ThisWeekend.class).putParcelableArrayListExtra("shows", shows);
+                notificationResultIntent = new Intent(context, ThisWeekendFromNotification.class).putParcelableArrayListExtra("shows", shows);
 
                 TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
                 stackBuilder.addParentStack(ThisWeekend.class);
