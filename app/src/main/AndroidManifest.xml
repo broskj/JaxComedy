@@ -88,6 +88,11 @@
             android:label="This Weekend"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ThisWeekendFromNotification"
+            android:label="This Weekend"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <receiver
             android:process=":remote"
