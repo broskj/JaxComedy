@@ -77,7 +77,6 @@ public class ThisWeekend extends Activity {
 
     }//end declarations
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         /*
@@ -85,23 +84,12 @@ public class ThisWeekend extends Activity {
          */
         switch (item.getItemId()) {
             case android.R.id.home:
-                startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     } //end onOptionsItemSelected
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
-                return true;
-            default:
-                return super.onKeyDown(keyCode, event);
-        }
-    }//end onKeyDown
 
     public void onImageClick(View view) {
         startActivity(new Intent(Intent.ACTION_VIEW, videoUri));
