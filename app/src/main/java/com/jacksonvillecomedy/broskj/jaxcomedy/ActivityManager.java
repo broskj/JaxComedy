@@ -35,6 +35,8 @@ public class ActivityManager extends Activity {
         Bitmap bitmapBackground = BitmapFactory.decodeResource(context.getResources(), backgroundID);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
         myLayout.setBackground(new BitmapDrawable(context.getResources(), resizedBitmapBackground));
+        bitmapBackground.recycle();
+        bitmapBackground = null;
 
     }
 
@@ -45,13 +47,19 @@ public class ActivityManager extends Activity {
         Bitmap bitmapBackground = BitmapFactory.decodeResource(context.getResources(), backgroundID, options);
         Bitmap resizedBitmapBackground = Bitmap.createScaledBitmap(bitmapBackground, screenWidth, screenHeight, true);
         myLayout.setBackground(new BitmapDrawable(context.getResources(), resizedBitmapBackground));
+        bitmapBackground.recycle();
+        bitmapBackground = null;
 
     }
 
     public void scaleImage(ImageView myImage, int imageID, double widthScale, double heightScale) {
 
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 8;
         Bitmap bitmapIVLogo = BitmapFactory.decodeResource(context.getResources(), imageID);
         Bitmap resizedBitmapIVLogo = Bitmap.createScaledBitmap(bitmapIVLogo, (int) (screenWidth * widthScale), (int) (screenHeight * heightScale), true);
         myImage.setImageBitmap(resizedBitmapIVLogo);
+        bitmapIVLogo.recycle();
+        bitmapIVLogo = null;
     }
 }
