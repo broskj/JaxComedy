@@ -30,8 +30,6 @@ public class ThisWeekend extends Activity {
     String videoID;
     Uri videoUri;
     TextView tvHeadliner, tvInfo;
-    SharedPreferences spPointValue;
-    boolean fromNotification = false;
 
     @TargetApi(16)
     @Override
@@ -64,16 +62,6 @@ public class ThisWeekend extends Activity {
         tvHeadliner.setText(tvHeadliner.getText().toString() + show.getComedian());
         tvInfo = (TextView) findViewById(R.id.tvThisWeekendInfo);
         tvInfo.setText(show.getDescription());
-
-        spPointValue = getSharedPreferences("userPointValue", MODE_MULTI_PROCESS);
-
-        fromNotification = getIntent().getExtras().getBoolean("fromNotification");
-        if (fromNotification) {
-            SharedPreferences.Editor editor = spPointValue.edit();
-            int currentPoints = spPointValue.getInt("pointValue", 0);
-            editor.putInt("pointValue", currentPoints + 2);
-            editor.apply();
-        }
 
     }//end declarations
 
