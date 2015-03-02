@@ -169,7 +169,7 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }//end checkForPastShows
 
     public void setListViewAdapter() {
         listView.setAdapter(adapter);
