@@ -5,16 +5,18 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/ivComedianImage"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:id="@+id/elvCalendarGroupText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/abc_text_size_medium_material" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_small_material"
+        android:layout_below="@id/elvCalendarGroupText"
+        android:layout_centerHorizontal="true"
+        android:text="@string/tap_to_reserve" />
 
 </RelativeLayout>

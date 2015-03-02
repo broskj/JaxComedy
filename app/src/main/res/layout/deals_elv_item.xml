@@ -11,4 +11,11 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/abc_text_size_medium_material" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_small_material"
+        android:layout_below="@id/elvDealsGroupText"
+        android:layout_centerHorizontal="true"
+        android:text="@string/tap_to_redeem" />
 </RelativeLayout>
