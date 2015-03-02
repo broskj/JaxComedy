@@ -16,7 +16,7 @@
         <LinearLayout
             android:id="@+id/llReserveTop"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -108,16 +108,26 @@
 
             </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/cbBestSeats"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/reserve_checkbox_request_best_seats" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/reserve_textview_show_time"
+                android:layout_marginLeft="8dp"
                 android:textSize="@dimen/abc_text_size_medium_material" />
 
             <RadioGroup
                 android:id="@+id/rbgShowTimes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:checkedButton="@+id/rbEarlyShow">
 
                 <RadioButton
@@ -140,12 +150,6 @@
                     android:text="@string/reserve_radiobutton_other_show" />
 
             </RadioGroup>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pressing 'Reserve Seats' will redirect you to your phone's email client.  Print the email and present it at the door."
-                android:textSize="@dimen/abc_text_size_medium_material" />
 
         </LinearLayout>
 

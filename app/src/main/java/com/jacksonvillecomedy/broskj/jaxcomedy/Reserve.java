@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -36,11 +37,12 @@ public class Reserve extends Activity {
     EditText etName, etGuests, etEmail;
     RadioGroup rbgShowTimes;
     RadioButton rbEarlyShow, rbLateShow, rbSpecialShow;
+    CheckBox cbBestSeats;
     Spinner spDate;
     final String[] email = {"info@jacksonvillecomedy.com"};
     final String[] ccEmail = {"jaxcomedy@gmail.com"};
     String sName, sGuests, sDate, sShowtime, sEmail;
-    String confirmationCode, message, subject;
+    String confirmationCode, message, subject, bestSeatsDialog, bestSeatsMessage;
     int screenWidth, screenHeight, groupPosition = -1;
     ArrayList<Show> shows;
 
@@ -72,6 +74,7 @@ public class Reserve extends Activity {
         rbEarlyShow = (RadioButton) (findViewById(R.id.rbEarlyShow));
         rbLateShow = (RadioButton) (findViewById(R.id.rbLateShow));
         rbSpecialShow = (RadioButton) (findViewById(R.id.rbSpecialShow));
+        cbBestSeats = (CheckBox) (findViewById(R.id.cbBestSeats));
 
         spDate = (Spinner) (findViewById(R.id.spDate));
 
@@ -234,34 +237,53 @@ public class Reserve extends Activity {
             etGuests.requestFocus();
             etGuests.setError("Must enter number.");
         } else {
-            SimpleDateFormat dateformat = new SimpleDateFormat(
-                    "MM/dd/yyyy HH:mm:ss");
-            Date date = new Date();
-            subject = "Reservation for " + sGuests + " on " + sDate;
-            confirmationCode = Integer.toString(new Random().nextInt(999999) + 1);
-            message = sName + " has requested " + sGuests + " ticket(s) for the " + sShowtime + " show on " +
-                    sDate + ".\nConfirmation code: " + confirmationCode + "\n\n" + dateformat.format(date);
+            if (cbBestSeats.isChecked()) {
+                bestSeatsDialog = "\n\nYou've requested the Best Seats in the house; please be aware " +
+                        "that this is only a request.  Our Best Seats are very popular and " +
+                        "very limited, and may have already been reserved.";
+                bestSeatsMessage = "\n\nThe Best Seats in the House have been requested for this reservation.";
+            } else {
+                bestSeatsDialog = "";
+                bestSeatsMessage = "";
+            }
 
-            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-            emailIntent.setType("plain/text");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
-            emailIntent.putExtra(Intent.EXTRA_CC, ccEmail);
-            emailIntent.putExtra(Intent.EXTRA_BCC, new String[]{sEmail});
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-            emailIntent.putExtra(Intent.EXTRA_TEXT, message);
-/*
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(Reserve.this);
             builder.setTitle("Confirm your reservation")
                     .setMessage("Pressing OK will direct you to your phone's email client.  " +
-                    "Print the email and present it at the door to confirm your reservation with" +
-                    "the host or hostess.");
-            //need onclicklistener
+                            "Print the email and present it at the door to confirm your reservation with " +
+                            "the host or hostess." + bestSeatsDialog);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    sendEmail();
+                }
+            });
             AlertDialog dialog = builder.create();
             dialog.show();
-*/
-            startActivity(emailIntent);
-            this.finish();
+
         }
     }//end onReserveSeatsClick
 
+    public void sendEmail() {
+        SimpleDateFormat dateformat = new SimpleDateFormat(
+                "MM/dd/yyyy HH:mm:ss");
+        Date date = new Date();
+        subject = "Reservation for " + sGuests + " on " + sDate;
+        confirmationCode = Integer.toString(new Random().nextInt(999999) + 1);
+        message = sName + " has requested " + sGuests + " ticket(s) for the " + sShowtime + " show on " +
+                sDate + ".\n\nConfirmation code: " + confirmationCode + bestSeatsMessage + "\n\n" +
+                dateformat.format(date);
+
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
+        emailIntent.putExtra(Intent.EXTRA_CC, ccEmail);
+        emailIntent.putExtra(Intent.EXTRA_BCC, new String[]{sEmail});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, message);
+
+        startActivity(emailIntent);
+        this.finish();
+
+    }//end sendEmail
 }

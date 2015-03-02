@@ -112,5 +112,6 @@
     <string name="drink_menu">Drink Menu</string>
     <string name="food_menu">Food Menu</string>
     <string name="notifications">Notifications</string>
+    <string name="reserve_checkbox_request_best_seats">Request Best Seats</string>
 
 </resources>
