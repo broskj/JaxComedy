@@ -370,6 +370,7 @@ public class MainActivity extends Activity {
                     public void onResult(JSONObject object) {
                         if (!object.toString().equals(spSpreadsheets.getString("showsSpreadsheet", ""))) {
                             System.out.println("shows spreadsheet is not the same");
+                            shows.clear();
                             processShowsJson(object);
                             editor = spSpreadsheets.edit();
                             editor.putString("showsSpreadsheet", object.toString());
@@ -396,6 +397,7 @@ public class MainActivity extends Activity {
                     public void onResult(JSONObject object) {
                         if (!object.toString().equals(spSpreadsheets.getString("dealsSpreadsheet", ""))) {
                             System.out.println("deals spreadsheet is not the same");
+                            offers.clear();
                             processDealsJson(object);
                             editor = spSpreadsheets.edit();
                             editor.putString("dealsSpreadsheet", object.toString());
