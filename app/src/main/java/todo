@@ -9,6 +9,10 @@ General:
           as downloadShows, getDeals, and processJson.
     -Add notification when new deals are added
     -Add points when user clicks notification (added, need to confirm)
+    -Recommendations from Reddit:
+        -Consider using cards (https://github.com/gabrielemariotti/cardslib).
+        -Consider removing bottom banner, and changing margins to reach the bottom of the screen.
+        -Add reserve button in expandable list views instead of textview with instructions
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
