@@ -90,6 +90,7 @@ public class MainActivity extends Activity {
 
     }//end onCreate
 
+
     public void declarations() {
         ActivityManager manager = new ActivityManager(this);
         manager.scaleBackground((LinearLayout) findViewById(R.id.linearLayoutMain), R.drawable.background);
@@ -139,10 +140,10 @@ public class MainActivity extends Activity {
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 8);
         calendar.set(java.util.Calendar.MINUTE, 15);
 
-            /*
-            sets alarm manager to go off at 8:15 in the morning every 7 days on Wednesday
-             */
-        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7/*1000 * 60 * 60 * 24 * 7*/, pendingIntent);
+        /*
+        sets alarm manager to go off at 8:15 in the morning every 7 days on Wednesday
+         */
+        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
     }//end manageNotifications
 
     public void updateSpreadsheets() {
