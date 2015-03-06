@@ -6,9 +6,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import java.util.*;
-import java.util.Calendar;
-
 /**
  * Created by Kyle on 3/5/2015.
  */
