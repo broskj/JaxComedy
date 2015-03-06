@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,6 +91,16 @@ public class MainActivity extends Activity {
 
     }//end onCreate
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                this.finish();
+                return true;
+            default:
+                return super.onKeyDown(keyCode, event);
+        }
+    }//end onKeyDown
 
     public void declarations() {
         ActivityManager manager = new ActivityManager(this);
