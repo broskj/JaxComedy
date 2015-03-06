@@ -107,7 +107,6 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
