@@ -84,6 +84,7 @@ public class ThisWeekendFromNotification extends Activity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -95,6 +96,7 @@ public class ThisWeekendFromNotification extends Activity {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 startActivity(new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                this.finish();
                 return true;
             default:
                 return super.onKeyDown(keyCode, event);
