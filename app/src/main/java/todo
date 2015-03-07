@@ -12,6 +12,7 @@ General:
         -Consider using cards (https://github.com/gabrielemariotti/cardslib).
         -Consider removing bottom banner, and changing margins to reach the bottom of the screen.
         -Add reserve button in expandable list views instead of textview with instructions
+    -Fonts!
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
