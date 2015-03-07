@@ -39,7 +39,7 @@ public class Reserve extends Activity {
     RadioButton rbEarlyShow, rbLateShow, rbSpecialShow;
     CheckBox cbBestSeats;
     Spinner spDate;
-    final String[] email = {"info@jacksonvillecomedy.com"};
+    final String[] email = {"steve@jacksonvillecomedy.com"};
     final String[] ccEmail = {"jaxcomedy@gmail.com"};
     String sName, sGuests, sDate, sShowtime, sEmail;
     String confirmationCode, message, subject, bestSeatsDialog, bestSeatsMessage;
