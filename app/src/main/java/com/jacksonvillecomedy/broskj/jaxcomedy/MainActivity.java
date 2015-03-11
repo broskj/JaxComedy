@@ -147,14 +147,14 @@ public class MainActivity extends Activity {
 
     public void manageNotifications() {
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.WEDNESDAY);
+        calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.THURSDAY);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 8);
         calendar.set(java.util.Calendar.MINUTE, 15);
 
         /*
-        sets alarm manager to go off at 8:15 in the morning every 7 days on Wednesday
+        sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
          */
-        alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
     }//end manageNotifications
 
     public void updateSpreadsheets() {

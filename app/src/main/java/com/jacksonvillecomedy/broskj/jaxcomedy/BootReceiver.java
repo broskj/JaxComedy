@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.util.*;
+import java.util.Calendar;
 
 /**
  * Created by Kyle on 3/5/2015.
@@ -21,14 +22,14 @@ public class BootReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.WEDNESDAY);
+            calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.THURSDAY);
             calendar.set(java.util.Calendar.HOUR_OF_DAY, 8);
             calendar.set(java.util.Calendar.MINUTE, 15);
 
         /*
         sets alarm manager to go off at 8:15 in the morning every 7 days on Wednesday
          */
-            alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
         }
     }
 }
