@@ -7,13 +7,14 @@ General:
     -Create classes to use common methods
         -For example, SpreadsheetContent for shows and deals from spreadsheet that has methods such
           as downloadShows, getDeals, and processJson.
-    -Add notification when new deals are added
+    -Add notification when new deals are added.
+        -Should come after implementation of nightly synchronizing instead of on startup.
     -Recommendations from Reddit:
-        -Consider using cards (https://github.com/gabrielemariotti/cardslib).
         -Consider removing bottom banner, and changing margins to reach the bottom of the screen.
-        -Add reserve button in expandable list views instead of textview with instructions
     -Fonts!
-    -Remember reservation name/email/etc. using SharedPreferences
+    -Remember reservation name/email/etc. using SharedPreferences.
+    -Use threads.
+    -Display Dialogs for redeeming rewards/adding points instead of using additional activity.
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
@@ -25,11 +26,9 @@ Structure:
               the comedian.
                 -Able to reserve seats from here; include a button for each show, and pass that information to
                   the reservation page.
-        -UpcomingShows -> Reservation
-            -format similar to calendar if possible.  Otherwise, display ordered list of dates which there
-              are shows, and include information such as show time, comedian, etc.
-                -Able to reserve seats from here; include a button for each show, and pass that information to
-                  the reservation page.
+        -UpcomingShows -> ShowDetails
+            -Each card directs to ShowDetails, which contains the comic's description and a video link.  Able to
+              reserve seats from ShowDetails.
         -Rewards and Offers -> {Add Reward Points, Redeem Offer}
             -Populate from google spreadsheet.  Each deal will contain a title, description, and point value.
               Deals come from a Rewards Program, where points are entered each visit and confirmed with a
