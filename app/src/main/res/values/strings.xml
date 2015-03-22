@@ -67,9 +67,8 @@
     <string name="reserve_radiobutton_1010_showtime">10:10 show (uncut)</string>
     <string name="reserve_radiobutton_other_show">Other (special event)</string>
     <string name="textview_deals_points_title">Reward Points:</string>
-    <string name="textview_deals_rewards_info">Earn 5 points per ticket purchase and 2 each week for using the app.  To claim
-        points from ticket purchases, present your device to the host upon paying for tickets.\n\nClick on any deal below to redeem, and
-        be ready to present it to the host or hostess to confirm.</string>
+    <string name="textview_deals_rewards_info">Earn 5 points per ticket purchase and 2 each week for viewing notifications.  To claim
+        points from ticket purchases or to redeem points, present your device to the host when you arrive.</string>
     <string name="textview_redeem_confirm_password">Password:</string>
     <string name="textview_redeem_enter_password">Enter password</string>
     <string name="button_redeem">Redeem</string>
