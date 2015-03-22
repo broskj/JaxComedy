@@ -21,15 +21,15 @@ public class BootReceiver extends BroadcastReceiver {
             Intent alarmIntent = new Intent(context, AlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.setTimeInMillis(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7);
             calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.THURSDAY);
             calendar.set(java.util.Calendar.HOUR_OF_DAY, 8);
             calendar.set(java.util.Calendar.MINUTE, 15);
 
         /*
-        sets alarm manager to go off at 8:15 in the morning every 7 days on Wednesday
+        sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
          */
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
         }
-    }
-}
+    }//end onReceive
+}//end class BootReceiver
