@@ -47,11 +47,15 @@
             android:text="@string/textview_deals_rewards_info"
             android:textSize="@dimen/abc_text_size_medium_material" />
 
-        <ExpandableListView
-            android:id="@+id/elvDeals"
+        <ListView
+            android:id="@+id/lvOffers"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/tvDealsInfo" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDealsInfo"
+            android:listSelector="@android:color/transparent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="8dp" />
 
     </RelativeLayout>
 

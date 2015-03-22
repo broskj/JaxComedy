@@ -12,8 +12,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +27,12 @@ import java.util.List;
  * Created by Kyle on 12/29/2014.
  */
 public class Deals extends Activity {
-
-    DealsExpandableListAdapter listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
     TextView tvRewardPoints;
     SharedPreferences spRewardPointValue;
     ArrayList<Offer> offers;
-    int screenWidth, screenHeight, rewardPointValue;
+    ListView lvOffers;
+    CardArrayAdapter cardArrayAdapter;
+    int rewardPointValue;
     static final String prefsPointValueName = "userPointValue";
 
     @Override
@@ -54,13 +53,6 @@ public class Deals extends Activity {
         rewardPointValue = spRewardPointValue.getInt("pointValue", -1);
         tvRewardPoints.setText(Integer.toString(rewardPointValue));
 
-        /*
-        collapses all groups when activity is resumed, particularly for after a deal was redeemed.
-         */
-        for (int i = 0; i < expListView.getExpandableListAdapter().getGroupCount(); i++) {
-            expListView.collapseGroup(i);
-        }
-
     }//end onResume
 
     public void declarations() {
@@ -75,6 +67,28 @@ public class Deals extends Activity {
         offers = new ArrayList<>();
         offers = getIntent().getExtras().getParcelableArrayList("offers");
 
+        lvOffers = (ListView) findViewById(R.id.lvOffers);
+        lvOffers.addHeaderView(new View(this));
+        lvOffers.addFooterView(new View(this));
+
+        cardArrayAdapter = new CardArrayAdapter(getApplicationContext(), R.layout.list_item_card);
+
+        for (int i = 0; i < offers.size(); i++) {
+            Card card = new Card("(" + offers.get(i).getPointValue() + ") " + offers.get(i).getOfferTitle(),
+                    offers.get(i).getOfferDescription());
+            cardArrayAdapter.add(card);
+        }
+
+        lvOffers.setAdapter(cardArrayAdapter);
+
+        lvOffers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                position -= 1;
+                openRedeem(offers.get(position));
+            }
+        });
+
         /*
         declares sharedpreferences file for the reward point value.
         gets the value and assigns it to the int variable rewardPointValue.
@@ -85,43 +99,6 @@ public class Deals extends Activity {
         tvRewardPoints = (TextView) findViewById(R.id.tvRewardPoints);
         tvRewardPoints.setText(Integer.toString(rewardPointValue));
 
-        /*
-        declares the expandable listview, the listadapter, and sets the expandable listview to
-          the adapter.
-         */
-        expListView = (ExpandableListView) (findViewById(R.id.elvDeals));
-        prepareListData();
-        listAdapter = new DealsExpandableListAdapter(Deals.this, listDataHeader, listDataChild);
-        expListView.setAdapter(listAdapter);
-
-
-        /*
-        creates listener for child objects of expListView.  on a child click, constructs an Offer
-          class based on which child was clicked and passes it to openRedeem.
-         */
-        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                if (offers.get(groupPosition).getPointValue() != 0)
-                    openRedeem(offers.get(groupPosition));
-                return true;
-            }
-        });
-
-        /*
-        creates listener for parent objects of expListView.  when a parent is expanded to show child,
-          closes all other parents.
-         */
-        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                for (int i = 0; i < expListView.getExpandableListAdapter().getGroupCount(); i++) {
-                    if (i != groupPosition)
-                        expListView.collapseGroup(i);
-                }
-            }
-        });
     }//end declarations
 
     @Override
@@ -139,29 +116,9 @@ public class Deals extends Activity {
         /*
         starts activity AddRewardPoints
          */
-        startActivity(new Intent(this, AddRewardPoints.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight));
+        startActivity(new Intent(this, AddRewardPoints.class));
         System.out.println("redeem offer clicked from deals");
-    }
-
-    public void prepareListData() {
-        /*
-        creates a new array of lists of strings.  the for loop initializes them with values for
-          children.  sets the data headers to some text (needs to be changed when deals are imported
-          from google spreadsheet) and then sets the text from the list array and uses listDataChild.put
-          to set the text of each parent/child in expListView.
-         */
-        List<String>[] list = (ArrayList<String>[]) new ArrayList[offers.size()];
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
-
-        for (int i = 0; i < list.length; i++) {
-
-            list[i] = new ArrayList<>();
-            listDataHeader.add("(" + offers.get(i).getPointValue() + ")\t" + offers.get(i).getOfferTitle());
-            list[i].add(offers.get(i).getOfferDescription());
-            listDataChild.put(listDataHeader.get(i), list[i]);
-        }
-    }//end prepareListData
+    }//end onRewardPointsClick
 
     public void openRedeem(Offer offer) {
         /*
@@ -171,8 +128,7 @@ public class Deals extends Activity {
             if false, an error message is displayed and the user is not redirected.
          */
         if (offer.getPointValue() <= rewardPointValue) {
-            startActivity(new Intent(this, RedeemOffer.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight)
-                    .putExtra("offer", offer));
+            startActivity(new Intent(this, RedeemOffer.class).putExtra("offer", offer));
             System.out.println("redeem offer clicked from deals");
         } else
             Toast.makeText(this, "Not enough points for this deal.", Toast.LENGTH_SHORT).show();

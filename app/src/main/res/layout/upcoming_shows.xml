@@ -21,7 +21,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/imageViewBottomBanner"
-        android:layout_below="@+id/tvShowsInfo"
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
