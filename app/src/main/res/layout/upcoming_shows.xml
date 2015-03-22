@@ -20,6 +20,7 @@
         android:id="@+id/lvComics"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/imageViewBottomBanner"
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
