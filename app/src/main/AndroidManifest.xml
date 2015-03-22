@@ -85,6 +85,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".ShowDetails"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ThisWeekend"
             android:label="This Weekend"
             android:screenOrientation="portrait"
@@ -92,6 +97,11 @@
         <activity
             android:name=".ThisWeekendFromNotification"
             android:label="This Weekend"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".UpcomingShows"
+            android:label="Upcoming Shows"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
