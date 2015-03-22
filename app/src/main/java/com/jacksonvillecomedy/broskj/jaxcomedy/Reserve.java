@@ -43,14 +43,14 @@ public class Reserve extends Activity {
     final String[] ccEmail = {"jaxcomedy@gmail.com"};
     String sName, sGuests, sDate, sShowtime, sEmail;
     String confirmationCode, message, subject, bestSeatsDialog, bestSeatsMessage;
-    int screenWidth, screenHeight, groupPosition = -1;
+    int groupPosition = -1;
     ArrayList<Show> shows;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reserve);
-        System.out.println("groups and parties created");
+        System.out.println("reserve created");
 
         declarations();
         setDateAdapter();
@@ -252,8 +252,8 @@ public class Reserve extends Activity {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(Reserve.this);
             builder.setTitle("Confirm your reservation")
-                    .setMessage("Pressing OK will direct you to your phone's email client.  " +
-                            "Print the email and present it at the door to confirm your reservation with " +
+                    .setMessage("Pressing OK will direct you to your phone's email client; send the message, then " +
+                            "print the email and present it at the door to confirm your reservation with " +
                             "the host or hostess." + bestSeatsDialog);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
@@ -274,7 +274,7 @@ public class Reserve extends Activity {
         subject = "Reservation for " + sGuests + " on " + sDate;
         confirmationCode = Integer.toString(new Random().nextInt(999999) + 1);
         message = sName + " has requested " + sGuests + " ticket(s) for the " + sShowtime + " show on " +
-                sDate + ".\n\nConfirmation code: " + confirmationCode + bestSeatsMessage + "\n\n" +
+                sDate + ".\n\nConfirmation code: " + bestSeatsMessage + confirmationCode + "\n\n" +
                 dateformat.format(date);
 
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
