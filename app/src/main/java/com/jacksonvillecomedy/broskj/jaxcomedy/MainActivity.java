@@ -191,6 +191,7 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3) {
                 switch (position) {
                     case 0://this weekend
+                        checkForPastShows();
                         if (!shows.isEmpty())
                             startActivity(new Intent(MainActivity.this, ThisWeekend.class).putParcelableArrayListExtra("shows", shows));
                         else {
@@ -200,8 +201,10 @@ public class MainActivity extends Activity {
                         System.out.println("this weekend clicked");
                         break;
                     case 1://calendar
+                        checkForPastShows();
                         if (!shows.isEmpty())
-                            startActivity(new Intent(MainActivity.this, Calendar.class).putParcelableArrayListExtra("shows", shows));
+                            startActivity(new Intent(MainActivity.this, UpcomingShows.class).putParcelableArrayListExtra("shows", shows));
+                            //startActivity(new Intent(MainActivity.this, Calendar.class).putParcelableArrayListExtra("shows", shows));
                         else {
                             getShows();
                             startActivity(new Intent(MainActivity.this, Calendar.class).putParcelableArrayListExtra("shows", shows));
