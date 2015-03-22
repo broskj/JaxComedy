@@ -20,8 +20,8 @@ import java.util.List;
 
 /**
  * Created by Kyle on 12/29/2014.
- * <p/>
- * Renamed to 'Upcoming Shows'
+ *
+ * no longer in use, keeping class for future reference.
  */
 public class Calendar extends Activity {
 
@@ -116,6 +116,6 @@ public class Calendar extends Activity {
 
     public void openReserve(int index) {
         startActivity(new Intent(this, Reserve.class).putExtra("screenWidth", screenWidth).putExtra("screenHeight", screenHeight).putExtra("groupPosition", index).putParcelableArrayListExtra("shows", shows));
-        System.out.println("reserve clicked from groups and parties");
+        System.out.println("reserve clicked from calendar");
     }//end openReserve
 }
