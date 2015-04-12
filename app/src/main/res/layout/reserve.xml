@@ -53,6 +53,19 @@
                     android:hint="@string/edittext_hint_enter_email"
                     android:inputType="textEmailAddress" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/textview_phone_number"
+                    android:textSize="@dimen/abc_text_size_medium_material" />
+
+                <EditText
+                    android:id="@+id/etPhoneNumber"
+                    android:layout_width="fill_parent"
+                    android:layout_height="48dp"
+                    android:hint="@string/edittext_hint_phone_number"
+                    android:inputType="phone" />
+
             </LinearLayout>
 
             <LinearLayout
