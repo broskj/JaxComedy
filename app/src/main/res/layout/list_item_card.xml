@@ -14,8 +14,17 @@
         android:descendantFocusability="afterDescendants"
         android:padding="8dp">
 
+        <ImageView
+            android:id="@+id/cardImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/cardImageBase"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp" />
+
         <TextView
             android:id="@+id/tvUpcomingShowsDate"
+            android:layout_toRightOf="@id/cardImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/abc_text_size_medium_material"
@@ -24,6 +33,7 @@
 
         <TextView
             android:id="@+id/tvUpcomingShowsInfo"
+            android:layout_toRightOf="@id/cardImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvUpcomingShowsDate"
