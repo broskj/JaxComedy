@@ -236,20 +236,20 @@ public class Reserve extends Activity {
         } else if (Integer.parseInt(sGuests) < 1 || Integer.parseInt(sGuests) > 100) {
             etGuests.requestFocus();
             etGuests.setError("Must enter between 1 and 100 guests.");
-        } else if (cbBestSeats.isChecked()) {
-            if (sPhone.matches("")) {
-                etPhone.requestFocus();
-                etPhone.setError("Must enter phone number.");
-            } else {
+        } else if (cbBestSeats.isChecked() && sPhone.matches("")) {
+            etPhone.requestFocus();
+            etPhone.setError("Must enter phone number.");
+        } else {
+            if (cbBestSeats.isChecked()) {
                 bestSeatsDialog = "\n\nYou've requested the Best Seats in the house; please be aware " +
                         "that our Best Seats are very popular and very limited, and you must validate your " +
                         "purchase by phone to reserve your seats.  If the phone number above is accurate, " +
                         "you will be contacted at our earliest convenience.";
-                bestSeatsMessage = "\n\nThe Best Seats in the House have been requested for this reservation.";
+                bestSeatsMessage = "The Best Seats in the House have been requested for this reservation.";
+            } else {
+                bestSeatsDialog = "";
+                bestSeatsMessage = "";
             }
-        } else {
-            bestSeatsDialog = "";
-            bestSeatsMessage = "";
 
             AlertDialog.Builder builder = new AlertDialog.Builder(Reserve.this);
             builder.setTitle("Confirm your reservation")
