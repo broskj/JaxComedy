@@ -114,5 +114,7 @@
     <string name="reserve_checkbox_request_best_seats">Request Best Seats</string>
     <string name="tap_to_reserve">(Tap to reserve)</string>
     <string name="tap_to_redeem">(Tap to redeem)</string>
+    <string name="edittext_hint_phone_number">Enter phone number</string>
+    <string name="textview_phone_number">Phone number (optional)</string>
 
 </resources>
