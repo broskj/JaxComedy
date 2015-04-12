@@ -18,7 +18,7 @@
             android:id="@+id/cardImage"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/cardImageBase"
+            android:background="@drawable/card_image_base"
             android:layout_centerVertical="true"
             android:layout_marginRight="4dp" />
 
