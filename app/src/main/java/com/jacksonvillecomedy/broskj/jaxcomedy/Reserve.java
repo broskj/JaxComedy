@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -34,16 +35,16 @@ import java.util.*;
  */
 public class Reserve extends Activity {
 
-    EditText etName, etGuests, etEmail;
+    EditText etName, etGuests, etEmail, etPhone;
     RadioGroup rbgShowTimes;
     RadioButton rbEarlyShow, rbLateShow, rbSpecialShow;
     CheckBox cbBestSeats;
     Spinner spDate;
     final String[] email = {"steve@jacksonvillecomedy.com"};
     final String[] ccEmail = {"jaxcomedy@gmail.com"};
-    String sName, sGuests, sDate, sShowtime, sEmail;
-    String confirmationCode, message, subject, bestSeatsDialog, bestSeatsMessage;
-    int groupPosition = -1;
+    String sName, sGuests, sDate, sShowtime, sEmail, sPhone;
+    String confirmationCode, message, subject, bestSeatsDialog, bestSeatsMessage, phoneMessage;
+    int groupPosition = -1, cbClicks = 0;
     ArrayList<Show> shows;
 
     @Override
@@ -70,11 +71,48 @@ public class Reserve extends Activity {
         etName = (EditText) (findViewById(R.id.etGroupReservationName));
         etGuests = (EditText) (findViewById(R.id.etGroupGuests));
         etEmail = (EditText) (findViewById(R.id.etEmailAddress));
+        etPhone = (EditText) (findViewById(R.id.etPhoneNumber));
         rbgShowTimes = (RadioGroup) (findViewById(R.id.rbgShowTimes));
         rbEarlyShow = (RadioButton) (findViewById(R.id.rbEarlyShow));
         rbLateShow = (RadioButton) (findViewById(R.id.rbLateShow));
         rbSpecialShow = (RadioButton) (findViewById(R.id.rbSpecialShow));
         cbBestSeats = (CheckBox) (findViewById(R.id.cbBestSeats));
+
+        cbBestSeats.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (cbBestSeats.isChecked()) {
+                    cbClicks++;
+                    sPhone = etPhone.getText().toString();
+                    if (cbClicks == 1 && sPhone.matches("")) {
+                        AlertDialog.Builder bsBuilder = new AlertDialog.Builder(Reserve.this);
+                        bsBuilder.setTitle("Best Seats")
+                                .setMessage("Thanks for requesting the Best Seats in the House!  In order " +
+                                        "to confirm your Best Seats reservation, enter your phone number in " +
+                                        "the field above so we can validate your purchase.");
+                        bsBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                etPhone.requestFocus();
+                            }
+                        });
+                        AlertDialog dialog = bsBuilder.create();
+                        dialog.show();
+                    } else if (cbClicks == 1 && !sPhone.matches("")) {
+                        final AlertDialog.Builder bsBuilder = new AlertDialog.Builder(Reserve.this);
+                        bsBuilder.setTitle("Best Seats")
+                                .setMessage("Thanks for requesting the Best Seats in the House!  We'll " +
+                                        "contact you by phone and validate your purchase to reserve your seats.");
+                        bsBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                    }
+                }
+            }
+        });
 
         spDate = (Spinner) (findViewById(R.id.spDate));
 
@@ -148,48 +186,6 @@ public class Reserve extends Activity {
         for (int i = 0; i < s.length; i++) {
             s[i] = shows.get(i).getShowDate() + " " + shows.get(i).getComedian();
         }
-        /*
-        this commented code uses java.util.Calendar to get date of next saturday/sunday and
-          put them in the spinner.  should be replaced with above code, but I'm keeping it
-          here in case it becomes useful in the future.
-         */
-
-        /*
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd");
-        java.util.Calendar today = java.util.Calendar.getInstance();
-        int dayOfWeek = today.get(java.util.Calendar.DAY_OF_WEEK),
-                daysUntilNextFriday = java.util.Calendar.FRIDAY - dayOfWeek,
-                daysUntilNextSaturday = java.util.Calendar.SATURDAY - dayOfWeek;
-        if (daysUntilNextFriday < 0) {
-            daysUntilNextFriday = daysUntilNextFriday + 7;
-        }
-        if (daysUntilNextSaturday < 0) {
-            daysUntilNextSaturday = daysUntilNextSaturday + 7;
-        }
-        java.util.Calendar nextFriday = (java.util.Calendar) today.clone(), nextSaturday = (java.util.Calendar) today.clone();
-        nextFriday.add(java.util.Calendar.DAY_OF_WEEK, daysUntilNextFriday);
-        nextSaturday.add(java.util.Calendar.DAY_OF_WEEK, daysUntilNextSaturday);
-
-        for (int i = 0; i < s.length; i++) {
-            if (dayOfWeek == java.util.Calendar.SATURDAY) {
-                if (i % 2 == 0) {
-                    s[i] = "Saturday " + df.format(nextSaturday.getTime());
-                    nextSaturday.add(java.util.Calendar.DAY_OF_WEEK, 7);
-                } else {
-                    s[i] = "Friday " + df.format(nextFriday.getTime());
-                    nextFriday.add(java.util.Calendar.DAY_OF_WEEK, 7);
-                }
-            } else {
-                if (i % 2 == 0) {
-                    s[i] = "Friday " + df.format(nextFriday.getTime());
-                    nextFriday.add(java.util.Calendar.DAY_OF_WEEK, 7);
-                } else {
-                    s[i] = "Saturday " + df.format(nextSaturday.getTime());
-                    nextSaturday.add(java.util.Calendar.DAY_OF_WEEK, 7);
-                }
-            }
-        }
-        */
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, s);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -202,6 +198,7 @@ public class Reserve extends Activity {
         sName = etName.getText().toString();
         sGuests = etGuests.getText().toString();
         sEmail = etEmail.getText().toString();
+        sPhone = etPhone.getText().toString();
 
         switch (rbgShowTimes.getCheckedRadioButtonId()) {
             case R.id.rbEarlyShow:
@@ -239,16 +236,20 @@ public class Reserve extends Activity {
         } else if (Integer.parseInt(sGuests) < 1 || Integer.parseInt(sGuests) > 100) {
             etGuests.requestFocus();
             etGuests.setError("Must enter between 1 and 100 guests.");
-        } else {
-            if (cbBestSeats.isChecked()) {
-                bestSeatsDialog = "\n\nYou've requested the Best Seats in the house; please be aware " +
-                        "that this is only a request.  Our Best Seats are very popular and " +
-                        "very limited, and may have already been reserved.";
-                bestSeatsMessage = "\n\nThe Best Seats in the House have been requested for this reservation.";
+        } else if (cbBestSeats.isChecked()) {
+            if (sPhone.matches("")) {
+                etPhone.requestFocus();
+                etPhone.setError("Must enter phone number.");
             } else {
-                bestSeatsDialog = "";
-                bestSeatsMessage = "";
+                bestSeatsDialog = "\n\nYou've requested the Best Seats in the house; please be aware " +
+                        "that our Best Seats are very popular and very limited, and you must validate your " +
+                        "purchase by phone to reserve your seats.  If the phone number above is accurate, " +
+                        "you will be contacted at our earliest convenience.";
+                bestSeatsMessage = "\n\nThe Best Seats in the House have been requested for this reservation.";
             }
+        } else {
+            bestSeatsDialog = "";
+            bestSeatsMessage = "";
 
             AlertDialog.Builder builder = new AlertDialog.Builder(Reserve.this);
             builder.setTitle("Confirm your reservation")
@@ -263,7 +264,6 @@ public class Reserve extends Activity {
             });
             AlertDialog dialog = builder.create();
             dialog.show();
-
         }
     }//end onReserveSeatsClick
 
@@ -274,7 +274,7 @@ public class Reserve extends Activity {
         subject = "Reservation for " + sGuests + " on " + sDate;
         confirmationCode = Integer.toString(new Random().nextInt(999999) + 1);
         message = sName + " has requested " + sGuests + " ticket(s) for the " + sShowtime + " show on " +
-                sDate + ".\n\nConfirmation code: " + bestSeatsMessage + confirmationCode + "\n\n" +
+                sDate + "\n\n" + bestSeatsMessage + ".\n\nConfirmation code: " + confirmationCode +
                 dateformat.format(date);
 
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
