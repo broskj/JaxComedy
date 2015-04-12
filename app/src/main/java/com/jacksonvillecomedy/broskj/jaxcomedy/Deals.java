@@ -85,7 +85,8 @@ public class Deals extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position -= 1;
-                openRedeem(offers.get(position));
+                if (offers.get(position).getPointValue() != 0)
+                    openRedeem(offers.get(position));
             }
         });
 
