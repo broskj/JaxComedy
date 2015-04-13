@@ -42,8 +42,9 @@ public class Reserve extends Activity {
     Spinner spDate;
     final String[] email = {"steve@jacksonvillecomedy.com"};
     final String[] ccEmail = {"jaxcomedy@gmail.com"};
+    final String emailPassword = "K04b8244";
     String sName, sGuests, sDate, sShowtime, sEmail, sPhone;
-    String confirmationCode, message, subject, bestSeatsDialog, bestSeatsMessage, phoneMessage;
+    String confirmationCode, message, subject, bestSeatsDialog, bestSeatsMessage;
     int groupPosition = -1, cbClicks = 0;
     ArrayList<Show> shows;
 
@@ -271,7 +272,7 @@ public class Reserve extends Activity {
         SimpleDateFormat dateformat = new SimpleDateFormat(
                 "MM/dd/yyyy HH:mm:ss");
         Date date = new Date();
-        subject = "Reservation for " + sGuests + " on " + sDate;
+        subject = "Android reservation for " + sGuests + " on " + sDate;
         confirmationCode = Integer.toString(new Random().nextInt(999999) + 1);
         message = sName + " has requested " + sGuests + " ticket(s) for the " + sShowtime + " show on " +
                 sDate + "\n\n" + bestSeatsMessage + ".\n\nConfirmation code: " + confirmationCode +
@@ -286,6 +287,18 @@ public class Reserve extends Activity {
         emailIntent.putExtra(Intent.EXTRA_TEXT, message);
 
         startActivity(emailIntent);
+/*
+        try {
+            GmailSender sender = new GmailSender(ccEmail, emailPassword);
+            sender.sendMail(subject,
+                    message,
+                    ccEmail, *//* sender (jaxcomedy@gmail.com *//*
+                    ccEmail, *//* recipient (Steve) *//*
+                    ccEmail, *//* ccRecipient (jaxcomedy@gmail.com *//*
+                    sEmail); *//* bccRecipient (user) *//*
+        } catch (Exception e) {
+            Toast.makeText(this, "Error sending email.", Toast.LENGTH_SHORT).show();
+        }*/
         this.finish();
 
     }//end sendEmail
