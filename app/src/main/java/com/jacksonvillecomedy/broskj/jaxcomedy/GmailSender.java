@@ -52,17 +52,17 @@ public class GmailSender extends javax.mail.Authenticator {
         return new PasswordAuthentication(user, password);
     }
 
-    public synchronized void sendMail(String subject, String body, String sender, String recipients) throws Exception {
+    public synchronized void sendMail(String subject, String body, String sender, String recipient, String ccRecipient, String bccRecipient) throws Exception {
         try {
             MimeMessage message = new MimeMessage(session);
             DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
             message.setSender(new InternetAddress(sender));
             message.setSubject(subject);
             message.setDataHandler(handler);
-            if (recipients.indexOf(',') > 0)
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
-            else
-                message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
+            message.setRecipient(Message.RecipientType.BCC, new InternetAddress(bccRecipient));
+            message.setRecipient(Message.RecipientType.CC, new InternetAddress(ccRecipient));
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+
             Transport.send(message);
         } catch (Exception e) {
 
