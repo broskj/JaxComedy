@@ -135,7 +135,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             Date today = new Date();
             today.setTime(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
             for (int i = 0; i < shows.size(); i++) {
-                if (today.after(df.parse(shows.get(i).getShowDate()))) {
+                while (today.after(df.parse(shows.get(i).getShowDate()))) {
                     shows.remove(i);
                     for (int j = 0; j < shows.size(); j++) {
                         if (shows.get(i).equals(shows.get(j)) && i != j)

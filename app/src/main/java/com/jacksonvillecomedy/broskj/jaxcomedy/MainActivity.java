@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
     ArrayList<Offer> offers;
     DateFormat df;
     Date today;
-    java.util.Calendar calendar, nextTrigger, updateCalendar;
+    java.util.Calendar calendar, updateCalendar;
     AlarmManager alarmManager, updateAlarmManager;
     PendingIntent pendingIntent, updatePendingIntent;
 
@@ -136,7 +136,6 @@ public class MainActivity extends Activity {
         alarmIntent = new Intent(this, AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         calendar = java.util.Calendar.getInstance();
-        nextTrigger = java.util.Calendar.getInstance();
 
         /*
         updateAlarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
@@ -151,16 +150,13 @@ public class MainActivity extends Activity {
         calendar.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.THURSDAY);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 8);
         calendar.set(java.util.Calendar.MINUTE, 15);
-        nextTrigger.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.THURSDAY);
-        nextTrigger.set(java.util.Calendar.HOUR_OF_DAY, 8);
-        nextTrigger.set(java.util.Calendar.MINUTE, 15);
-        if (nextTrigger.getTimeInMillis() < System.currentTimeMillis())
+        while (calendar.getTimeInMillis() < System.currentTimeMillis())
             calendar.add(java.util.Calendar.WEEK_OF_YEAR, 1);
 
         /*
         sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
          */
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60/* * 24 * 7*/, pendingIntent);
     }//end manageNotifications
 
     public void updateSpreadsheets() {
@@ -177,7 +173,7 @@ public class MainActivity extends Activity {
     public void checkForPastShows() {
         try {
             for (int i = 0; i < shows.size(); i++) {
-                if (today.after(df.parse(shows.get(i).getShowDate())))
+                while (today.after(df.parse(shows.get(i).getShowDate())))
                     shows.remove(i);
                 for (int j = 0; j < shows.size(); j++) {
                     if (shows.get(i).equals(shows.get(j)) && i != j)
