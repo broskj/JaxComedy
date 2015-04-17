@@ -40,7 +40,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         spNotifications = context.getSharedPreferences("notificationToggle", Context.MODE_PRIVATE);
         spSpreadsheets = context.getSharedPreferences("spreadsheets", Context.MODE_PRIVATE);
 
-        if (spNotifications.getBoolean("notifications", false)) {
+        if (spNotifications.getBoolean("notifications", true)) {
             int nextRegularShowIndex = 0, i = 0;
 
             shows = new ArrayList<>();
