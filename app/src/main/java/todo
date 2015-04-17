@@ -15,6 +15,7 @@ General:
     -Remember reservation name/email/etc. using SharedPreferences.
     -Use threads.
     -Display Dialogs for redeeming rewards/adding points instead of using additional activity.
+    -**Implement GMailSender with AsyncTask for it to send**
 
 Structure:
     -MainActivity -> {This Weekend, Upcoming Shows, Rewards and Offers, Food and Drink, Groups and Parties;
