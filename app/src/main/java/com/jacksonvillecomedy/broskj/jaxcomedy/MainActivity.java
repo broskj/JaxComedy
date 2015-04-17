@@ -156,7 +156,7 @@ public class MainActivity extends Activity {
         /*
         sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
          */
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60/* * 24 * 7*/, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
     }//end manageNotifications
 
     public void updateSpreadsheets() {
@@ -263,8 +263,9 @@ public class MainActivity extends Activity {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Free Reward Points!")
                     .setMessage("Thanks for downloading our app!  To show our appreciation, you'll " +
-                            "find 15 free reward points have been added to your device.  Navigate to " +
-                            "the Rewards and Offers section to see what deals are available.");
+                            "find 15 free reward points have been added to your device; redeem them " +
+                            "for a free ticket!  Navigate to the Rewards and Offers section to see " +
+                            "what deals are available.");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

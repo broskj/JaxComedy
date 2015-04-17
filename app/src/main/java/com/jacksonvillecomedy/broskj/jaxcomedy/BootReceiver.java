@@ -18,7 +18,6 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             java.util.Calendar calendar = java.util.Calendar.getInstance();
-            java.util.Calendar nextTrigger = java.util.Calendar.getInstance();
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent alarmIntent = new Intent(context, AlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -33,7 +32,7 @@ public class BootReceiver extends BroadcastReceiver {
             /*
             sets alarm manager to go off at 8:15 in the morning every 7 days on Thursday
              */
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60/* * 24 * 7*/, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000 * 60 * 60 * 24 * 7, pendingIntent);
         }
     }//end onReceive
 }//end class BootReceiver
