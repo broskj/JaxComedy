@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
 /**
  * Created by Kyle on 12/29/2014.
@@ -54,8 +55,10 @@ public class Settings extends Activity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     editor.putBoolean("notifications", true);
+                    Toast.makeText(Settings.this, "Notifications enabled!", Toast.LENGTH_SHORT).show();
                 } else {
                     editor.putBoolean("notifications", false);
+                    Toast.makeText(Settings.this, "Notifications disabled!", Toast.LENGTH_SHORT).show();
                 }
                 editor.apply();
             }
